@@ -8,40 +8,53 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 public class TowerDefense implements ApplicationListener , InputProcessor {
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private int select;
-	
-	private Texture[] textures;
-	private int[] tiles;
+	private OrthographicCamera camera;				// Camera defines viewspace of screen
+	private SpriteBatch batch;						// Canvas that you draw sprites on to
+	private int select;								// Makes a tile purple when you touch it
+	private Level curLevel;							// Level currently being played
+	private Array<Enemy> enemies;							// Enemy on screen
+	private Texture[] textures;						// Stores the tile textures	
+	private double lastSpawnTime;
 	
 	@Override
-	public void create() {		
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+	// Essentially just loads the game
+	public void create() 
+	{		
+		float w = Gdx.graphics.getWidth();				// Gets width of screen
+		float h = Gdx.graphics.getHeight();				// Gets height of screen
 		
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera();				
 		camera.setToOrtho(false, w, h);
 		
-		Gdx.input.setInputProcessor(this);
+		lastSpawnTime = 0;
 		
-		select = -1;
+		Gdx.input.setInputProcessor(this);				// Makes it so this class excepts input
+		
+		select = -1;									// Not selecting anything on screen
+		
+		enemies = new Array<Enemy>();
 		
 		batch = new SpriteBatch();
 		
+		// Loads level textures into an array
 		textures = new Texture[4];
 		textures[0] = new Texture(Gdx.files.internal("tile00.png"));
 		textures[1] = new Texture(Gdx.files.internal("tile01.png"));
 		textures[2] = new Texture(Gdx.files.internal("tile02.png"));
 		textures[3] = new Texture(Gdx.files.internal("tile03.png"));
 		
-		Level1.initialize();
-		tiles = Level1.tile;
+		// Loads current level and puts an enemy on screen
+		curLevel = Level.debug();
+		
+
+		enemies.add(new Enemy(curLevel));
 	}
 
 	@Override
+	// Called when game is killed, unloads everything
 	public void dispose() {
 		batch.dispose();
 		for (Texture t : textures)
@@ -49,28 +62,48 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	}
 
 	@Override
-	public void render() {		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+	// Game update loop, everything is drawn to screen here
+	public void render() {	
+		
+		lastSpawnTime += Gdx.graphics.getDeltaTime();
+		if(lastSpawnTime > 2)
+		{
+			enemies.add(new Enemy(curLevel));
+			lastSpawnTime = 0;
+		}
+		
+		// Updates enemies current location
+		for(int i = 0; i < enemies.size; i++)
+		{
+			enemies.get(i).update();
+		}												
+		
+		Gdx.gl.glClearColor(1, 1, 1, 1);								// Clears screen 
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		camera.update();
+		camera.update();												// Don't know
 		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		for (int y = 0; y < Gdx.graphics.getHeight() / 128; y++)
+		batch.setProjectionMatrix(camera.combined);						// Don't know
+		batch.begin();													// Start drawing to screen
+		
+		// Grid is 8x15
+		// Draws map ***BASED ON SCREEN WIDTH***
+		for (int y = 0; y < Gdx.graphics.getHeight() / 128; y++)		
 			for (int x = 0; x < Gdx.graphics.getWidth() / 128; x++)
 			{
 				final int w = Gdx.graphics.getWidth() / 128;
 				if( select ==  y * w + x)
-				{
 					batch.draw(textures[3], x * 128, y * 128);
-				}
 				else
-				{
-					batch.draw(textures[tiles[y * w + x]], x * 128, y * 128);
-				}
+					batch.draw(textures[curLevel.getTile(x, y)], x * 128, y * 128);
 			}
-		batch.end();
+		
+		// Draw enemies to screen
+		for(int i = 0; i < enemies.size; i++)
+		{
+			enemies.get(i).draw(batch);
+		}					
+		batch.end();						// Stop drawing to screen
 	}
 
 	@Override
@@ -104,15 +137,14 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	}
 
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		 
-		 Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-		 camera.unproject(worldCoordinates);
-		 int x  = (int)(worldCoordinates.x) / 128;
-		 int y  = (int)(worldCoordinates.y) / 128;
-		 select = y * Gdx.graphics.getWidth() / 128 + x;
-		 System.out.println(select);
-		 
+	// For input, lets you select a tile on screen
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
+	{ 
+		Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);		// 
+		camera.unproject(worldCoordinates);								// Converts where you touched into pixel coordinates
+		int x  = (int)(worldCoordinates.x) / 128;			// Converts to tile coordinates
+		int y  = (int)(worldCoordinates.y) / 128;			// Converts to tile coordinates
+		select = y * Gdx.graphics.getWidth() / 128 + x;    // Converts to tile array index
 		 
 		return true;
 	}
