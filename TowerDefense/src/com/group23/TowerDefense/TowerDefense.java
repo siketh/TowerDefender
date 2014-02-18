@@ -22,6 +22,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	public final int SCREEN_WIDTH = 1920;
 	public final int SCREEN_HEIGHT = 1080;
 	
+	private Vector3 touchPos;
+	
 	@Override
 	// Essentially just loads the game
 	public void create() 
@@ -48,9 +50,10 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		
 		// Loads current level and puts an enemy on screen
 		curLevel = Level.debug();
-		
-
+	
 		enemies.add(new Enemy(curLevel));
+		
+		touchPos = new Vector3();
 	}
 
 	@Override
@@ -140,10 +143,13 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	// For input, lets you select a tile on screen
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{ 
-		Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);		// 
-		camera.unproject(worldCoordinates);								// Converts where you touched into pixel coordinates
-		int x  = (int)(worldCoordinates.x) / 128;			// Converts to tile coordinates
-		int y  = (int)(worldCoordinates.y) / 128;			// Converts to tile coordinates
+		touchPos.x = screenX;
+		touchPos.y = screenY;
+		touchPos.z = 0;
+		
+		camera.unproject(touchPos);								// Converts where you touched into pixel coordinates
+		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
+		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
 		select = y * SCREEN_WIDTH / 128 + x;    // Converts to tile array index
 		 
 		return true;
