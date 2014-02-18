@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "TowerDefense";
 		cfg.useGL20 = false;
-		cfg.width = 1920;
-		cfg.height = 1080;
+		cfg.width = 1920 / 2;
+		cfg.height = 1080 / 2;
 		
 		new LwjglApplication(new TowerDefense(), cfg);
 	}

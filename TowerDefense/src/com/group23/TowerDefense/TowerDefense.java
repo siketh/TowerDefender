@@ -23,11 +23,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	// Essentially just loads the game
 	public void create() 
 	{		
-		float w = Gdx.graphics.getWidth();				// Gets width of screen
-		float h = Gdx.graphics.getHeight();				// Gets height of screen
-		
 		camera = new OrthographicCamera();				
-		camera.setToOrtho(false, w, h);
+		camera.setToOrtho(false, 1920, 1080);
 		
 		lastSpawnTime = 0;
 		
@@ -88,8 +85,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		
 		// Grid is 8x15
 		// Draws map ***BASED ON SCREEN WIDTH***
-		for (int y = 0; y < Gdx.graphics.getHeight() / 128; y++)		
-			for (int x = 0; x < Gdx.graphics.getWidth() / 128; x++)
+		for (int y = 0; y < 1080 / 128; y++)		
+			for (int x = 0; x < 1920 / 128; x++)
 			{
 				final int w = Gdx.graphics.getWidth() / 128;
 				if( select ==  y * w + x)
