@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Enemy {
-	public static Texture texture;							// Stores enemy texture file
+	public static Texture texture;					// Stores enemy texture file
 	private int texHeight, texWidth;				// Stores height and width of texture file
 	private int hp;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
-	private int direction; // TODO: convert to Direction enum		//Stores direction of enemy
+	private Dir direction; 		//Stores direction of enemy
 	private float x, y;								// Store pixel coordinates of enemy
 	private Level path;								// Points to level 
 	private int curTile;							// Stores current tile index of enemy
@@ -39,52 +39,45 @@ public class Enemy {
 	// Returns true if reached the end
 	public boolean update() 
 	{
-		// 1 is N
-		// 2 is NE
-		// 3 is E
-		// 4 is SE
-		// 5 is S
-		// 6 is SW
-		// 7 is W
-		// 8 is NW
-		// TODO: convert to Direction enum
 		// Updates units position based on change in time and unit's movement speed
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
-		case 1:
+		case N:
 			y += moveSpeed * Gdx.graphics.getDeltaTime();
 			break;
-		case 2:
+		case NE:
 			x += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			y -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			break;
-		case 3:
+		case E:
 			x += moveSpeed * Gdx.graphics.getDeltaTime();
 			break;
-		case 4:
+		case SE:
 			x += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			y += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			break;
-		case 5:
+		case S:
 			y += moveSpeed * Gdx.graphics.getDeltaTime();
 			break;
-		case 6:
+		case SW:
 			x -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			y += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			break;
-		case 7:
+		case W:
 			x -= moveSpeed * Gdx.graphics.getDeltaTime();
 			break;
-		case 8:
+		case NW:
 			x -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			y -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 			break;
-		case 9:
+		case End:
 			return true;
+		default:
+			break;
 		}
 		
 		// Even cases are diagonal cases
-		if (direction % 2 == 0)	
+		if (direction == Dir.NE || direction == Dir.SE || direction == Dir.SW || direction == Dir.NW)	
 			distTraveled += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
 		// Odd cases are horizontal and vertical cases
 		else
@@ -97,29 +90,31 @@ public class Enemy {
 		if (distTraveled >= 128) 
 		{
 			switch (direction) {
-			case 1:
+			case N:
 				curTile -= path.getWidth();
 				break;
-			case 2:
+			case NE:
 				curTile = curTile - path.getWidth() + 1;
 				break;
-			case 3:
+			case E:
 				curTile += 1;
 				break;
-			case 4:
+			case SE:
 				curTile = curTile + 1 + path.getWidth();
 				break;
-			case 5:
+			case S:
 				curTile += path.getWidth();
 				break;
-			case 6:
+			case SW:
 				curTile = curTile + path.getWidth() - 1;
 				break;
-			case 7:
+			case W:
 				curTile -= 1;
 				break;
-			case 8:
+			case NW:
 				curTile = curTile -1 + path.getWidth();
+				break;
+			default:
 				break;
 			}
 			
@@ -135,7 +130,7 @@ public class Enemy {
 		return false;
 	}
 
-	public int getDir() 
+	public Dir getDir() 
 	{
 		return direction;
 	}

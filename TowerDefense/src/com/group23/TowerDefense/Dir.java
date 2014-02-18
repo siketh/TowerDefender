@@ -11,9 +11,9 @@ package com.group23.TowerDefense;
 //7 is W
 //8 is NW
 //9 is done
-public enum Direction 
+public enum Dir 
 {
-	Invalid,
+	I,
 	N,
 	NE,
 	E,

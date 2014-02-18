@@ -3,9 +3,9 @@ package com.group23.TowerDefense;
 public class Level 
 {	
 	private int[] tiles;				// Stores index of image of tile				
-	private int[] directions;			// Stores which way enemies should move
+	private Dir[] directions;			// Stores which way enemies should move
 	private int startX, startY;			// Stores starting tile of enemies
-	private int startDir;				// Stores initial direction of enemies
+	private Dir startDir;				// Stores initial direction of enemies
 	private int height, width;			// Stores height and width of grid
 	
 	// Initializes instance of a level
@@ -34,30 +34,20 @@ public class Level
 		
 		l.startX = 0;
 		l.startY = 1;
-		l.startDir = 3;
-			
-		//0 is invalid
-		//1 is N
-		//2 is NE
-		//3 is E
-		//4 is SE
-		//5 is S
-		//6 is SW
-		//7 is W
-		//8 is NW
-		//9 is done
-		l.directions = new int[]
-		{
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				3, 3, 4, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 4, 0, 0, 2, 0, 5, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 3, 2, 0, 0, 4, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 0, 0	
-		};
+		l.startDir = Dir.E;
 		
+		//TODO: Generate direction map automatically
+		l.directions = new Dir[]
+		{
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.E, Dir.E, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.NE, Dir.I, Dir.S, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.E, Dir.NE, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.S, Dir.I, Dir.I, Dir.I,
+				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.End, Dir.End, Dir.End, Dir.I, Dir.I	
+		};
 		return l;
 	}
 	
@@ -84,13 +74,13 @@ public class Level
 	}
 	
 	// Get direction in tile index 
-	public int getDirection(int tile)
+	public Dir getDirection(int tile)
 	{
 		return directions[tile];
 	}
 	
 	// Get direction in tile x and y coordinates
-	public int getDirection(int x, int y)
+	public Dir getDirection(int x, int y)
 	{
 		return getDirection(y * width + x);
 	}
@@ -105,7 +95,7 @@ public class Level
 		return startY;
 	}
 	
-	public int getStartingDirection()
+	public Dir getStartingDirection()
 	{
 		return startDir;
 	}
