@@ -28,6 +28,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	// Essentially just loads the game
 	public void create() 
 	{		
+		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
+		
 		camera = new OrthographicCamera();				
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
@@ -59,6 +61,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	@Override
 	// Called when game is killed, unloads everything
 	public void dispose() {
+		Enemy.texture.dispose();
 		batch.dispose();
 		for (Texture t : textures)
 			t.dispose();

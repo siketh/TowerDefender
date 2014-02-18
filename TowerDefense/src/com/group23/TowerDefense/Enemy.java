@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Enemy {
-	private Texture tex;							// Stores enemy texture file
+	public static Texture texture;							// Stores enemy texture file
 	private int texHeight, texWidth;				// Stores height and width of texture file
 	private int hp;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
@@ -34,9 +34,6 @@ public class Enemy {
 		
 		// Calculates tiles index based on width of tile map
 		curTile = path.getStartY() * path.getWidth() + path.getStartX();
-		
-		// Loads enemy texture
-		tex = new Texture(Gdx.files.internal("enemy00.png"));
 	}
 
 	// Returns true if reached the end
@@ -155,6 +152,6 @@ public class Enemy {
 	}
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(tex, x, y);
+		batch.draw(texture, x, y);
 	}
 }
