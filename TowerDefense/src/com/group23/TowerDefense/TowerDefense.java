@@ -19,12 +19,15 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	private Texture[] textures;						// Stores the tile textures	
 	private double lastSpawnTime;
 	
+	public final int SCREEN_WIDTH = 1920;
+	public final int SCREEN_HEIGHT = 1080;
+	
 	@Override
 	// Essentially just loads the game
 	public void create() 
 	{		
 		camera = new OrthographicCamera();				
-		camera.setToOrtho(false, 1920, 1080);
+		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		lastSpawnTime = 0;
 		
@@ -84,11 +87,11 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		batch.begin();													// Start drawing to screen
 		
 		// Grid is 8x15
-		// Draws map ***BASED ON SCREEN WIDTH***
-		for (int y = 0; y < 1080 / 128; y++)		
-			for (int x = 0; x < 1920 / 128; x++)
+		// Draws map ***BASED ONcd Documents/ SCREEN WIDTH***
+		for (int y = 0; y < SCREEN_HEIGHT / 128; y++)		
+			for (int x = 0; x < SCREEN_WIDTH / 128; x++)
 			{
-				final int w = Gdx.graphics.getWidth() / 128;
+				final int w = SCREEN_WIDTH / 128;
 				if( select ==  y * w + x)
 					batch.draw(textures[3], x * 128, y * 128);
 				else
@@ -141,7 +144,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		camera.unproject(worldCoordinates);								// Converts where you touched into pixel coordinates
 		int x  = (int)(worldCoordinates.x) / 128;			// Converts to tile coordinates
 		int y  = (int)(worldCoordinates.y) / 128;			// Converts to tile coordinates
-		select = y * Gdx.graphics.getWidth() / 128 + x;    // Converts to tile array index
+		select = y * SCREEN_WIDTH / 128 + x;    // Converts to tile array index
 		 
 		return true;
 	}
