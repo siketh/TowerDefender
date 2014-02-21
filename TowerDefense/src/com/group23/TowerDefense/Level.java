@@ -1,7 +1,13 @@
 package com.group23.TowerDefense;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Level 
 {	
+	private static Texture[] textures;						// Stores the tile textures
+	
 	private int[] tiles;				// Stores index of image of tile				
 	private Dir[] directions;			// Stores which way enemies should move
 	private int startX, startY;			// Stores starting tile of enemies
@@ -35,6 +41,7 @@ public class Level
 		l.startX = 0;
 		l.startY = 1;
 		l.startDir = Dir.E;
+		l.select = -1;
 		
 		//TODO: Generate direction map automatically
 		l.directions = new Dir[]
@@ -49,6 +56,22 @@ public class Level
 				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.End, Dir.End, Dir.End, Dir.I, Dir.I	
 		};
 		return l;
+	}
+	
+	static void initialize()
+	{
+		textures = new Texture[4];
+		textures[0] = new Texture(Gdx.files.internal("tile00.png"));
+		textures[1] = new Texture(Gdx.files.internal("tile01.png"));
+		textures[2] = new Texture(Gdx.files.internal("tile02.png"));
+		textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+	}
+	
+	static void dispose()
+	{
+		for (Texture t : textures)
+			t.dispose();
+		textures = null;
 	}
 	
 	public int getHeight()
@@ -98,5 +121,22 @@ public class Level
 	public Dir getStartingDirection()
 	{
 		return startDir;
+	}
+	
+	public int select;
+	
+	public void draw(SpriteBatch batch)
+	{
+		// Grid is 8x15
+		// Draws map ***BASED ONcd Documents/ SCREEN WIDTH***
+		for (int y = 0; y < TowerDefense.SCREEN_HEIGHT / 128; y++)		
+			for (int x = 0; x < TowerDefense.SCREEN_WIDTH / 128; x++)
+			{
+				final int w = TowerDefense.SCREEN_WIDTH / 128;
+				if( select ==  y * w + x)
+					batch.draw(textures[3], x * 128, y * 128);
+				else
+					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+			}
 	}
 }

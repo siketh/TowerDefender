@@ -13,14 +13,12 @@ import com.badlogic.gdx.utils.Array;
 public class TowerDefense implements ApplicationListener , InputProcessor {
 	private OrthographicCamera camera;				// Camera defines viewspace of screen
 	private SpriteBatch batch;						// Canvas that you draw sprites on to
-	private int select;								// Makes a tile purple when you touch it
 	private Level curLevel;							// Level currently being played
 	private Array<Enemy> enemies;							// Enemy on screen
-	private Texture[] textures;						// Stores the tile textures	
 	private double lastSpawnTime;
 	
-	public final int SCREEN_WIDTH = 1920;
-	public final int SCREEN_HEIGHT = 1080;
+	public final static int SCREEN_WIDTH = 1920;
+	public final static int SCREEN_HEIGHT = 1080;
 	
 	private Vector3 touchPos;
 	
@@ -37,18 +35,12 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		
 		Gdx.input.setInputProcessor(this);				// Makes it so this class excepts input
 		
-		select = -1;									// Not selecting anything on screen
-		
 		enemies = new Array<Enemy>();
 		
 		batch = new SpriteBatch();
 		
 		// Loads level textures into an array
-		textures = new Texture[4];
-		textures[0] = new Texture(Gdx.files.internal("tile00.png"));
-		textures[1] = new Texture(Gdx.files.internal("tile01.png"));
-		textures[2] = new Texture(Gdx.files.internal("tile02.png"));
-		textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+		Level.initialize();
 		
 		// Loads current level and puts an enemy on screen
 		curLevel = Level.debug();
@@ -61,10 +53,9 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	@Override
 	// Called when game is killed, unloads everything
 	public void dispose() {
+		Level.dispose();
 		Enemy.texture.dispose();
 		batch.dispose();
-		for (Texture t : textures)
-			t.dispose();
 	}
 
 	@Override
@@ -92,17 +83,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		batch.setProjectionMatrix(camera.combined);						// Don't know
 		batch.begin();													// Start drawing to screen
 		
-		// Grid is 8x15
-		// Draws map ***BASED ONcd Documents/ SCREEN WIDTH***
-		for (int y = 0; y < SCREEN_HEIGHT / 128; y++)		
-			for (int x = 0; x < SCREEN_WIDTH / 128; x++)
-			{
-				final int w = SCREEN_WIDTH / 128;
-				if( select ==  y * w + x)
-					batch.draw(textures[3], x * 128, y * 128);
-				else
-					batch.draw(textures[curLevel.getTile(x, y)], x * 128, y * 128);
-			}
+		curLevel.draw(batch);
 		
 		// Draw enemies to screen
 		for(int i = 0; i < enemies.size; i++)
@@ -153,7 +134,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		camera.unproject(touchPos);								// Converts where you touched into pixel coordinates
 		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
-		select = y * SCREEN_WIDTH / 128 + x;    // Converts to tile array index
+		curLevel.select = y * SCREEN_WIDTH / 128 + x;    // Converts to tile array index
 		 
 		return true;
 	}
