@@ -46,7 +46,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		Level.initialize();
 		
 		// Loads current level and puts an enemy on screen
-		curLevel = Level.debug();
+		curLevel = new Level(enemies);
 	
 		enemies.add(new Enemy(curLevel));
 		
