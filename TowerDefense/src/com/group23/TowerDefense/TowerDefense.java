@@ -42,7 +42,7 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		touchPos = new Vector3();
 		
 		camera = new OrthographicCamera();				
-		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+		camera.setToOrtho(true, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		// recognize this class as the input processor
 		Gdx.input.setInputProcessor(this);
