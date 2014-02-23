@@ -15,6 +15,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	private SpriteBatch batch;						// Canvas that you draw sprites on to
 	private Level curLevel;							// Level currently being played
 	private Array<Enemy> enemies;							// Enemy on screen
+	private Array<Tower> towers;
 	private double lastSpawnTime;
 	
 	public final static int SCREEN_WIDTH = 1920;
@@ -27,6 +28,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	public void create() 
 	{		
 		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
+		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
 		
 		camera = new OrthographicCamera();				
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -36,6 +38,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		Gdx.input.setInputProcessor(this);				// Makes it so this class excepts input
 		
 		enemies = new Array<Enemy>();
+		towers = new Array<Tower>();
 		
 		batch = new SpriteBatch();
 		
@@ -89,7 +92,12 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		for(int i = 0; i < enemies.size; i++)
 		{
 			enemies.get(i).draw(batch);
-		}					
+		}		
+		
+		for(int i = 0; i < towers.size; i++)
+		{
+			towers.get(i).draw(batch);
+		}
 		batch.end();						// Stop drawing to screen
 	}
 
@@ -134,8 +142,23 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		camera.unproject(touchPos);								// Converts where you touched into pixel coordinates
 		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
-		curLevel.select = y * SCREEN_WIDTH / 128 + x;    // Converts to tile array index
-		 
+		
+		if(curLevel.getTile(x,y) == 0)
+		{
+			boolean sameTile = false;
+			for(Tower t: towers)
+			{
+				if(t.cmpTile(x,y))
+				{
+					sameTile = true;
+					break;
+				}
+			}
+			
+			if(sameTile == false) 
+				towers.add(new Tower(curLevel, x, y));
+		}
+		
 		return true;
 	}
 

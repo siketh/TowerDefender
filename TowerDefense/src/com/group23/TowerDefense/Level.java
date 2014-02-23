@@ -18,15 +18,15 @@ public class Level
 	static Level debug()
 	{
 		// Creates instance of level
-		Level l = new Level();
+		Level level = new Level();
 		
-		l.width = 15;
-		l.height = 8;
+		level.width = 15;
+		level.height = 8;
 		
 		//0 is red
 		//1 is yellow
 		//2 is teal
-		l.tiles = new int[]
+		level.tiles = new int[]
 		{
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,		//Bottom Right
 			1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
@@ -38,13 +38,13 @@ public class Level
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0			//Top Right
 		};
 		
-		l.startX = 0;
-		l.startY = 1;
-		l.startDir = Dir.E;
-		l.select = -1;
+		level.startX = 0;
+		level.startY = 1;
+		level.startDir = Dir.E;
+		level.select = -1;
 		
 		//TODO: Generate direction map automatically
-		l.directions = new Dir[]
+		level.directions = new Dir[]
 		{
 				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
 				Dir.E, Dir.E, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.SE, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
@@ -55,7 +55,7 @@ public class Level
 				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.S, Dir.I, Dir.I, Dir.I,
 				Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.End, Dir.End, Dir.End, Dir.I, Dir.I	
 		};
-		return l;
+		return level;
 	}
 	
 	static void initialize()
