@@ -37,6 +37,10 @@ public class Tower
 		this.target = null;
 		this.range  = 250.0f;
 		
+		this.map    = map;
+		this.target = null;
+		this.range  = 250.0f;
+		
 		// initialize position
 		pos = new Vector2();
 		pos.x = x * 128 + 64;
