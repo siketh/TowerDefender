@@ -1,8 +1,12 @@
 package com.group23.TowerDefense;
 
+import java.util.Comparator;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Tower
 {
@@ -14,7 +18,7 @@ public class Tower
 	private int tile;
 	
 	// World coordinate of tower
-	private float x, y;
+	private Vector2 pos;
 	
 	// Range the tower has to acquire an an enemy
 	private float range;
@@ -30,32 +34,75 @@ public class Tower
 		this.target = null;
 		this.range  = 250.0f;
 		
-		// Converts from tile coordinates to pixel coordinates and centers 
-		// enemy in tile and offsets for image height and width
-		this.x = x * 128 + 64;
-		this.y = y * 128 + 64;
+		// initialize position
+		pos = new Vector2();
+		pos.x = x * 128 + 64;
+		pos.y = y * 128 + 64;
 	}
 	
 	public void update(float dt)
 	{
-		// TODO have the tower attack an enemy
+		// find a target if no target available or if current target exits range
+		if (target == null || pos.dst(target.getPosition()) > range)
+			target = findTarget();
 	}
 	
 	public void draw(SpriteBatch batch)
 	{
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
-		batch.draw(texture, x - texWidth / 2.0f, y - texHeight / 2.0f);
+		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
 		
 		// draw the radius of the range
 		shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-		shapeRenderer.circle(x, y, range);
+		shapeRenderer.circle(pos.x, pos.y, range);
 		
 		// draw the line to the target (if applicable)
 		if (target != null)
 		{
 			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
-			shapeRenderer.line(x, y, target.getX(), target.getY());
+			shapeRenderer.line(pos, target.getPosition());
 		}
+	}
+	
+	/**
+	 * Finds the closest Enemy in the map to the tower
+	 * @return The closest Enemy to the tower
+	 */
+	private Enemy findTarget()
+	{
+		Enemy target = null;
+		
+		Array<Enemy> enemies = map.getEnemies();
+		Array<Enemy> inRange = new Array<Enemy>();
+		
+		// must be at least one enemy
+		if (enemies.size > 0)
+		{
+			// find all enemies within range
+			for (Enemy e : enemies)
+				if (pos.dst(e.getPosition()) <= range)
+					inRange.add(e);
+			
+			// must be at least one enemy in range
+			if (inRange.size == 1)
+				target = inRange.get(0);
+			else if (inRange.size > 1)
+			{
+				// sort the enemies in range by closest first
+				inRange.sort(new Comparator<Enemy>() {
+					public int compare(Enemy e1, Enemy e2) {
+						int dst1 = (int) pos.dst(e1.getPosition());
+						int dst2 = (int) pos.dst(e2.getPosition());
+						return dst1 - dst2;
+					}
+				});
+				
+				// set the target to the closest target
+				target = inRange.get(0);
+			}
+		}
+
+		return target;
 	}
 
 	public int getTile()

@@ -2,6 +2,7 @@ package com.group23.TowerDefense;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class Enemy 
 {
@@ -12,7 +13,7 @@ public class Enemy
 	private int hp;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
 	private Dir direction; 		//Stores direction of enemy
-	private float x, y;								// Store pixel coordinates of enemy
+	private Vector2 pos;								// Store pixel coordinates of enemy
 	private Level path;								// Points to level 
 	private int curTile;							// Stores current tile index of enemy
 	private float distTraveled;						// Stores distance traveled since last new tile
@@ -28,8 +29,9 @@ public class Enemy
 		
 		// Converts from tile coordinates to pixel coordinates and centers 
 		// enemy in tile and offsets for image height and width
-		x = path.getStartX() * 128 + 64 - (texWidth / 2);
-		y = path.getStartY() * 128 + 64 - (texHeight / 2);
+		pos = new Vector2();
+		pos.x = path.getStartX() * 128 + 64 - (texWidth / 2);
+		pos.y = path.getStartY() * 128 + 64 - (texHeight / 2);
 		
 		// Calculates tiles index based on width of tile map
 		curTile = path.getStartY() * path.getWidth() + path.getStartX();
@@ -42,32 +44,32 @@ public class Enemy
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
 		case N:
-			y += moveSpeed * dt;
+			pos.y += moveSpeed * dt;
 			break;
 		case NE:
-			x += moveSpeed * 0.71 * dt;
-			y -= moveSpeed * 0.71 * dt;
+			pos.x += moveSpeed * 0.71 * dt;
+			pos.y -= moveSpeed * 0.71 * dt;
 			break;
 		case E:
-			x += moveSpeed * dt;
+			pos.x += moveSpeed * dt;
 			break;
 		case SE:
-			x += moveSpeed * 0.71 * dt;
-			y += moveSpeed * 0.71 * dt;
+			pos.x += moveSpeed * 0.71 * dt;
+			pos.y += moveSpeed * 0.71 * dt;
 			break;
 		case S:
-			y += moveSpeed * dt;
+			pos.y += moveSpeed * dt;
 			break;
 		case SW:
-			x -= moveSpeed * 0.71 * dt;
-			y += moveSpeed * 0.71 * dt;
+			pos.x -= moveSpeed * 0.71 * dt;
+			pos.y += moveSpeed * 0.71 * dt;
 			break;
 		case W:
-			x -= moveSpeed * dt;
+			pos.x -= moveSpeed * dt;
 			break;
 		case NW:
-			x -= moveSpeed * 0.71 * dt;
-			y -= moveSpeed * 0.71 * dt;
+			pos.x -= moveSpeed * 0.71 * dt;
+			pos.y -= moveSpeed * 0.71 * dt;
 			break;
 		case End:
 			return true;
@@ -118,8 +120,8 @@ public class Enemy
 			}
 			
 			// Centers enemy at a new tile
-			x = (curTile % path.getWidth()) * 128 + 64 - (texWidth / 2);
-			y = (curTile / path.getWidth()) * 128 + 64 - (texHeight / 2);
+			pos.x = (curTile % path.getWidth()) * 128 + 64 - (texWidth / 2);
+			pos.y = (curTile / path.getWidth()) * 128 + 64 - (texHeight / 2);
 			distTraveled = 0;
 		}
 		
@@ -131,7 +133,7 @@ public class Enemy
 	
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, x, y);
+		batch.draw(texture, pos.x, pos.y);
 	}
 
 	public Dir getDir() 
@@ -149,13 +151,8 @@ public class Enemy
 		return true;
 	}
 	
-	public float getX()
+	public Vector2 getPosition()
 	{
-		return x;
-	}
-	
-	public float getY()
-	{
-		return y;
+		return pos;
 	}
 }

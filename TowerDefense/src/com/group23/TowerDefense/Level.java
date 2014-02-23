@@ -195,4 +195,9 @@ public class Level
 	{
 		return startDir;
 	}
+	
+	public Array<Enemy> getEnemies()
+	{
+		return enemies;
+	}
 }
