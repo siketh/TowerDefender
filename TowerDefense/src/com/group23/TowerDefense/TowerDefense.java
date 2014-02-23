@@ -1,25 +1,25 @@
 package com.group23.TowerDefense;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
-public class TowerDefense implements ApplicationListener , InputProcessor {
-	private OrthographicCamera camera;				// Camera defines viewspace of screen
-	private SpriteBatch batch;						// Canvas that you draw sprites on to
-	private Level curLevel;							// Level currently being played
-	private Array<Enemy> enemies;							// Enemy on screen
-	private Array<Tower> towers;
-	private double lastSpawnTime;
-	
-	public final static int SCREEN_WIDTH = 1920;
+public class TowerDefense extends Game implements InputProcessor 
+{
+	public final static int SCREEN_WIDTH  = 1920;
 	public final static int SCREEN_HEIGHT = 1080;
+	
+	public static ShapeRenderer shapeRenderer;
+	public static SpriteBatch spriteBatch;
+	
+	// Camera defines view space of screen
+	private OrthographicCamera camera;
 	
 	private Vector3 touchPos;
 	
@@ -27,78 +27,62 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	// Essentially just loads the game
 	public void create() 
 	{		
+		// initialize textures
 		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
+		
+		Level.textures    = new Texture[4];
+		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
+		Level.textures[1] = new Texture(Gdx.files.internal("tile01.png"));
+		Level.textures[2] = new Texture(Gdx.files.internal("tile02.png"));
+		Level.textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+		
+		// initialize static batches
+		spriteBatch   = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		
+		// initialize member variables
+		touchPos      = new Vector3();
 		
 		camera = new OrthographicCamera();				
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
-		lastSpawnTime = 0;
-		
-		Gdx.input.setInputProcessor(this);				// Makes it so this class excepts input
-		
-		enemies = new Array<Enemy>();
-		towers = new Array<Tower>();
-		
-		batch = new SpriteBatch();
-		
-		// Loads level textures into an array
-		Level.initialize();
-		
-		// Loads current level and puts an enemy on screen
-		curLevel = new Level(enemies);
-	
-		enemies.add(new Enemy(curLevel));
-		
-		touchPos = new Vector3();
+		// recognize this class as the input processor
+		Gdx.input.setInputProcessor(this);
+		setScreen(new GameplayScreen(this, 1));
 	}
 
 	@Override
 	// Called when game is killed, unloads everything
 	public void dispose() {
-		Level.dispose();
+		for (Texture t : Level.textures)
+			t.dispose();
 		Enemy.texture.dispose();
-		batch.dispose();
+		spriteBatch.dispose();
 	}
 
 	@Override
 	// Game update loop, everything is drawn to screen here
-	public void render() {	
-		
-		lastSpawnTime += Gdx.graphics.getDeltaTime();
-		if(lastSpawnTime > 2)
-		{
-			enemies.add(new Enemy(curLevel));
-			lastSpawnTime = 0;
-		}
-		
-		// Updates enemies current location
-		for(int i = 0; i < enemies.size; i++)
-		{
-			enemies.get(i).update();
-		}												
-		
-		Gdx.gl.glClearColor(1, 1, 1, 1);								// Clears screen 
+	public void render() 
+	{	
+		super.render();
+		// clear the screen
+		/*Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		camera.update();												// Don't know
+		// update the camera
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
 		
-		batch.setProjectionMatrix(camera.combined);						// Don't know
-		batch.begin();													// Start drawing to screen
+		// draw to screen
+		shapeRenderer.begin(ShapeType.Line);
+		spriteBatch.begin();
 		
-		curLevel.draw(batch);
+			curLevel.draw(spriteBatch);
 		
-		// Draw enemies to screen
-		for(int i = 0; i < enemies.size; i++)
-		{
-			enemies.get(i).draw(batch);
-		}		
-		
-		for(int i = 0; i < towers.size; i++)
-		{
-			towers.get(i).draw(batch);
-		}
-		batch.end();						// Stop drawing to screen
+		spriteBatch.end();
+		shapeRenderer.end();
+		*/
 	}
 
 	@Override
@@ -134,18 +118,7 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	@Override
 	// For input, lets you select a tile on screen
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
-	{ 
-		touchPos.x = screenX;
-		touchPos.y = screenY;
-		touchPos.z = 0;
-		
-		camera.unproject(touchPos);								// Converts where you touched into pixel coordinates
-		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
-		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
-		
-		if(canPlaceTower(x, y))
-			towers.add(new Tower(curLevel, x, y));
-		
+	{		
 		return true;
 	}
 
@@ -173,24 +146,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		return false;
 	}
 	
-	/**
-	 * Checks if a tower can be placed on a tile coordinate position
-	 * 
-	 * @param x Tile x-coordinate to check
-	 * @param y Tile y-coordinate to check
-	 * @return True if a tower can be positioned
-	 */
-	private boolean canPlaceTower(int x, int y)
+	public void setScreen(Screen screen)
 	{
-		// Check if tile is an empty tile
-		if (curLevel.getTile(x,y) != 0)
-			return false;
-		
-		// Check that no towers conflict with position
-		for (Tower t : towers)
-			if (t.cmpTile(x, y))
-				return false;
-		
-		return true;
+	    super.setScreen(screen);
 	}
 }
