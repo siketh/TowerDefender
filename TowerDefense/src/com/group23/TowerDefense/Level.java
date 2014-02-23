@@ -13,7 +13,7 @@ public class Level
 	// Level constants
 	private final static int NUM_TILES_WIDTH = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
-	private final static long RESPAWN_TIME = 250;
+	private final static long RESPAWN_TIME = 2000;
 	
 	// Tile data
 	private int[] tiles;				
@@ -22,9 +22,6 @@ public class Level
 	// Starting information
 	private int startX, startY;
 	private Dir startDir;
-	
-	// Dimensions of level
-	private int width, height;
 	
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
@@ -79,7 +76,10 @@ public class Level
 	{
 		// Add enemy if passed RESPAWN_TIME
 		if (TimeUtils.millis() - lastSpawnTime > RESPAWN_TIME)
+		{
 			enemies.add(new Enemy(this));
+			lastSpawnTime = TimeUtils.millis();
+		}
 		
 		// Update enemies
 		for (Enemy e : enemies)
@@ -146,14 +146,14 @@ public class Level
 		return true;
 	}
 	
-	public int getHeight()
-	{
-		return height;
-	}
-	
 	public int getWidth()
 	{
-		return width;
+		return NUM_TILES_WIDTH;
+	}
+	
+	public int getHeight()
+	{
+		return NUM_TILES_HEIGHT;
 	}
 	
 	// Get tile in tile index 
@@ -165,7 +165,7 @@ public class Level
 	// Get tile in tile x and y coordinates
 	public int getTile(int x, int y)
 	{
-		return getTile(y * width + x);
+		return getTile(y * getWidth() + x);
 	}
 	
 	// Get direction in tile index 
@@ -177,7 +177,7 @@ public class Level
 	// Get direction in tile x and y coordinates
 	public Dir getDirection(int x, int y)
 	{
-		return getDirection(y * width + x);
+		return getDirection(y * getWidth() + x);
 	}
 	
 	public int getStartX()
