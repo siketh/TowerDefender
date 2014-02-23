@@ -1,27 +1,54 @@
 package com.group23.TowerDefense;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Level 
 {	
-	private static Texture[] textures;						// Stores the tile textures
+	// Tile textures array
+	public static Texture[] textures;
 	
-	private int[] tiles;				// Stores index of image of tile				
-	private Dir[] directions;			// Stores which way enemies should move
-	private int startX, startY;			// Stores starting tile of enemies
-	private Dir startDir;				// Stores initial direction of enemies
-	private int height, width;			// Stores height and width of grid
-	private Array<Enemy> enemies;		//Stores the array of enemies
+	// Level constants
+	private final static int NUM_TILES_WIDTH = 15;
+	private final static int NUM_TILES_HEIGHT = 8;
+	private final static long RESPAWN_TIME = 250;
 	
-	public Level(Array<Enemy> enemyArray)
+	// Tile data
+	private int[] tiles;				
+	private Dir[] directions;
+	
+	// Starting information
+	private int startX, startY;
+	private Dir startDir;
+	
+	// Dimensions of level
+	private int width, height;
+	
+	private Array<Tower> towers;
+	private Array<Enemy> enemies;
+	
+	// DEBUG time from last enemy spawned
+	private long lastSpawnTime;
+	
+	/**
+	 * Initializes the level class
+	 * For now, the level uses a pre-defined tile array and direction array
+	 */
+	public Level()
 	{
-		enemies = enemyArray;
-		width = 15;
-		height = 8;
+		enemies = new Array<Enemy>();
+		towers = new Array<Tower>();
 		
+		lastSpawnTime = TimeUtils.millis();
+		
+		// initialize starting position
+		startX = 0;
+		startY = 1;
+		startDir = Dir.E;
+		
+		// initialize tile array
 		tiles = new int[]
 		{
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,		//Bottom Right
@@ -33,10 +60,8 @@ public class Level
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0			//Top Right
 		};
-		startX = 0;
-		startY = 1;
-		startDir = Dir.E;
-		select = -1;
+		
+		// initialize direction array
 		directions = new Dir[]
 		{
 			Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I, Dir.I,
@@ -50,20 +75,75 @@ public class Level
 		};
 	}
 	
-	static void initialize()
+	public void update(float dt)
 	{
-		textures = new Texture[4];
-		textures[0] = new Texture(Gdx.files.internal("tile00.png"));
-		textures[1] = new Texture(Gdx.files.internal("tile01.png"));
-		textures[2] = new Texture(Gdx.files.internal("tile02.png"));
-		textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+		// Add enemy if passed RESPAWN_TIME
+		if (TimeUtils.millis() - lastSpawnTime > RESPAWN_TIME)
+			enemies.add(new Enemy(this));
+		
+		// Update enemies
+		for (Enemy e : enemies)
+			e.update(dt);
+		
+		// Update towers
+		//for (Tower t : towers)
+		//	t.update();
 	}
 	
-	static void dispose()
+	/**
+	 * Draws the level, including the enemies and towers
+	 * @param batch
+	 */
+	public void draw(SpriteBatch batch)
 	{
-		for (Texture t : textures)
-			t.dispose();
-		textures = null;
+		// Draws level tiles
+		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
+			for (int x = 0; x < NUM_TILES_WIDTH; x++)
+				batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+		
+		// Draw enemies
+		for (Enemy e : enemies)
+			e.draw(batch);
+		
+		// Draw towers
+		for (Tower t : towers)
+			t.draw(batch);
+	}
+	
+	/**
+	 * Places a tower on a tile-coordinate position if:
+	 * <li>The tile is empty</li>
+	 * <li>No other tower is already placed</li>
+	 * <br/>
+	 * WARNING: No check is done to ensure boundary
+	 * @param x Tile x-coordinate to place the new tower
+	 * @param y Tile y-coordinate to place the new tower
+	 */
+	public void placeTower(int x, int y)
+	{
+		if (canPlaceTower(x, y))
+			towers.add(new Tower(this, x, y));
+	}
+	
+	/**
+	 * Checks if a tower can be placed on a tile coordinate position
+	 * 
+	 * @param x Tile x-coordinate to check
+	 * @param y Tile y-coordinate to check
+	 * @return True if a tower can be positioned
+	 */
+	private boolean canPlaceTower(int x, int y)
+	{
+		// Check if tile is an empty tile
+		if (getTile(x,y) != 0)
+			return false;
+		
+		// Check that no towers conflict with position
+		for (Tower t : towers)
+			if (t.cmpTile(x, y))
+				return false;
+		
+		return true;
 	}
 	
 	public int getHeight()
@@ -113,22 +193,5 @@ public class Level
 	public Dir getStartingDirection()
 	{
 		return startDir;
-	}
-	
-	public int select;
-	
-	public void draw(SpriteBatch batch)
-	{
-		// Grid is 8x15
-		// Draws map ***BASED ONcd Documents/ SCREEN WIDTH***
-		for (int y = 0; y < TowerDefense.SCREEN_HEIGHT / 128; y++)		
-			for (int x = 0; x < TowerDefense.SCREEN_WIDTH / 128; x++)
-			{
-				final int w = TowerDefense.SCREEN_WIDTH / 128;
-				if( select ==  y * w + x)
-					batch.draw(textures[3], x * 128, y * 128);
-				else
-					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
-			}
 	}
 }

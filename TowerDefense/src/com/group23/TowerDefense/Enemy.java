@@ -37,38 +37,38 @@ public class Enemy {
 	}
 
 	// Returns true if reached the end
-	public boolean update() 
+	public boolean update(float dt) 
 	{
 		// Updates units position based on change in time and unit's movement speed
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
 		case N:
-			y += moveSpeed * Gdx.graphics.getDeltaTime();
+			y += moveSpeed * dt;
 			break;
 		case NE:
-			x += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
-			y -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
+			x += moveSpeed * 0.71 * dt;
+			y -= moveSpeed * 0.71 * dt;
 			break;
 		case E:
-			x += moveSpeed * Gdx.graphics.getDeltaTime();
+			x += moveSpeed * dt;
 			break;
 		case SE:
-			x += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
-			y += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
+			x += moveSpeed * 0.71 * dt;
+			y += moveSpeed * 0.71 * dt;
 			break;
 		case S:
-			y += moveSpeed * Gdx.graphics.getDeltaTime();
+			y += moveSpeed * dt;
 			break;
 		case SW:
-			x -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
-			y += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
+			x -= moveSpeed * 0.71 * dt;
+			y += moveSpeed * 0.71 * dt;
 			break;
 		case W:
-			x -= moveSpeed * Gdx.graphics.getDeltaTime();
+			x -= moveSpeed * dt;
 			break;
 		case NW:
-			x -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
-			y -= moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
+			x -= moveSpeed * 0.71 * dt;
+			y -= moveSpeed * 0.71 * dt;
 			break;
 		case End:
 			return true;
@@ -78,10 +78,10 @@ public class Enemy {
 		
 		// Even cases are diagonal cases
 		if (direction == Dir.NE || direction == Dir.SE || direction == Dir.SW || direction == Dir.NW)	
-			distTraveled += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
+			distTraveled += moveSpeed * 0.71 * dt;
 		// Odd cases are horizontal and vertical cases
 		else
-			distTraveled += moveSpeed * Gdx.graphics.getDeltaTime();
+			distTraveled += moveSpeed * dt;
 
 		// If the enemy has moved across one tile, center it in the next tile 
 		// and update it's current tile

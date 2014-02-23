@@ -27,6 +27,11 @@ public class Tower
 		this.y = (tile / map.getWidth()) * 128 + 64 ;
 	}
 	
+	public void update(float dt)
+	{
+		// TODO have the tower attack an enemy
+	}
+	
 	public void draw(SpriteBatch batch)
 	{
 		batch.draw(texture, (x - texWidth / 2), (y- texHeight / 2));	
