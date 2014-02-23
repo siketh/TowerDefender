@@ -3,9 +3,12 @@ package com.group23.TowerDefense;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Enemy {
-	public static Texture texture;					// Stores enemy texture file
-	private int texHeight, texWidth;				// Stores height and width of texture file
+public class Enemy 
+{
+	public static Texture texture       = null;
+	private static final int texWidth  = 64;
+	private static final int texHeight = 64;
+	
 	private int hp;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
 	private Dir direction; 		//Stores direction of enemy
@@ -18,9 +21,6 @@ public class Enemy {
 	public Enemy(Level map) 
 	{
 		hp = 100;
-		//TODO: Change to get it 
-		texHeight = 64;
-		texWidth = 64;
 		moveSpeed = 128;
 		distTraveled = 0;
 		path = map;
@@ -128,6 +128,11 @@ public class Enemy {
 		
 		return false;
 	}
+	
+	public void draw(SpriteBatch batch)
+	{
+		batch.draw(texture, x, y);
+	}
 
 	public Dir getDir() 
 	{
@@ -142,10 +147,15 @@ public class Enemy {
 		if (damage <= 0)
 			return false;
 		return true;
-
 	}
-	public void draw(SpriteBatch batch)
+	
+	public float getX()
 	{
-		batch.draw(texture, x, y);
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
 	}
 }

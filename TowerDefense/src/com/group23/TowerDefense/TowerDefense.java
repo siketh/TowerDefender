@@ -7,15 +7,20 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 
 public class TowerDefense implements ApplicationListener, InputProcessor 
 {
-	public final static int SCREEN_WIDTH = 1920;
+	public final static int SCREEN_WIDTH  = 1920;
 	public final static int SCREEN_HEIGHT = 1080;
 	
-	private OrthographicCamera camera;				// Camera defines viewspace of screen
-	private SpriteBatch batch;						// Canvas that you draw sprites on to
+	public static ShapeRenderer shapeRenderer;
+	public static SpriteBatch spriteBatch;
+	
+	// Camera defines view space of screen
+	private OrthographicCamera camera;
 	
 	// current level being played
 	private Level curLevel;	
@@ -36,13 +41,16 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		Level.textures[2] = new Texture(Gdx.files.internal("tile02.png"));
 		Level.textures[3] = new Texture(Gdx.files.internal("tile03.png"));
 		
+		// initialize static batches
+		spriteBatch   = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		
 		// initialize member variables
-		batch    = new SpriteBatch();
-		curLevel = new Level();
-		touchPos = new Vector3();
+		curLevel      = new Level();
+		touchPos      = new Vector3();
 		
 		camera = new OrthographicCamera();				
-		camera.setToOrtho(true, SCREEN_WIDTH, SCREEN_HEIGHT);
+		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		// recognize this class as the input processor
 		Gdx.input.setInputProcessor(this);
@@ -54,7 +62,7 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		for (Texture t : Level.textures)
 			t.dispose();
 		Enemy.texture.dispose();
-		batch.dispose();
+		spriteBatch.dispose();
 	}
 
 	@Override
@@ -70,12 +78,16 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		
 		// update the camera
 		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+		spriteBatch.setProjectionMatrix(camera.combined);
 		
 		// draw to screen
-		batch.begin();
-		curLevel.draw(batch);
-		batch.end();
+		shapeRenderer.begin(ShapeType.Line);
+		spriteBatch.begin();
+		
+			curLevel.draw(spriteBatch);
+		
+		spriteBatch.end();
+		shapeRenderer.end();
 	}
 
 	@Override
@@ -111,14 +123,14 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 	@Override
 	// For input, lets you select a tile on screen
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
-	{ 
+	{		
 		touchPos.x = screenX;
 		touchPos.y = screenY;
 		touchPos.z = 0;
 		
 		camera.unproject(touchPos);								// Converts where you touched into pixel coordinates
-		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
-		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
+		int x  = (int) (touchPos.x) / 128;			// Converts to tile coordinates
+		int y  = (int) (touchPos.y) / 128;			// Converts to tile coordinates
 		
 		curLevel.placeTower(x, y);
 		

@@ -2,29 +2,38 @@ package com.group23.TowerDefense;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Tower
 {
-	public static Texture texture;					// Stores tower texture file
-	private int texHeight, texWidth;				// Stores height and width of texture file
-	private int tile;								// Stores current tile index of tower
-	private int range;
-	private int damage;
-	private float x, y;								// Store pixel coordinates of enemy
+	public static Texture texture       = null;
+	private static final int texWidth  = 64;
+	private static final int texHeight = 64;
+	
+	// Tile index position in the map array
+	private int tile;
+	
+	// World coordinate of tower
+	private float x, y;
+	
+	// Range the tower has to acquire an an enemy
+	private float range;
+	
 	private Level map;
+	private Enemy target;
 	
 	public Tower(Level map, int x, int y) 
 	{
-		//TODO: Change to get it 
-		texHeight = 64;
-		texWidth = 64;
-		tile = x + y * map.getWidth();
+		this.tile = y * map.getWidth() + x;
 		
-		this.map = map;
+		this.map    = map;
+		this.target = null;
+		this.range  = 250.0f;
+		
 		// Converts from tile coordinates to pixel coordinates and centers 
 		// enemy in tile and offsets for image height and width
-		this.x = (tile % map.getWidth()) * 128 + 64 ;
-		this.y = (tile / map.getWidth()) * 128 + 64 ;
+		this.x = x * 128 + 64;
+		this.y = y * 128 + 64;
 	}
 	
 	public void update(float dt)
@@ -34,50 +43,23 @@ public class Tower
 	
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, (x - texWidth / 2), (y- texHeight / 2));	
+		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+		batch.draw(texture, x - texWidth / 2.0f, y - texHeight / 2.0f);
+		
+		// draw the radius of the range
+		shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+		shapeRenderer.circle(x, y, range);
+		
+		// draw the line to the target (if applicable)
+		if (target != null)
+		{
+			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+			shapeRenderer.line(x, y, target.getX(), target.getY());
+		}
 	}
 
 	public int getTile()
 	{
 		return tile;
 	}
-	
-	public boolean cmpTile(int tile)
-	{
-		return tile == this.tile;
-	}
-	
-	public boolean cmpTile(int x, int y)
-	{
-		int temp = x + y * map.getWidth();
-		return temp == tile;
-	}
-
-	public int getRange()
-	{
-		return range;
-	}
-
-	public int getDamage()
-	{
-		return damage;
-	}
-
-	public float getX()
-	{
-		return x;
-	}
-
-	public float getY()
-	{
-		return y;
-	}
-
-	public Level getMap()
-	{
-		return map;
-	}
-	
-	
 }
-

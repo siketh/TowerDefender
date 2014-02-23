@@ -11,9 +11,9 @@ public class Level
 	public static Texture[] textures;
 	
 	// Level constants
-	private final static int NUM_TILES_WIDTH = 15;
+	private final static int NUM_TILES_WIDTH  = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
-	private final static long RESPAWN_TIME = 2000;
+	private final static long RESPAWN_TIME    = 2000; // time in MS
 	
 	// Tile data
 	private int[] tiles;				
@@ -139,8 +139,9 @@ public class Level
 			return false;
 		
 		// Check that no towers conflict with position
+		final int pos = y * getWidth() + x;
 		for (Tower t : towers)
-			if (t.cmpTile(x, y))
+			if (t.getTile() == pos)
 				return false;
 		
 		return true;
