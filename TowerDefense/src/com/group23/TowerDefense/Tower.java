@@ -14,6 +14,9 @@ public class Tower
 	private static final int texWidth  = 64;
 	private static final int texHeight = 64;
 	
+	public static boolean DEBUG_DRAWRANGE = true;
+	public static boolean DEBUG_DRAWTARGET = true;
+	
 	// Tile index position in the map array
 	private int tile;
 	
@@ -53,14 +56,20 @@ public class Tower
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
 		
 		// draw the radius of the range
-		shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-		shapeRenderer.circle(pos.x, pos.y, range);
-		
-		// draw the line to the target (if applicable)
-		if (target != null)
+		if (DEBUG_DRAWRANGE || DEBUG_DRAWTARGET)
 		{
-			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
-			shapeRenderer.line(pos, target.getPosition());
+			if (DEBUG_DRAWRANGE)
+			{
+				shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+				shapeRenderer.circle(pos.x, pos.y, range);
+			}
+			
+			// draw the line to the target (if applicable)
+			if (DEBUG_DRAWTARGET && target != null)
+			{
+				shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+				shapeRenderer.line(pos, target.getPosition());
+			}
 		}
 	}
 	

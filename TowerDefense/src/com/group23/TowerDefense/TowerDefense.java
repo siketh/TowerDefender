@@ -31,6 +31,10 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 	// Essentially just loads the game
 	public void create() 
 	{		
+		// set debug variables
+		Tower.DEBUG_DRAWRANGE  = true;
+		Tower.DEBUG_DRAWTARGET = true;
+		
 		// initialize textures
 		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
