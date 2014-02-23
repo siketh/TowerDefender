@@ -36,7 +36,7 @@ public class Level
 	public Level()
 	{
 		enemies = new Array<Enemy>();
-		towers = new Array<Tower>();
+		towers  = new Array<Tower>();
 		
 		lastSpawnTime = TimeUtils.millis();
 		
@@ -86,8 +86,8 @@ public class Level
 			e.update(dt);
 		
 		// Update towers
-		//for (Tower t : towers)
-		//	t.update();
+		for (Tower t : towers)
+			t.update(dt);
 	}
 	
 	/**
