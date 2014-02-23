@@ -60,20 +60,17 @@ public class Tower
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
 		
 		// draw the radius of the range
-		if (DEBUG_DRAWRANGE || DEBUG_DRAWTARGET)
+		if (DEBUG_DRAWRANGE)
 		{
-			if (DEBUG_DRAWRANGE)
-			{
-				shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-				shapeRenderer.circle(pos.x, pos.y, range);
-			}
-			
-			// draw the line to the target (if applicable)
-			if (DEBUG_DRAWTARGET && target != null)
-			{
-				shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
-				shapeRenderer.line(pos, target.getPosition());
-			}
+			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+			shapeRenderer.circle(pos.x, pos.y, range);
+		}
+		
+		// draw the line to the target (if applicable)
+		if (DEBUG_DRAWTARGET && target != null)
+		{
+			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+			shapeRenderer.line(pos, target.getPosition());
 		}
 	}
 	
