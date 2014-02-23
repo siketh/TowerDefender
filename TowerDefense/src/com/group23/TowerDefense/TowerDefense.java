@@ -132,7 +132,8 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		int x  = (int) (touchPos.x) / 128;			// Converts to tile coordinates
 		int y  = (int) (touchPos.y) / 128;			// Converts to tile coordinates
 		
-		curLevel.placeTower(x, y);
+		if (y < curLevel.getHeight())
+			curLevel.placeTower(x, y);
 		
 		return true;
 	}
