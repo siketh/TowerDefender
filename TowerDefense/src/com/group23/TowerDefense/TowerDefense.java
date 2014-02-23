@@ -143,21 +143,8 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
 		
-		if(curLevel.getTile(x,y) == 0)
-		{
-			boolean sameTile = false;
-			for(Tower t: towers)
-			{
-				if(t.cmpTile(x,y))
-				{
-					sameTile = true;
-					break;
-				}
-			}
-			
-			if(sameTile == false) 
-				towers.add(new Tower(curLevel, x, y));
-		}
+		if(canPlaceTower(x, y))
+			towers.add(new Tower(curLevel, x, y));
 		
 		return true;
 	}
@@ -184,5 +171,26 @@ public class TowerDefense implements ApplicationListener , InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	/**
+	 * Checks if a tower can be placed on a tile coordinate position
+	 * 
+	 * @param x Tile x-coordinate to check
+	 * @param y Tile y-coordinate to check
+	 * @return True if a tower can be positioned
+	 */
+	private boolean canPlaceTower(int x, int y)
+	{
+		// Check if tile is an empty tile
+		if (curLevel.getTile(x,y) != 0)
+			return false;
+		
+		// Check that no towers conflict with position
+		for (Tower t : towers)
+			if (t.cmpTile(x, y))
+				return false;
+		
+		return true;
 	}
 }
