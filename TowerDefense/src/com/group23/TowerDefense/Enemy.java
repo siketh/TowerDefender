@@ -44,7 +44,7 @@ public class Enemy
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
 		case N:
-			pos.y += moveSpeed * dt;
+			pos.y -= moveSpeed * dt;
 			break;
 		case NE:
 			pos.x += moveSpeed * 0.71 * dt;
@@ -101,7 +101,7 @@ public class Enemy
 				curTile += 1;
 				break;
 			case SE:
-				curTile = curTile + 1 + path.getWidth();
+				curTile = curTile + path.getWidth() + 1;
 				break;
 			case S:
 				curTile += path.getWidth();
@@ -113,7 +113,7 @@ public class Enemy
 				curTile -= 1;
 				break;
 			case NW:
-				curTile = curTile -1 + path.getWidth();
+				curTile = curTile - path.getWidth() - 1;
 				break;
 			default:
 				break;
