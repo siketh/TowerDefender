@@ -146,7 +146,7 @@ public class Enemy
 	public boolean dealDamage(int damage) 
 	{
 		hp -= damage;
-		if (damage <= 0)
+		if (hp <= 0)
 			return false;
 		return true;
 	}
