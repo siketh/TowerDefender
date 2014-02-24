@@ -16,10 +16,14 @@ public class TowerDefense extends Game
 	public static ShapeRenderer shapeRenderer;
 	public static SpriteBatch spriteBatch;
 	
+	private static TowerDefense game;
+	
 	@Override
 	// Essentially just loads the game
 	public void create() 
 	{		
+		game = this;
+		
 		// set debug variables
 		Tower.DEBUG_DRAWRANGE  = true;
 		Tower.DEBUG_DRAWTARGET = true;
@@ -53,8 +57,8 @@ public class TowerDefense extends Game
 		spriteBatch.dispose();
 	}
 	
-	public void changeScreen(Screen screen)
+	static public void changeScreen(Screen screen)
 	{
-		setScreen(screen);
+		game.setScreen(screen);
 	}
 }
