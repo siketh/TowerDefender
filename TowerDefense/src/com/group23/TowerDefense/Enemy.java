@@ -12,8 +12,8 @@ public class Enemy
 	
 	private int hp;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
-	private Dir direction; 		//Stores direction of enemy
-	private Vector2 pos;								// Store pixel coordinates of enemy
+	private Dir direction; 							//Stores direction of enemy
+	private Vector2 pos;							// Store pixel coordinates of enemy
 	private Level path;								// Points to level 
 	private int curTile;							// Stores current tile index of enemy
 	private float distTraveled;						// Stores distance traveled since last new tile

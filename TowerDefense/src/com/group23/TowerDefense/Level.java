@@ -25,6 +25,7 @@ public class Level
 	
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
+	private Button menu;
 	
 	// DEBUG time from last enemy spawned
 	private long lastSpawnTime;
@@ -37,6 +38,7 @@ public class Level
 	{
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
+		menu = new Button();
 		
 		lastSpawnTime = TimeUtils.millis();
 		
@@ -96,6 +98,7 @@ public class Level
 	 */
 	public void draw(SpriteBatch batch)
 	{
+		menu.draw(batch);
 		// Draws level tiles
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
@@ -107,7 +110,7 @@ public class Level
 		
 		// Draw towers
 		for (Tower t : towers)
-			t.draw(batch);
+			t.draw(batch);		
 	}
 	
 	/**

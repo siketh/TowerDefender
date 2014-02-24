@@ -38,6 +38,13 @@ public class TowerDefense implements ApplicationListener, InputProcessor
 		// initialize textures
 		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
+		Button.texture = new Texture(Gdx.files.internal("button.png"));
+		Button.start_b = new Texture(Gdx.files.internal("start_b.png"));
+		Button.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
+		Button.health = new Texture(Gdx.files.internal("health.png"));
+		Button.gold = new Texture(Gdx.files.internal("gold.png"));
+		
+		
 		
 		Level.textures    = new Texture[4];
 		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
