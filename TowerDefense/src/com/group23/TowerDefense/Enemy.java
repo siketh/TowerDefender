@@ -143,12 +143,14 @@ public class Enemy
 
 	// Returns true if still alive
 	// Returns false if dead
+	/**
+	 * Damages the enemy
+	 * @param damage
+	 * @return true if enemy is dead, false if still alive
+	 */
 	public boolean dealDamage(int damage) 
 	{
-		hp -= damage;
-		if (hp <= 0)
-			return false;
-		return true;
+		return (hp -= damage) > 0;
 	}
 	
 	public Vector2 getPosition()

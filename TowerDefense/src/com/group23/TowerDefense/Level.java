@@ -1,6 +1,7 @@
 package com.group23.TowerDefense;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,7 +29,7 @@ public class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	
-	// DEBUG time from last enemy spawned
+	// time from last enemy spawned
 	private long lastSpawnTime;
 	
 	/**
@@ -215,6 +216,33 @@ public class Level
 	}
 	
 	/**
+	 * Removes a tower on a tile-coordinate position
+	 * @param x Tile x-coordinate to remove tower
+	 * @param y Tile y-coordinate to remove tower
+	 * @return true if tower removed
+	 */
+	public boolean removeTower(int x, int y)
+	{
+		final int index = convertTileToIndex(x, y);
+		boolean removed = false;
+		
+		Iterator<Tower> iter = towers.iterator();
+		while (iter.hasNext())
+		{
+			Tower t = iter.next();
+			removed = t.getTile() == index;
+			
+			if (removed)
+			{
+				iter.remove();
+				break;
+			}
+		}
+		
+		return removed;
+	}
+	
+	/**
 	 * Checks if a tower can be placed on a tile coordinate position
 	 * 
 	 * @param x Tile x-coordinate to check
@@ -288,5 +316,21 @@ public class Level
 	public Array<Enemy> getEnemies()
 	{
 		return enemies;
+	}
+	
+	public void removeEnemy(Enemy enemy)
+	{
+		enemies.removeValue(enemy, false);
+	}
+	
+	/**
+	 * Converts a tile coordinate to index coordinate
+	 * @param x Tile x-coordinate
+	 * @param y Tile y-coordinate
+	 * @return index position of the tile (x,y) coordinate
+	 */
+	private int convertTileToIndex(int x, int y)
+	{
+		return y * getWidth() + x;
 	}
 }
