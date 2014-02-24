@@ -2,6 +2,7 @@ package com.group23.TowerDefense;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -48,5 +49,10 @@ public class TowerDefense extends Game
 			t.dispose();
 		Enemy.texture.dispose();
 		spriteBatch.dispose();
+	}
+	
+	public void changeScreen(Screen screen)
+	{
+		setScreen(screen);
 	}
 }

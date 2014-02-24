@@ -16,6 +16,7 @@ public class Tower
 	
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
+	private int damage;
 	
 	// Tile index position in the map array
 	private int tile;
@@ -36,6 +37,7 @@ public class Tower
 		this.map    = map;
 		this.target = null;
 		this.range  = 250.0f;
+		damage = 2;
 		
 		// initialize position
 		pos = new Vector2();
@@ -48,6 +50,14 @@ public class Tower
 		// find a target if no target available or if current target exits range
 		if (target == null || pos.dst(target.getPosition()) > range)
 			target = findTarget();
+		if(target != null)
+		{
+			if(target.dealDamage(damage) == false)
+			{
+				map.getEnemies().removeValue(target, false);
+				target = null;
+			}
+		}
 	}
 	
 	public void draw(SpriteBatch batch)
