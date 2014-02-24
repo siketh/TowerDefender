@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -24,6 +25,7 @@ public class TowerDefense extends Game
 		Tower.DEBUG_DRAWTARGET = true;
 		
 		// initialize textures
+		Enemy.font    = new BitmapFont();
 		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
 		

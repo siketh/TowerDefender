@@ -1,27 +1,32 @@
 package com.group23.TowerDefense;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Enemy 
 {
+	public static BitmapFont font       = null;
 	public static Texture texture       = null;
 	private static final int texWidth  = 64;
 	private static final int texHeight = 64;
 	
-	private int hp;									// Stores current hp of enemy
+	private int hp, maxHP;									// Stores current hp of enemy
 	private int moveSpeed;							// Stores movement speed of enemy
 	private Dir direction; 		//Stores direction of enemy
 	private Vector2 pos;								// Store pixel coordinates of enemy
 	private Level path;								// Points to level 
 	private int curTile;							// Stores current tile index of enemy
 	private float distTraveled;						// Stores distance traveled since last new tile
+	
+	private Color color;
 
 	// Constructor for enemy
 	public Enemy(Level map) 
 	{
-		hp = 100;
+		hp = maxHP = 100;
 		moveSpeed = 128;
 		distTraveled = 0;
 		path = map;
@@ -32,6 +37,8 @@ public class Enemy
 		pos = new Vector2();
 		pos.x = path.getStartX() * 128 + 64;
 		pos.y = path.getStartY() * 128 + 64;
+		
+		color = new Color(Color.WHITE);
 		
 		// Calculates tiles index based on width of tile map
 		curTile = path.getStartY() * path.getWidth() + path.getStartX();
@@ -134,6 +141,11 @@ public class Enemy
 	public void draw(SpriteBatch batch)
 	{
 		batch.draw(texture, pos.x - texWidth / 2, pos.y - texHeight / 2);
+		
+		// draw health
+		font.setScale(2.0f);
+		font.setColor(transitionColor(Color.GREEN, Color.RED, (float) hp / maxHP, color));
+		font.draw(batch, "" + hp, pos.x - texWidth / 2, pos.y - texHeight / 2);
 	}
 
 	public Dir getDir() 
@@ -154,5 +166,24 @@ public class Enemy
 	public Vector2 getPosition()
 	{
 		return pos;
+	}
+	
+	/**
+	 * Transitions a color from one to another
+	 * @param from Color to transition from
+	 * @param to Color to transition to
+	 * @param mult Modifier from color from to color to
+	 * @param color Color to modify
+	 * @return color
+	 */
+	private Color transitionColor(Color from, Color to, float mult, Color color)
+	{
+		float inv = 1.0f - mult;
+		
+		color.r = (from.r * mult) + (to.r * inv);
+		color.g = (from.g * mult) + (to.g * inv);
+		color.b = (from.b * mult) + (to.b * inv);
+		
+		return color;
 	}
 }
