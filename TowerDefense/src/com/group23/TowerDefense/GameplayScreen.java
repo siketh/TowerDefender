@@ -3,6 +3,7 @@ package com.group23.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -93,7 +94,13 @@ public class GameplayScreen implements Screen, InputProcessor{
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
 		
 		if (y < curLevel.getHeight())
-			curLevel.placeTower(x, y);
+		{
+			switch (button)
+			{
+			case Buttons.LEFT:  curLevel.placeTower(x, y);  break;
+			case Buttons.RIGHT: curLevel.removeTower(x, y); break;
+			}
+		}
 		
 		return true;
 	}
