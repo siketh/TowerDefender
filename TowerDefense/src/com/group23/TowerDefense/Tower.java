@@ -62,12 +62,18 @@ public class Tower
 		{
 			// save variable so result are same
 			long ms = TimeUtils.millis();
-			if (ms - lastShotFired >= cooldown &&
-                target.dealDamage(damage) == false)
+			
+			// attack the enemy after cooldown
+			if (ms - lastShotFired >= cooldown)
 			{
+				System.out.println("Attacked enemy");
 				lastShotFired = ms;
-				map.removeEnemy(target);
-				target = findTarget();
+				
+				if (target.dealDamage(damage) <= 0)
+				{
+					map.removeEnemy(target);
+					target = findTarget();
+				}
 			}
 		}
 	}

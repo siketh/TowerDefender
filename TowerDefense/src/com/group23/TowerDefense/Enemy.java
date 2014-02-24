@@ -146,11 +146,11 @@ public class Enemy
 	/**
 	 * Damages the enemy
 	 * @param damage
-	 * @return true if enemy is dead, false if still alive
+	 * @return The new enemy's health
 	 */
-	public boolean dealDamage(int damage) 
+	public int dealDamage(int damage) 
 	{
-		return (hp -= damage) > 0;
+		return hp -= damage;
 	}
 	
 	public Vector2 getPosition()
