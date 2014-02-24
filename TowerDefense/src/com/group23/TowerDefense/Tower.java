@@ -16,6 +16,7 @@ public class Tower
 	
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
+	private int damage;
 	
 	// Tile index position in the map array
 	private int tile;
@@ -36,6 +37,7 @@ public class Tower
 		this.map    = map;
 		this.target = null;
 		this.range  = 250.0f;
+		damage = 2;
 		
 		// initialize position
 		pos = new Vector2();
@@ -48,6 +50,14 @@ public class Tower
 		// find a target if no target available or if current target exits range
 		if (target == null || pos.dst(target.getPosition()) > range)
 			target = findTarget();
+		if(target != null)
+		{
+			if(target.dealDamage(damage) == false)
+			{
+				map.getEnemies().removeValue(target, false);
+				target = null;
+			}
+		}
 	}
 	
 	public void draw(SpriteBatch batch)
@@ -56,20 +66,17 @@ public class Tower
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
 		
 		// draw the radius of the range
-		if (DEBUG_DRAWRANGE || DEBUG_DRAWTARGET)
+		if (DEBUG_DRAWRANGE)
 		{
-			if (DEBUG_DRAWRANGE)
-			{
-				shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-				shapeRenderer.circle(pos.x, pos.y, range);
-			}
-			
-			// draw the line to the target (if applicable)
-			if (DEBUG_DRAWTARGET && target != null)
-			{
-				shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
-				shapeRenderer.line(pos, target.getPosition());
-			}
+			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+			shapeRenderer.circle(pos.x, pos.y, range);
+		}
+		
+		// draw the line to the target (if applicable)
+		if (DEBUG_DRAWTARGET && target != null)
+		{
+			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+			shapeRenderer.line(pos, target.getPosition());
 		}
 	}
 	

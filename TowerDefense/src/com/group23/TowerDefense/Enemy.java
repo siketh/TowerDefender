@@ -30,8 +30,8 @@ public class Enemy
 		// Converts from tile coordinates to pixel coordinates and centers 
 		// enemy in tile and offsets for image height and width
 		pos = new Vector2();
-		pos.x = path.getStartX() * 128 + 64 - (texWidth / 2);
-		pos.y = path.getStartY() * 128 + 64 - (texHeight / 2);
+		pos.x = path.getStartX() * 128 + 64;
+		pos.y = path.getStartY() * 128 + 64;
 		
 		// Calculates tiles index based on width of tile map
 		curTile = path.getStartY() * path.getWidth() + path.getStartX();
@@ -44,7 +44,7 @@ public class Enemy
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
 		case N:
-			pos.y += moveSpeed * dt;
+			pos.y -= moveSpeed * dt;
 			break;
 		case NE:
 			pos.x += moveSpeed * 0.71 * dt;
@@ -101,7 +101,7 @@ public class Enemy
 				curTile += 1;
 				break;
 			case SE:
-				curTile = curTile + 1 + path.getWidth();
+				curTile = curTile + path.getWidth() + 1;
 				break;
 			case S:
 				curTile += path.getWidth();
@@ -113,15 +113,15 @@ public class Enemy
 				curTile -= 1;
 				break;
 			case NW:
-				curTile = curTile -1 + path.getWidth();
+				curTile = curTile - path.getWidth() - 1;
 				break;
 			default:
 				break;
 			}
 			
 			// Centers enemy at a new tile
-			pos.x = (curTile % path.getWidth()) * 128 + 64 - (texWidth / 2);
-			pos.y = (curTile / path.getWidth()) * 128 + 64 - (texHeight / 2);
+			pos.x = (curTile % path.getWidth()) * 128 + 64;
+			pos.y = (curTile / path.getWidth()) * 128 + 64;
 			distTraveled = 0;
 		}
 		
@@ -133,7 +133,7 @@ public class Enemy
 	
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, pos.x, pos.y);
+		batch.draw(texture, pos.x - texWidth / 2, pos.y - texHeight / 2);
 	}
 
 	public Dir getDir() 
@@ -146,7 +146,7 @@ public class Enemy
 	public boolean dealDamage(int damage) 
 	{
 		hp -= damage;
-		if (damage <= 0)
+		if (hp <= 0)
 			return false;
 		return true;
 	}
