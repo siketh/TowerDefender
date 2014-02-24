@@ -34,23 +34,26 @@ public class Tower
 	
 	private Level map;
 	private Enemy target;
+	private Array<Enemy> inRange;
 	
 	public Tower(Level map, int x, int y) 
 	{
 		this.tile = y * map.getWidth() + x;
 		
-		this.map    = map;
-		this.target = null;
 		this.range  = 250.0f;
-		damage = 2;
+		this.damage = 2;
 		
-		cooldown = 100;
-		lastShotFired = TimeUtils.millis();
+		this.map     = map;
+		this.target  = null;
+		this.inRange = new Array<Enemy>();
+		
+		this.cooldown = 100;
+		this.lastShotFired = TimeUtils.millis();
 		
 		// initialize position
-		pos = new Vector2();
-		pos.x = x * 128 + 64;
-		pos.y = y * 128 + 64;
+		this.pos = new Vector2();
+		this.pos.x = x * 128 + 64;
+		this.pos.y = y * 128 + 64;
 	}
 	
 	public void update(float dt)
@@ -106,7 +109,7 @@ public class Tower
 		Enemy target = null;
 		
 		Array<Enemy> enemies = map.getEnemies();
-		Array<Enemy> inRange = new Array<Enemy>();
+		inRange.clear();
 		
 		// must be at least one enemy
 		if (enemies.size > 0)
