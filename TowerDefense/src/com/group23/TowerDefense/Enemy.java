@@ -43,7 +43,7 @@ public class Enemy {
 		// 0.71 is for diagonal cases to match movement speed to horizontal and vertical cases
 		switch (direction) {
 		case N:
-			y += moveSpeed * Gdx.graphics.getDeltaTime();
+			y -= moveSpeed * Gdx.graphics.getDeltaTime();
 			break;
 		case NE:
 			x += moveSpeed * 0.71 * Gdx.graphics.getDeltaTime();
@@ -100,7 +100,7 @@ public class Enemy {
 				curTile += 1;
 				break;
 			case SE:
-				curTile = curTile + 1 + path.getWidth();
+				curTile = curTile + path.getWidth() + 1;
 				break;
 			case S:
 				curTile += path.getWidth();
@@ -112,7 +112,7 @@ public class Enemy {
 				curTile -= 1;
 				break;
 			case NW:
-				curTile = curTile -1 + path.getWidth();
+				curTile = curTile - path.getWidth() - 1;
 				break;
 			default:
 				break;
