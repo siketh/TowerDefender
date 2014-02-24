@@ -141,8 +141,6 @@ public class Enemy
 		return direction;
 	}
 
-	// Returns true if still alive
-	// Returns false if dead
 	/**
 	 * Damages the enemy
 	 * @param damage

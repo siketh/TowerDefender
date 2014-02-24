@@ -66,7 +66,6 @@ public class Tower
 			// attack the enemy after cooldown
 			if (ms - lastShotFired >= cooldown)
 			{
-				System.out.println("Attacked enemy");
 				lastShotFired = ms;
 				
 				if (target.dealDamage(damage) <= 0)
@@ -93,7 +92,7 @@ public class Tower
 		// draw the line to the target (if applicable)
 		if (DEBUG_DRAWTARGET && target != null)
 		{
-			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 0.5f);
 			shapeRenderer.line(pos, target.getPosition());
 		}
 	}
