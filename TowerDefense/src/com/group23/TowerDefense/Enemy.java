@@ -143,9 +143,10 @@ public class Enemy
 		batch.draw(texture, pos.x - texWidth / 2, pos.y - texHeight / 2);
 		
 		// draw health
+		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
 		font.setScale(2.0f);
 		font.setColor(transitionColor(Color.GREEN, Color.RED, (float) hp / maxHP, color));
-		font.draw(batch, "" + hp, pos.x - texWidth / 2, pos.y - texHeight / 2);
+		font.draw(batch, String.format("%d%%", (int) percent), pos.x - texWidth / 2, pos.y - texHeight / 2);
 	}
 
 	public Dir getDir() 

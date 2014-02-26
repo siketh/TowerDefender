@@ -60,12 +60,12 @@ public class Level
 			1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
 			0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0			//Top Right
 		};
-		
-		// initialize direction array
-		directions = new Dir[tiles.length];
 				
 		startX = 0;
 		startY = 1;
+		
+		// initialize direction array
+		directions = new Dir[tiles.length];
 		
 		// Create a direction map based off of the tile map
 		createDirMap();
@@ -74,7 +74,6 @@ public class Level
 	// Creates a direction map for enemies to follow, based off of the tile map
 	private void createDirMap()
 	{
-		directions = new Dir[120];
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
 		startDir = Dir.S;						// Set the starting direction
 		directions[15] = startDir;				// Set the starting cell
