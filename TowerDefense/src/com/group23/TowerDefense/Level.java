@@ -17,6 +17,7 @@ public class Level
 	private final static int NUM_TILES_WIDTH  = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
 	private final static long RESPAWN_TIME    = 2000; // time in MS
+	private final static int MAX_TOWERS       = 10;
 	
 	// Tile data
 	private int[] tiles;				
@@ -260,7 +261,7 @@ public class Level
 			if (t.getTile() == pos)
 				return false;
 		
-		return true;
+		return towers.size < MAX_TOWERS;
 	}
 	
 	public int getWidth()
