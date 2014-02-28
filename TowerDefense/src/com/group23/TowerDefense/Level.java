@@ -1,6 +1,7 @@
 package com.group23.TowerDefense;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ public class Level
 	private final static int NUM_TILES_WIDTH  = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
 	private final static long RESPAWN_TIME    = 2000; // time in MS
+	private final static int MAX_TOWERS       = 10;
 	
 	// Tile data
 	private int[] tiles;				
@@ -29,7 +31,7 @@ public class Level
 	private Array<Enemy> enemies;
 	private Button menu;
 	
-	// DEBUG time from last enemy spawned
+	// time from last enemy spawned
 	private long lastSpawnTime;
 	
 	/**
@@ -61,12 +63,12 @@ public class Level
 			1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
 			0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0			//Top Right
 		};
-		
-		// initialize direction array
-		directions = new Dir[tiles.length];
 				
 		startX = 0;
 		startY = 1;
+		
+		// initialize direction array
+		directions = new Dir[tiles.length];
 		
 		// Create a direction map based off of the tile map
 		createDirMap();
@@ -75,7 +77,6 @@ public class Level
 	// Creates a direction map for enemies to follow, based off of the tile map
 	private void createDirMap()
 	{
-		directions = new Dir[120];
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
 		startDir = Dir.S;						// Set the starting direction
 		directions[15] = startDir;				// Set the starting cell
@@ -218,6 +219,33 @@ public class Level
 	}
 	
 	/**
+	 * Removes a tower on a tile-coordinate position
+	 * @param x Tile x-coordinate to remove tower
+	 * @param y Tile y-coordinate to remove tower
+	 * @return true if tower removed
+	 */
+	public boolean removeTower(int x, int y)
+	{
+		final int index = convertTileToIndex(x, y);
+		boolean removed = false;
+		
+		Iterator<Tower> iter = towers.iterator();
+		while (iter.hasNext())
+		{
+			Tower t = iter.next();
+			removed = t.getTile() == index;
+			
+			if (removed)
+			{
+				iter.remove();
+				break;
+			}
+		}
+		
+		return removed;
+	}
+	
+	/**
 	 * Checks if a tower can be placed on a tile coordinate position
 	 * 
 	 * @param x Tile x-coordinate to check
@@ -236,7 +264,7 @@ public class Level
 			if (t.getTile() == pos)
 				return false;
 		
-		return true;
+		return towers.size < MAX_TOWERS;
 	}
 	
 	public int getWidth()
@@ -291,5 +319,21 @@ public class Level
 	public Array<Enemy> getEnemies()
 	{
 		return enemies;
+	}
+	
+	public void removeEnemy(Enemy enemy)
+	{
+		enemies.removeValue(enemy, false);
+	}
+	
+	/**
+	 * Converts a tile coordinate to index coordinate
+	 * @param x Tile x-coordinate
+	 * @param y Tile y-coordinate
+	 * @return index position of the tile (x,y) coordinate
+	 */
+	private int convertTileToIndex(int x, int y)
+	{
+		return y * getWidth() + x;
 	}
 }

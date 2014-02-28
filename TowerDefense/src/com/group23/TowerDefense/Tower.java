@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Tower
 {
@@ -27,22 +28,32 @@ public class Tower
 	// Range the tower has to acquire an an enemy
 	private float range;
 	
+	// Time in between shots
+	private long cooldown;
+	private long lastShotFired;
+	
 	private Level map;
 	private Enemy target;
+	private Array<Enemy> inRange;
 	
 	public Tower(Level map, int x, int y) 
 	{
 		this.tile = y * map.getWidth() + x;
 		
-		this.map    = map;
-		this.target = null;
 		this.range  = 250.0f;
-		damage = 2;
+		this.damage = 2;
+		
+		this.map     = map;
+		this.target  = null;
+		this.inRange = new Array<Enemy>();
+		
+		this.cooldown = 100;
+		this.lastShotFired = TimeUtils.millis();
 		
 		// initialize position
-		pos = new Vector2();
-		pos.x = x * 128 + 64;
-		pos.y = y * 128 + 64;
+		this.pos = new Vector2();
+		this.pos.x = x * 128 + 64;
+		this.pos.y = y * 128 + 64;
 	}
 	
 	public void update(float dt)
@@ -50,12 +61,21 @@ public class Tower
 		// find a target if no target available or if current target exits range
 		if (target == null || pos.dst(target.getPosition()) > range)
 			target = findTarget();
-		if(target != null)
+		else if(target != null)
 		{
-			if(target.dealDamage(damage) == false)
+			// save variable so result are same
+			long ms = TimeUtils.millis();
+			
+			// attack the enemy after cooldown
+			if (ms - lastShotFired >= cooldown)
 			{
-				map.getEnemies().removeValue(target, false);
-				target = null;
+				lastShotFired = ms;
+				
+				if (target.dealDamage(damage) <= 0)
+				{
+					map.removeEnemy(target);
+					target = findTarget();
+				}
 			}
 		}
 	}
@@ -75,21 +95,21 @@ public class Tower
 		// draw the line to the target (if applicable)
 		if (DEBUG_DRAWTARGET && target != null)
 		{
-			shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
+			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 0.5f);
 			shapeRenderer.line(pos, target.getPosition());
 		}
 	}
 	
 	/**
 	 * Finds the closest Enemy in the map to the tower
-	 * @return The closest Enemy to the tower
+	 * @return The closest Enemy to the tower or null is no target found
 	 */
 	private Enemy findTarget()
 	{
 		Enemy target = null;
 		
 		Array<Enemy> enemies = map.getEnemies();
-		Array<Enemy> inRange = new Array<Enemy>();
+		inRange.clear();
 		
 		// must be at least one enemy
 		if (enemies.size > 0)

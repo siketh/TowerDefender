@@ -3,6 +3,8 @@ package com.group23.TowerDefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,7 +32,7 @@ public class GameplayScreen implements Screen, InputProcessor{
 	}
 	
 	public void render(float delta) 
-	{
+	{		
 		// update the current level
 		curLevel.update(delta);
 		
@@ -40,6 +42,10 @@ public class GameplayScreen implements Screen, InputProcessor{
 		// update the camera
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
+		
+		// clear the screen
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		// draw to screen
 		shapeRenderer.begin(ShapeType.Line);
@@ -93,7 +99,13 @@ public class GameplayScreen implements Screen, InputProcessor{
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
 		
 		if (y < curLevel.getHeight())
-			curLevel.placeTower(x, y);
+		{
+			switch (button)
+			{
+			case Buttons.LEFT:  curLevel.placeTower(x, y);  break;
+			case Buttons.RIGHT: curLevel.removeTower(x, y); break;
+			}
+		}
 		
 		return true;
 	}
