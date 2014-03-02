@@ -161,10 +161,13 @@ public class Level
 	
 	public void update(float dt)
 	{
-		// Add enemy if passed RESPAWN_TIME
-		if(spawner.update(dt) && enemies.size == 0)
+		if(spawner.finished() == false)
 		{
-			spawner.startWave();
+			// Add enemy if passed RESPAWN_TIME
+			if(spawner.update(dt) && enemies.size == 0)
+			{
+				spawner.startWave();
+			}
 		}
 		
 		// Update enemies
