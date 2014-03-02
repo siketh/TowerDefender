@@ -6,6 +6,9 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Spawn.Level1Spawner;
+import com.group23.TowerDefense.Tower.Tower;
 
 public class Level 
 {	

@@ -1,6 +1,9 @@
-package com.group23.TowerDefense;
+package com.group23.TowerDefense.Spawn;
 
 import com.badlogic.gdx.utils.Array;
+import com.group23.TowerDefense.EnemyTypes;
+import com.group23.TowerDefense.Level;
+import com.group23.TowerDefense.Enemy.Enemy;
 
 public class WaveSpawner 
 {
