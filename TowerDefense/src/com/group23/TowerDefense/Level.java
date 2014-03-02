@@ -28,7 +28,7 @@ public class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	
-	private LevelSpawner spawner;
+	private Level1Spawner spawner;
 	
 	/**
 	 * Initializes the level class
@@ -38,7 +38,7 @@ public class Level
 	{
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
-		spawner = new LevelSpawner(enemies, this);
+		spawner = new Level1Spawner(enemies, this);
 		spawner.startWave();
 		
 		// initialize starting position
