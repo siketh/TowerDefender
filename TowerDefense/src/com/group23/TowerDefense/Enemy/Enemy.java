@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.group23.TowerDefense.Dir;
-import com.group23.TowerDefense.Level;
+import com.group23.TowerDefense.Level.Level;
 
 public class Enemy 
 {

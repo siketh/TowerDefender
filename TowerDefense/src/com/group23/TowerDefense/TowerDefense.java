@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Level.Level;
 import com.group23.TowerDefense.Tower.Tower;
 
 public class TowerDefense extends Game 

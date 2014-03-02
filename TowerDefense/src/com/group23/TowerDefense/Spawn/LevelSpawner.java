@@ -1,8 +1,8 @@
 package com.group23.TowerDefense.Spawn;
 
 import com.badlogic.gdx.utils.Array;
-import com.group23.TowerDefense.Level;
 import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Level.Level;
 
 public abstract class LevelSpawner 
 {

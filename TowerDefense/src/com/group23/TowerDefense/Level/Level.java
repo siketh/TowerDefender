@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.TowerDefense.Level;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -6,6 +6,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.group23.TowerDefense.Dir;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.Level1Spawner;
 import com.group23.TowerDefense.Tower.Tower;
