@@ -6,7 +6,6 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class Level 
 {	
@@ -16,7 +15,6 @@ public class Level
 	// Level constants
 	private final static int NUM_TILES_WIDTH  = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
-	private final static long RESPAWN_TIME    = 2000; // time in MS
 	private final static int MAX_TOWERS       = 10;
 	
 	// Tile data
@@ -30,8 +28,7 @@ public class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	
-	// time from last enemy spawned
-	private long lastSpawnTime;
+	private LevelSpawner spawner;
 	
 	/**
 	 * Initializes the level class
@@ -41,8 +38,8 @@ public class Level
 	{
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
-		
-		lastSpawnTime = TimeUtils.millis();
+		spawner = new LevelSpawner(enemies, this);
+		spawner.startWave();
 		
 		// initialize starting position
 		startX = 0;
@@ -165,10 +162,9 @@ public class Level
 	public void update(float dt)
 	{
 		// Add enemy if passed RESPAWN_TIME
-		if (TimeUtils.millis() - lastSpawnTime > RESPAWN_TIME)
+		if(spawner.update(dt) && enemies.size == 0)
 		{
-			enemies.add(new Enemy(this));
-			lastSpawnTime = TimeUtils.millis();
+			spawner.startWave();
 		}
 		
 		// Update enemies
