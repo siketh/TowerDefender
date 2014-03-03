@@ -25,8 +25,11 @@ public class Spawner
 	{
 		switch(name)
 		{
-		case enemy:
+		case ENEMY1:
 			enemies.add(new Enemy1(map));
+			break;
+		case ENEMY2:
+			enemies.add(new Enemy2(map));
 			break;
 		default:
 			break;

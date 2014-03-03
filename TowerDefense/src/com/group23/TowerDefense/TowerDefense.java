@@ -35,6 +35,7 @@ public class TowerDefense extends Game
 		// initialize textures
 		Enemy.font    = new BitmapFont();
 		Enemy1.init(); 
+		Enemy2.init();
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
 		
 		Level.textures    = new Texture[4];
