@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Enemy.*;
 import com.group23.TowerDefense.Level.Level;
 import com.group23.TowerDefense.Tower.Tower;
 
@@ -34,7 +34,7 @@ public class TowerDefense extends Game
 		
 		// initialize textures
 		Enemy.font    = new BitmapFont();
-		Enemy.texture = new Texture(Gdx.files.internal("enemy00.png"));
+		Enemy1.init(); 
 		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
 		
 		Level.textures    = new Texture[4];
@@ -57,7 +57,7 @@ public class TowerDefense extends Game
 	{
 		for (Texture t : Level.textures)
 			t.dispose();
-		Enemy.texture.dispose();
+		Enemy1.texture.dispose();
 		spriteBatch.dispose();
 	}
 	

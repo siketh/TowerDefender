@@ -2,7 +2,7 @@ package com.group23.TowerDefense.Spawn;
 
 import com.badlogic.gdx.utils.Array;
 import com.group23.TowerDefense.EnemyTypes;
-import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Enemy.*;
 import com.group23.TowerDefense.Level.Level;
 
 public class Spawner 
@@ -26,7 +26,7 @@ public class Spawner
 		switch(name)
 		{
 		case enemy:
-			enemies.add(new Enemy(map));
+			enemies.add(new Enemy1(map));
 			break;
 		default:
 			break;
