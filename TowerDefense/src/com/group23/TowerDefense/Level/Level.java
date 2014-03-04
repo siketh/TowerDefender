@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.group23.TowerDefense.Dir;
 import com.group23.TowerDefense.Enemy.Enemy;
-import com.group23.TowerDefense.Spawn.Level1Spawner;
+import com.group23.TowerDefense.Spawn.LevelWave;
 import com.group23.TowerDefense.Tower.Tower;
 
 public class Level 
@@ -32,7 +32,7 @@ public class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	
-	private Level1Spawner spawner;
+	LevelWave wave;
 	
 	/**
 	 * Initializes the level class
@@ -42,9 +42,10 @@ public class Level
 	{
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
+		wave    = new LevelWave();
 		
-		spawner = new Level1Spawner(enemies, this);
-		spawner.startWave();
+		// DEBUG start the first wave
+		wave.start(enemies);
 		
 		// initialize starting position
 		startX = 0;
@@ -166,14 +167,7 @@ public class Level
 	
 	public void update(float dt)
 	{
-		if(spawner.finished() == false)
-		{
-			// Add enemy if passed RESPAWN_TIME
-			if(spawner.update(dt) && enemies.size == 0)
-			{
-				spawner.startWave();
-			}
-		}
+		wave.update();
 		
 		// Update enemies
 		for (Enemy e : enemies)
