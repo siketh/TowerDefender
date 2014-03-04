@@ -1,33 +1,31 @@
-package com.group23.TowerDefense;
+package com.group23.TowerDefense.Enemy;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.group23.TowerDefense.Dir;
+import com.group23.TowerDefense.Level.Level;
 
-public class Enemy 
+public abstract class Enemy 
 {
 	public static BitmapFont font       = null;
-	public static Texture texture       = null;
-	private static final int texWidth  = 64;
-	private static final int texHeight = 64;
-	
-	private int hp, maxHP;									// Stores current hp of enemy
-	private int moveSpeed;							// Stores movement speed of enemy
-	private Dir direction; 							//Stores direction of enemy
-	private Vector2 pos;							// Store pixel coordinates of enemy
-	private Level path;								// Points to level 
-	private int curTile;							// Stores current tile index of enemy
-	private float distTraveled;						// Stores distance traveled since last new tile
+
+	protected int texWidth, texHeight;
+	protected int hp, maxHP;									// Stores current hp of enemy
+	protected int moveSpeed;							// Stores movement speed of enemy
+	protected Dir direction; 		//Stores direction of enemy
+	protected Vector2 pos;								// Store pixel coordinates of enemy
+	protected Level path;								// Points to level 
+	protected int curTile;							// Stores current tile index of enemy
+	protected float distTraveled;						// Stores distance traveled since last new tile
 	
 	private Color color;
 
 	// Constructor for enemy
 	public Enemy(Level map) 
 	{
-		hp = maxHP = 100;
-		moveSpeed = 128;
+		setBaseStats();
 		distTraveled = 0;
 		path = map;
 		direction = path.getStartingDirection();	// Pulls starting direction from map
@@ -43,6 +41,9 @@ public class Enemy
 		// Calculates tiles index based on width of tile map
 		curTile = path.getStartY() * path.getWidth() + path.getStartX();
 	}
+	
+	//Put base stats of the monster here
+	abstract protected void setBaseStats();
 
 	// Returns true if reached the end
 	public boolean update(float dt) 
@@ -140,8 +141,6 @@ public class Enemy
 	
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, pos.x - texWidth / 2, pos.y - texHeight / 2);
-		
 		// draw health
 		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
 		font.setScale(2.0f);

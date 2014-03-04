@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.TowerDefense.Level;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -6,7 +6,10 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.group23.TowerDefense.Dir;
+import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Spawn.Level1Spawner;
+import com.group23.TowerDefense.Tower.Tower;
 
 public class Level 
 {	
@@ -16,7 +19,6 @@ public class Level
 	// Level constants
 	private final static int NUM_TILES_WIDTH  = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
-	private final static long RESPAWN_TIME    = 2000; // time in MS
 	private final static int MAX_TOWERS       = 10;
 	
 	// Tile data
@@ -29,10 +31,8 @@ public class Level
 	
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
-	private Button menu;
 	
-	// time from last enemy spawned
-	private long lastSpawnTime;
+	private Level1Spawner spawner;
 	
 	/**
 	 * Initializes the level class
@@ -42,9 +42,9 @@ public class Level
 	{
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
-		menu = new Button();
 		
-		lastSpawnTime = TimeUtils.millis();
+		spawner = new Level1Spawner(enemies, this);
+		spawner.startWave();
 		
 		// initialize starting position
 		startX = 0;
@@ -166,11 +166,13 @@ public class Level
 	
 	public void update(float dt)
 	{
-		// Add enemy if passed RESPAWN_TIME
-		if (TimeUtils.millis() - lastSpawnTime > RESPAWN_TIME)
+		if(spawner.finished() == false)
 		{
-			enemies.add(new Enemy(this));
-			lastSpawnTime = TimeUtils.millis();
+			// Add enemy if passed RESPAWN_TIME
+			if(spawner.update(dt) && enemies.size == 0)
+			{
+				spawner.startWave();
+			}
 		}
 		
 		// Update enemies
@@ -188,7 +190,6 @@ public class Level
 	 */
 	public void draw(SpriteBatch batch)
 	{
-		menu.draw(batch);
 		// Draws level tiles
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
