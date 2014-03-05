@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.group23.TowerDefense.Enemy.*;
+import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Enemy.Enemy1;
+import com.group23.TowerDefense.Enemy.Enemy2;
 import com.group23.TowerDefense.Level.Level;
 import com.group23.TowerDefense.Tower.Tower;
 
@@ -33,17 +35,15 @@ public class TowerDefense extends Game
 		Tower.DEBUG_DRAWTARGET = true;
 		
 		// initialize textures
-		Enemy.font    = new BitmapFont();
-		Enemy1.init(); 
-		Enemy2.init();
-		Tower.texture = new Texture(Gdx.files.internal("tower00.png"));
+		Enemy.font     = new BitmapFont();
+		Enemy1.texture = new Texture(Gdx.files.internal("enemy01.png")); 
+		Enemy2.texture = new Texture(Gdx.files.internal("enemy02.png"));
+		Tower.texture  = new Texture(Gdx.files.internal("tower00.png"));
 		Button.texture = new Texture(Gdx.files.internal("button.png"));
 		Button.start_b = new Texture(Gdx.files.internal("start_b.png"));
 		Button.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
-		Button.health = new Texture(Gdx.files.internal("health.png"));
-		Button.gold = new Texture(Gdx.files.internal("gold.png"));
-		
-		
+		Button.health  = new Texture(Gdx.files.internal("health.png"));
+		Button.gold    = new Texture(Gdx.files.internal("gold.png"));
 		
 		Level.textures    = new Texture[4];
 		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
@@ -65,7 +65,14 @@ public class TowerDefense extends Game
 	{
 		for (Texture t : Level.textures)
 			t.dispose();
+		Tower.texture.dispose();
+		Button.texture.dispose();
+		Button.start_b.dispose();;
+		Button.tower_b.dispose();
+		Button.health.dispose();
+		Button.gold.dispose();
 		Enemy1.texture.dispose();
+		Enemy2.texture.dispose();
 		spriteBatch.dispose();
 	}
 	

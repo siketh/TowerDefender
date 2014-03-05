@@ -11,7 +11,7 @@ import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.LevelWave;
 import com.group23.TowerDefense.Tower.Tower;
 
-public class Level 
+public abstract class Level 
 {	
 	// Tile textures array
 	public static Texture[] textures;
@@ -25,14 +25,9 @@ public class Level
 	private int[] tiles;				
 	private Dir[] directions;
 	
-	// Starting information
-	private int startX, startY;
-	private Dir startDir;
-	
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
-	
-	LevelWave wave;
+	private LevelWave wave;
 	
 	/**
 	 * Initializes the level class
@@ -44,43 +39,27 @@ public class Level
 		towers  = new Array<Tower>();
 		wave    = new LevelWave();
 		
-		// DEBUG start the first wave
-		wave.next(enemies);
-		
-		// initialize starting position
-		startX = 0;
-		startY = 1;
-		startDir = Dir.E;
-		
 		// initialize tile array
-		tiles = new int[]
-		{
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0,		//Bottom Right
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2,
-			1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 2,
-			1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 2,		
-			1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0,
-			1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0,
-			1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-			0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0			//Top Right
-		};
-				
-		startX = 0;
-		startY = 1;
+		tiles = loadTiles();
 		
 		// initialize direction array
 		directions = new Dir[tiles.length];
 		
 		// Create a direction map based off of the tile map
 		createDirMap();
+		
+		// load the waves
+		loadWaves(wave);
+		
+		// DEBUG start the first wave
+		wave.next(enemies);
 	}
 	
 	// Creates a direction map for enemies to follow, based off of the tile map
 	private void createDirMap()
 	{
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		startDir = Dir.S;						// Set the starting direction
-		directions[15] = startDir;				// Set the starting cell
+		directions[15] = getStartDir();			// Set the starting cell
 		
 		boolean leftEdge; 				// True if current index is on the left edge of the map
 		boolean rightEdge;				// True if current index is on the right edge of the map
@@ -169,7 +148,7 @@ public class Level
 	{
 		wave.update(this);
 		
-		// DEBUG
+		// DEBUG when one wave is finished, start the next one
 		if (!wave.isPlaying() && !wave.isFinished())
 			wave.next(enemies);
 		
@@ -300,21 +279,6 @@ public class Level
 		return getDirection(y * getWidth() + x);
 	}
 	
-	public int getStartX()
-	{
-		return startX;
-	}
-	
-	public int getStartY()
-	{
-		return startY;
-	}
-	
-	public Dir getStartingDirection()
-	{
-		return startDir;
-	}
-	
 	public Array<Enemy> getEnemies()
 	{
 		return enemies;
@@ -335,4 +299,20 @@ public class Level
 	{
 		return y * getWidth() + x;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected abstract int[] loadTiles();
+	
+	/**
+	 * 
+	 * @param waves
+	 */
+	protected abstract void loadWaves(LevelWave waves);
+	
+	public abstract int getStartX();
+	public abstract int getStartY();
+	public abstract Dir getStartDir();
 }

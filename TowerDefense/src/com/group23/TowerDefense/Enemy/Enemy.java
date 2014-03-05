@@ -28,7 +28,7 @@ public abstract class Enemy
 		setBaseStats();
 		distTraveled = 0;
 		path = map;
-		direction = path.getStartingDirection();	// Pulls starting direction from map
+		direction = path.getStartDir();	// Pulls starting direction from map
 		
 		// Converts from tile coordinates to pixel coordinates and centers 
 		// enemy in tile and offsets for image height and width

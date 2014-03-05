@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 import com.group23.TowerDefense.Level.Level;
+import com.group23.TowerDefense.Level.Level1;
 
 public class GameplayScreen implements Screen, InputProcessor{
 	
@@ -25,7 +26,7 @@ public class GameplayScreen implements Screen, InputProcessor{
 	public GameplayScreen(int level)
 	{
 		// initialize member variables
-		curLevel      = new Level();
+		curLevel      = new Level1();
 		touchPos      = new Vector3();
 		
 		camera = new OrthographicCamera();				
