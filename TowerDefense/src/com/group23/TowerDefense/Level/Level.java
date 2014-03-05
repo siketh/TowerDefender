@@ -10,6 +10,7 @@ import com.group23.TowerDefense.Dir;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.LevelWave;
 import com.group23.TowerDefense.Tower.Tower;
+import com.group23.TowerDefense.Tower.Tower1;
 
 public abstract class Level 
 {	
@@ -158,7 +159,7 @@ public abstract class Level
 		
 		// Update towers
 		for (Tower t : towers)
-			t.update(dt);
+			t.update();
 	}
 	
 	/**
@@ -193,7 +194,7 @@ public abstract class Level
 	public void placeTower(int x, int y)
 	{
 		if (canPlaceTower(x, y))
-			towers.add(new Tower(this, x, y));
+			towers.add(new Tower1(this, x, y));
 	}
 	
 	/**

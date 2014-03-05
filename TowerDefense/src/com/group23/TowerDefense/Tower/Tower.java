@@ -13,7 +13,7 @@ import com.group23.TowerDefense.TowerDefense;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Level.Level;
 
-public class Tower
+public abstract class Tower
 {
 	public  static Texture texture      = null;
 	private static final int texWidth  = 64;
@@ -32,12 +32,12 @@ public class Tower
 	private long lastShotFired;
 	
 	private Level map;
-	private Array<Enemy> targets;
+	protected Array<Enemy> targets;
 	private Array<Enemy> inRange;
 	
-	public int getDamage() { return 2; }
-	public float getRange() { return 250.0f; }
-	public long getCooldownTime() { return 100; }
+	public abstract int getDamage();
+	public abstract float getRange();
+	public abstract long getCooldownTime();
 	
 	public Tower(Level map, int x, int y) 
 	{
@@ -55,7 +55,7 @@ public class Tower
 		this.pos.y = y * 128 + 64;
 	}
 	
-	public void update(float dt)
+	public void update()
 	{
 		Iterator<Enemy> iter;
 		
@@ -64,10 +64,6 @@ public class Tower
 		while (iter.hasNext())
 			if (pos.dst(iter.next().getPosition()) > getRange())
 				iter.remove();
-		
-		// see if any new targets have entered range
-		// DEBUG all in range enemies are targets
-		targets = findInRangeTargets();
 		
 		// save variable so result are same
 		long ms = TimeUtils.millis();
@@ -112,10 +108,10 @@ public class Tower
 	}
 	
 	/**
-	 * Finds the closest Enemy in the map to the tower
-	 * @return The closest Enemy to the tower or null is no target found
+	 * Finds the closest target
+	 * @return The closest enemy or null if no such enemy
 	 */
-	private Enemy findClosestTarget()
+	protected Enemy findClosestTarget()
 	{
 		Array<Enemy> inRange = findInRangeTargets();
 		return inRange.size != 0 ? inRange.get(0) : null;
@@ -125,7 +121,7 @@ public class Tower
 	 * Finds an array of enemies within range
 	 * @return An array of enemies, sorted by closest first
 	 */
-	private Array<Enemy> findInRangeTargets()
+	protected Array<Enemy> findInRangeTargets()
 	{
 		Array<Enemy> enemies = map.getEnemies();
 		inRange.clear();
