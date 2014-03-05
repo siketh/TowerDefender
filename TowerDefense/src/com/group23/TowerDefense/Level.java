@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.Level1Spawner;
 import com.group23.TowerDefense.Tower.Tower;
+import com.group23.TowerDefense.UI.TowerBar;
 
 public class Level 
 {	
@@ -31,6 +32,8 @@ public class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	
+	private TowerBar tbar;
+	
 	private Level1Spawner spawner;
 	
 	/**
@@ -43,6 +46,8 @@ public class Level
 		towers  = new Array<Tower>();
 		spawner = new Level1Spawner(enemies, this);
 		spawner.startWave();
+		
+		tbar = new TowerBar();
 		
 		// initialize starting position
 		startX = 0;
@@ -192,6 +197,8 @@ public class Level
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
 				batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+		
+		tbar.draw(batch);
 		
 		// Draw enemies
 		for (Enemy e : enemies)

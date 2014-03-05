@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Tower.Tower;
+import com.group23.TowerDefense.UI.TowerBar;
 
 public class TowerDefense extends Game 
 {
@@ -41,6 +42,10 @@ public class TowerDefense extends Game
 		Level.textures[1] = new Texture(Gdx.files.internal("tile01.png"));
 		Level.textures[2] = new Texture(Gdx.files.internal("tile02.png"));
 		Level.textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+		
+		TowerBar.textures = new Texture[2];
+		TowerBar.textures[0] = new Texture(Gdx.files.internal("towerbar00.png"));
+		TowerBar.textures[1] = new Texture(Gdx.files.internal("towerbar01.png"));
 		
 		// initialize static batches
 		spriteBatch   = new SpriteBatch();
