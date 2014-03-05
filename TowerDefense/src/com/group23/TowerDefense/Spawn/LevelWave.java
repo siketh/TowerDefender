@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Enemy.Enemy1;
 import com.group23.TowerDefense.Enemy.Enemy2;
+import com.group23.TowerDefense.Level.Level;
 
 // TODO make LevelWave abstract
 public class LevelWave 
@@ -16,7 +17,7 @@ public class LevelWave
 	{
 		enemies = null;
 		waves = new Array<Wave>();
-		curWaveIndex = -1;
+		curWaveIndex = 0;
 		
 		load();
 	}
@@ -84,22 +85,25 @@ public class LevelWave
 		});
 	}
 	
-	public void start(Array<Enemy> enemies)
+	public void next(Array<Enemy> enemies)
 	{
 		this.enemies = enemies;
-		curWaveIndex++;
+		waves.get(curWaveIndex).start(enemies);
 	}
 	
-	public void update()
+	public void update(Level level)
 	{
 		if (isFinished() || !isPlaying())
 			return;
 		
 		Wave curWave = waves.get(curWaveIndex);
-		curWave.update();
+		curWave.update(level);
 		
 		if (curWave.isFinished() && enemies.size == 0)
+		{
 			enemies = null;
+			curWaveIndex++;
+		}
 	}
 	
 	/**
@@ -115,6 +119,6 @@ public class LevelWave
 	 */
 	public boolean isFinished()
 	{
-		return curWaveIndex != waves.size;
+		return curWaveIndex == waves.size;
 	}
 }

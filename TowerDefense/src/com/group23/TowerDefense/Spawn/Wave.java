@@ -1,9 +1,13 @@
 package com.group23.TowerDefense.Spawn;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.group23.TowerDefense.Enemy.Enemy;
+import com.group23.TowerDefense.Level.Level;
 
 public class Wave 
 {
@@ -51,26 +55,41 @@ public class Wave
 	 * Updates the wave, spawning enemies if their time to spawn has arrived.<br/>
 	 * <b>Note:</b> Only call after calling start() <i>once</i>
 	 */
-	public void update()
+	public void update(Level level)
 	{
 		long ms = TimeUtils.millis();
 		while (!isFinished() && 
-				ms - startSpawnTime >= spawn.keys[curSpawnIndex])
+				ms - startSpawnTime >= spawn.getKeyAt(curSpawnIndex).longValue())
 		{
-			try 
-			{
-				enemies.add(spawn.values[curSpawnIndex].newInstance());
-			} 
-			catch (InstantiationException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-			catch (IllegalAccessException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		
+				Class<? extends Enemy> type;
+				Constructor<? extends Enemy> constructor;
+				Enemy enemy;
+				
+				try {
+					type = spawn.getValueAt(curSpawnIndex);
+					constructor = type.getConstructor(Level.class);
+					enemy = constructor.newInstance(level);
+					enemies.add(enemy);
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			curSpawnIndex++;
 		}

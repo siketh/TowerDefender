@@ -45,7 +45,7 @@ public class Level
 		wave    = new LevelWave();
 		
 		// DEBUG start the first wave
-		wave.start(enemies);
+		wave.next(enemies);
 		
 		// initialize starting position
 		startX = 0;
@@ -167,7 +167,11 @@ public class Level
 	
 	public void update(float dt)
 	{
-		wave.update();
+		wave.update(this);
+		
+		// DEBUG
+		if (!wave.isPlaying() && !wave.isFinished())
+			wave.next(enemies);
 		
 		// Update enemies
 		for (Enemy e : enemies)
