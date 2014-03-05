@@ -1,8 +1,8 @@
-package com.group23.TowerDefense.Spawn;
+package com.group23.towerdefense.spawn;
 
 import com.badlogic.gdx.utils.Array;
-import com.group23.TowerDefense.Enemy.Enemy;
-import com.group23.TowerDefense.Level.Level;
+import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.level.Level;
 
 // TODO make LevelWave abstract
 public class LevelWave 

@@ -2,6 +2,7 @@ package com.group23.TowerDefense;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.group23.towerdefense.TowerDefense;
 
 public class Main {
 	public static void main(String[] args) {

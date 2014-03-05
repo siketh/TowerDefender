@@ -1,7 +1,7 @@
-package com.group23.TowerDefense.Tower;
+package com.group23.towerdefense.tower;
 
-import com.group23.TowerDefense.Enemy.Enemy;
-import com.group23.TowerDefense.Level.Level;
+import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.level.Level;
 
 public class Tower1 extends Tower 
 {

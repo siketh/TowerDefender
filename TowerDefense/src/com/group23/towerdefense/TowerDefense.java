@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.towerdefense;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.group23.TowerDefense.Enemy.Enemy;
-import com.group23.TowerDefense.Enemy.Enemy1;
-import com.group23.TowerDefense.Enemy.Enemy2;
-import com.group23.TowerDefense.Level.Level;
-import com.group23.TowerDefense.Tower.Tower;
+import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.enemy.Enemy1;
+import com.group23.towerdefense.enemy.Enemy2;
+import com.group23.towerdefense.level.Level;
+import com.group23.towerdefense.tower.Tower;
 
 public class TowerDefense extends Game 
 {

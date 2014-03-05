@@ -1,11 +1,11 @@
-package com.group23.TowerDefense.Enemy;
+package com.group23.towerdefense.enemy;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.group23.TowerDefense.Dir;
-import com.group23.TowerDefense.Level.Level;
+import com.group23.towerdefense.Dir;
+import com.group23.towerdefense.level.Level;
 
 public abstract class Enemy 
 {

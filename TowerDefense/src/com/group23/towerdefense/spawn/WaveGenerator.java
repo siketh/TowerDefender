@@ -1,4 +1,4 @@
-package com.group23.TowerDefense.Spawn;
+package com.group23.towerdefense.spawn;
 
 public interface WaveGenerator 
 {

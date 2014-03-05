@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.towerdefense;
 
 public enum Dir 
 {

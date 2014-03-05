@@ -1,11 +1,11 @@
-package com.group23.TowerDefense.Level;
+package com.group23.towerdefense.level;
 
-import com.group23.TowerDefense.Dir;
-import com.group23.TowerDefense.Enemy.Enemy1;
-import com.group23.TowerDefense.Enemy.Enemy2;
-import com.group23.TowerDefense.Spawn.LevelWave;
-import com.group23.TowerDefense.Spawn.Wave;
-import com.group23.TowerDefense.Spawn.WaveGenerator;
+import com.group23.towerdefense.Dir;
+import com.group23.towerdefense.enemy.Enemy1;
+import com.group23.towerdefense.enemy.Enemy2;
+import com.group23.towerdefense.spawn.LevelWave;
+import com.group23.towerdefense.spawn.Wave;
+import com.group23.towerdefense.spawn.WaveGenerator;
 
 public class Level1 extends Level 
 {

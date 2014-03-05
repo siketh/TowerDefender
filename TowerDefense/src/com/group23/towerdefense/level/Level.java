@@ -1,4 +1,4 @@
-package com.group23.TowerDefense.Level;
+package com.group23.towerdefense.level;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -6,11 +6,11 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.group23.TowerDefense.Dir;
-import com.group23.TowerDefense.Enemy.Enemy;
-import com.group23.TowerDefense.Spawn.LevelWave;
-import com.group23.TowerDefense.Tower.Tower;
-import com.group23.TowerDefense.Tower.Tower1;
+import com.group23.towerdefense.Dir;
+import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.spawn.LevelWave;
+import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.tower.Tower1;
 
 public abstract class Level 
 {	

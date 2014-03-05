@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.towerdefense;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

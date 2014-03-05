@@ -1,4 +1,4 @@
-package com.group23.TowerDefense;
+package com.group23.towerdefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
-import com.group23.TowerDefense.Level.Level;
-import com.group23.TowerDefense.Level.Level1;
+import com.group23.towerdefense.level.Level;
+import com.group23.towerdefense.level.Level1;
 
 public class GameplayScreen implements Screen, InputProcessor{
 	

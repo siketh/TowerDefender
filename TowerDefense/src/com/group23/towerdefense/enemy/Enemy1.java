@@ -1,22 +1,22 @@
-package com.group23.TowerDefense.Enemy;
+package com.group23.towerdefense.enemy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.group23.TowerDefense.Level.Level;
+import com.group23.towerdefense.level.Level;
 
-public class Enemy2 extends Enemy
+public class Enemy1 extends Enemy
 {
 	public static Texture texture;
 	
-	public Enemy2(Level map) 
+	public Enemy1(Level map) 
 	{
 		super(map);
 	}
 
 	protected void setBaseStats() 
 	{
-		hp = maxHP = 200;
-		moveSpeed = 64;
+		hp = maxHP = 100;
+		moveSpeed = 128;
 		texWidth = 64;
 		texHeight = 64;
 	}
