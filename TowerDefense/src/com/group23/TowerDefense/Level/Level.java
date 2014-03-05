@@ -301,14 +301,14 @@ public abstract class Level
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Generates the map tiles.
+	 * @return Tile array
 	 */
 	protected abstract int[] loadTiles();
 	
 	/**
-	 * 
-	 * @param waves
+	 * Generates the enemy spawn waves
+	 * @param waves The LevelWave to modify
 	 */
 	protected abstract void loadWaves(LevelWave waves);
 	

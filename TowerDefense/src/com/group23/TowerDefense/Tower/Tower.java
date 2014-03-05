@@ -1,6 +1,7 @@
 package com.group23.TowerDefense.Tower;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,13 +15,12 @@ import com.group23.TowerDefense.Level.Level;
 
 public class Tower
 {
-	public static Texture texture       = null;
+	public  static Texture texture      = null;
 	private static final int texWidth  = 64;
 	private static final int texHeight = 64;
 	
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
-	private int damage;
 	
 	// Tile index position in the map array
 	private int tile;
@@ -28,29 +28,25 @@ public class Tower
 	// World coordinate of tower
 	private Vector2 pos;
 	
-	// Range the tower has to acquire an an enemy
-	private float range;
-	
 	// Time in between shots
-	private long cooldown;
 	private long lastShotFired;
 	
 	private Level map;
-	private Enemy target;
+	private Array<Enemy> targets;
 	private Array<Enemy> inRange;
+	
+	public int getDamage() { return 2; }
+	public float getRange() { return 250.0f; }
+	public long getCooldownTime() { return 100; }
 	
 	public Tower(Level map, int x, int y) 
 	{
 		this.tile = y * map.getWidth() + x;
 		
-		this.range  = 250.0f;
-		this.damage = 2;
-		
 		this.map     = map;
-		this.target  = null;
+		this.targets = new Array<Enemy>();
 		this.inRange = new Array<Enemy>();
 		
-		this.cooldown = 100;
 		this.lastShotFired = TimeUtils.millis();
 		
 		// initialize position
@@ -61,23 +57,34 @@ public class Tower
 	
 	public void update(float dt)
 	{
-		// find a target if no target available or if current target exits range
-		if (target == null || pos.dst(target.getPosition()) > range)
-			target = findTarget();
-		else if(target != null)
+		Iterator<Enemy> iter;
+		
+		// remove any targets that left range
+		iter = targets.iterator();
+		while (iter.hasNext())
+			if (pos.dst(iter.next().getPosition()) > getRange())
+				iter.remove();
+		
+		// see if any new targets have entered range
+		// DEBUG all in range enemies are targets
+		targets = findInRangeTargets();
+		
+		// save variable so result are same
+		long ms = TimeUtils.millis();
+		
+		// attack the target(s) after cooldown
+		if (ms - lastShotFired >= getCooldownTime())
 		{
-			// save variable so result are same
-			long ms = TimeUtils.millis();
+			lastShotFired = ms;
 			
-			// attack the enemy after cooldown
-			if (ms - lastShotFired >= cooldown)
+			iter = targets.iterator();
+			while (iter.hasNext())
 			{
-				lastShotFired = ms;
-				
-				if (target.dealDamage(damage) <= 0)
+				Enemy e = iter.next();
+				if (e.dealDamage(getDamage()) <= 0)
 				{
-					map.removeEnemy(target);
-					target = findTarget();
+					iter.remove();
+					map.removeEnemy(e);
 				}
 			}
 		}
@@ -92,25 +99,34 @@ public class Tower
 		if (DEBUG_DRAWRANGE)
 		{
 			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-			shapeRenderer.circle(pos.x, pos.y, range);
+			shapeRenderer.circle(pos.x, pos.y, getRange());
 		}
 		
-		// draw the line to the target (if applicable)
-		if (DEBUG_DRAWTARGET && target != null)
-		{
-			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 0.5f);
-			shapeRenderer.line(pos, target.getPosition());
-		}
+		// draw the line(s) to the target(s) (if applicable)
+		if (DEBUG_DRAWTARGET)
+			for (Enemy e : targets)
+			{
+				shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 0.5f);
+				shapeRenderer.line(pos, e.getPosition());
+			}
 	}
 	
 	/**
 	 * Finds the closest Enemy in the map to the tower
 	 * @return The closest Enemy to the tower or null is no target found
 	 */
-	private Enemy findTarget()
+	private Enemy findClosestTarget()
 	{
-		Enemy target = null;
-		
+		Array<Enemy> inRange = findInRangeTargets();
+		return inRange.size != 0 ? inRange.get(0) : null;
+	}
+	
+	/**
+	 * Finds an array of enemies within range
+	 * @return An array of enemies, sorted by closest first
+	 */
+	private Array<Enemy> findInRangeTargets()
+	{
 		Array<Enemy> enemies = map.getEnemies();
 		inRange.clear();
 		
@@ -119,29 +135,20 @@ public class Tower
 		{
 			// find all enemies within range
 			for (Enemy e : enemies)
-				if (pos.dst(e.getPosition()) <= range)
+				if (pos.dst(e.getPosition()) <= getRange())
 					inRange.add(e);
 			
-			// must be at least one enemy in range
-			if (inRange.size == 1)
-				target = inRange.get(0);
-			else if (inRange.size > 1)
-			{
-				// sort the enemies in range by closest first
-				inRange.sort(new Comparator<Enemy>() {
-					public int compare(Enemy e1, Enemy e2) {
-						int dst1 = (int) pos.dst(e1.getPosition());
-						int dst2 = (int) pos.dst(e2.getPosition());
-						return dst1 - dst2;
-					}
-				});
-				
-				// set the target to the closest target
-				target = inRange.get(0);
-			}
+			// sort the enemies in range by closest first
+			inRange.sort(new Comparator<Enemy>() {
+				public int compare(Enemy e1, Enemy e2) {
+					int dst1 = (int) pos.dst(e1.getPosition());
+					int dst2 = (int) pos.dst(e2.getPosition());
+					return dst1 - dst2;
+				}
+			});
 		}
 
-		return target;
+		return inRange;
 	}
 
 	public int getTile()
