@@ -41,7 +41,7 @@ public abstract class Level
 		wave    = new LevelWave();
 		
 		// initialize tile array
-		tiles = loadTiles();
+		tiles = fixTiles(loadTiles());
 		
 		// initialize direction array
 		directions = new Dir[tiles.length];
@@ -299,6 +299,29 @@ public abstract class Level
 	private int convertTileToIndex(int x, int y)
 	{
 		return y * getWidth() + x;
+	}
+	
+	/**
+	 * Fixes tiles so they show exactly as they are rendered in the code
+	 * @param tiles
+	 * @return Fixed version of tiles
+	 */
+	private int[] fixTiles(int[] tiles)
+	{
+		for (int x = 0; x < getWidth(); x++)
+			for (int y = 0; y < getHeight()/2; y++)
+			{
+				int posA = y * getWidth() + x;
+				int posB = (getHeight() - y) * getWidth() - (getWidth() - x);
+				
+				System.out.printf("posA:%d;posB:%d\n", posA, posB);
+				
+				int swap = tiles[posA];
+				tiles[posA] = tiles[posB];
+				tiles[posB] = swap;
+			}
+		
+		return tiles;
 	}
 	
 	/**
