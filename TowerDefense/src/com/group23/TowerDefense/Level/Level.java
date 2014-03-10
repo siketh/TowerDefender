@@ -10,6 +10,8 @@ import com.group23.TowerDefense.Dir;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.LevelWave;
 import com.group23.TowerDefense.Tower.Tower;
+import com.group23.TowerDefense.UI.Button;
+import com.group23.TowerDefense.UI.TowerBar;
 
 public abstract class Level 
 {	
@@ -28,6 +30,9 @@ public abstract class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	private LevelWave wave;
+	
+	private TowerBar tbar = new TowerBar();
+	private Button menu = new Button();
 	
 	/**
 	 * Initializes the level class
@@ -171,6 +176,10 @@ public abstract class Level
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
 				batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+		
+		// Draw Bars
+		menu.draw(batch);
+		tbar.draw(batch);
 		
 		// Draw enemies
 		for (Enemy e : enemies)
