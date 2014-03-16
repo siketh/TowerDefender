@@ -48,7 +48,7 @@ public abstract class CircularRangeTower extends Tower
 		Vector2 pos = getPos();
 		
 		// draw the radius of the range
-		if (DEBUG_DRAWRANGE)
+		if (isSelected() && DEBUG_DRAWRANGE)
 		{
 			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
 			shapeRenderer.circle(pos.x, pos.y, getRange());

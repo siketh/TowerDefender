@@ -137,6 +137,8 @@ public class GameplayScreen implements Screen, InputProcessor
 						TowerFlag = 1;
 					else if (x == 5 && y == 0)
 						TowerFlag = 2;
+					else
+						curLevel.selectTower(x, y);
 
 					break;
 

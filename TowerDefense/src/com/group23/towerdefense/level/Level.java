@@ -304,18 +304,23 @@ public abstract class Level
 	public void selectTower(int x, int y)
 	{
 		final int index = convertTileToIndex(x, y);
-
-		Iterator<Tower> iter = towers.iterator();
-		while (iter.hasNext())
-		{
-			Tower t = iter.next();
-
+		for (Tower t : towers)
 			if (t.getTile() == index)
 			{
+				if (selectedTower != null)
+				{
+					selectedTower.setSelected(false);
+					if (selectedTower.hashCode() == t.hashCode())
+					{
+						selectedTower = null;
+						break;
+					}
+				}
+				
+				t.setSelected(true);
 				selectedTower = t;
 				break;
 			}
-		}
 	}
 
 	/**
