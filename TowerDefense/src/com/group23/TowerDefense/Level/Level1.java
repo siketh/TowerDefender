@@ -89,4 +89,10 @@ public class Level1 extends Level
 	{
 		return Dir.S;
 	}
+
+	@Override
+	protected void setStartingStats() {
+		playerGold = 500;
+		playerLives = 10;
+	}
 }
