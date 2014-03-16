@@ -13,9 +13,10 @@ public class TowerBar
 	public void draw(SpriteBatch batch)
 	{
 		batch.draw(textures[0], 512, 0);
-		for (int i = 5; i < 9; i++)
+		batch.draw(textures[1], 640, 0);
+		for (int i = 6; i < 9; i++)
 		{
-			batch.draw(textures[1], i * 128, 0);
+			batch.draw(textures[2], i * 128, 0);
 		}
 
 	}

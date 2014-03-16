@@ -62,9 +62,10 @@ public class TowerDefense extends Game
 		Level.textures[7] = new Texture(Gdx.files.internal("tile07.png"));
 		
 		
-		TowerBar.textures = new Texture[2];
+		TowerBar.textures = new Texture[3];
 		TowerBar.textures[0] = new Texture(Gdx.files.internal("towerbar00.png"));
 		TowerBar.textures[1] = new Texture(Gdx.files.internal("towerbar01.png"));
+		TowerBar.textures[2] = new Texture(Gdx.files.internal("towerbar03.png"));
 		
 		// initialize static batches
 		spriteBatch   = new SpriteBatch();
