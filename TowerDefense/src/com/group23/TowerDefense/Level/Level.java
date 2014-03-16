@@ -28,7 +28,7 @@ public abstract class Level
 	private Dir[] directions;
 	
 	//Player Statistics
-	private int playerGold;
+	protected int playerGold;
 	
 	private Array<Tower> towers;
 	private Tower selectedTower;
@@ -45,6 +45,7 @@ public abstract class Level
 	 */
 	public Level()
 	{
+		setStartingGold();
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
 		wave    = new LevelWave();
@@ -343,6 +344,12 @@ public abstract class Level
 	 * @return
 	 */
 	protected abstract int[] loadTiles();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected abstract int[] setStartingGold();
 	
 	/**
 	 * 
