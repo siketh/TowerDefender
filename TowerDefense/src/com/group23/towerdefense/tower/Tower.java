@@ -1,8 +1,5 @@
 package com.group23.towerdefense.tower;
 
-import java.util.Comparator;
-import java.util.Iterator;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -26,44 +23,37 @@ public abstract class Tower
 	private int tile;
 	
 	// World coordinate of tower
-	private Vector2 pos;
+	private Vector2 pos = new Vector2();
 	
 	// Time in between shots
-	private long lastShotFired;
+	private long lastShotFired = TimeUtils.millis();
 	
-	private Level map;
-	protected Array<Enemy> targets;
-	private Array<Enemy> inRange;
+	private Level level;
+	private Array<Enemy> targets = new Array<Enemy>();
 	
-	public abstract int getDamage();
-	public abstract float getRange();
-	public abstract long getCooldownTime();
+	private int damage = 0;
+	private long cooldownTime = 0L;
 	
-	public Tower(Level map, int x, int y) 
+	/**
+	 * Finds targets to attack and adds them to the input <code>Array</code>.
+	 * Place algorithms to search for target enemies in your overridden implementation.
+	 * 
+	 * @param targets The <code>Array</code> containing the target enemies
+	 */
+	abstract void findTargets(Array<Enemy> targets);
+	
+	public final void registerToLevel(Level level, int x, int y)
 	{
-		this.tile = y * map.getWidth() + x;
-		
-		this.map     = map;
-		this.targets = new Array<Enemy>();
-		this.inRange = new Array<Enemy>();
-		
-		this.lastShotFired = TimeUtils.millis();
-		
-		// initialize position
-		this.pos = new Vector2();
-		this.pos.x = x * 128 + 64;
-		this.pos.y = y * 128 + 64;
+		this.level = level;
+		this.tile = y * level.getWidth() + x;
+		this.pos.x = x * 128 + texWidth;
+		this.pos.y = y * 128 + texHeight;
 	}
 	
 	public void update()
 	{
-		Iterator<Enemy> iter;
-		
 		// remove any targets that left range
-		iter = targets.iterator();
-		while (iter.hasNext())
-			if (pos.dst(iter.next().getPosition()) > getRange())
-				iter.remove();
+		targets.clear();
 		
 		// save variable so result are same
 		long ms = TimeUtils.millis();
@@ -73,16 +63,15 @@ public abstract class Tower
 		{
 			lastShotFired = ms;
 			
-			iter = targets.iterator();
-			while (iter.hasNext())
-			{
-				Enemy e = iter.next();
+			/** 
+			 * Attack an enemy in the <code>targets</code> array.
+			 * If the enemy is dead, remove them from the map.
+			 * The <code>targets</code> array is cleared every update,
+			 * so its reference is destroyed.
+			 */
+			for (Enemy e : targets)
 				if (e.dealDamage(getDamage()) <= 0)
-				{
-					iter.remove();
-					map.removeEnemy(e);
-				}
-			}
+					level.removeEnemy(e);
 		}
 	}
 	
@@ -90,13 +79,6 @@ public abstract class Tower
 	{
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
-		
-		// draw the radius of the range
-		if (DEBUG_DRAWRANGE)
-		{
-			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-			shapeRenderer.circle(pos.x, pos.y, getRange());
-		}
 		
 		// draw the line(s) to the target(s) (if applicable)
 		if (DEBUG_DRAWTARGET)
@@ -107,48 +89,38 @@ public abstract class Tower
 			}
 	}
 	
-	/**
-	 * Finds the closest target
-	 * @return The closest enemy or null if no such enemy
-	 */
-	protected Enemy findClosestTarget()
+	public Level getMap()
 	{
-		Array<Enemy> inRange = findInRangeTargets();
-		return inRange.size != 0 ? inRange.get(0) : null;
-	}
-	
-	/**
-	 * Finds an array of enemies within range
-	 * @return An array of enemies, sorted by closest first
-	 */
-	protected Array<Enemy> findInRangeTargets()
-	{
-		Array<Enemy> enemies = map.getEnemies();
-		inRange.clear();
-		
-		// must be at least one enemy
-		if (enemies.size > 0)
-		{
-			// find all enemies within range
-			for (Enemy e : enemies)
-				if (pos.dst(e.getPosition()) <= getRange())
-					inRange.add(e);
-			
-			// sort the enemies in range by closest first
-			inRange.sort(new Comparator<Enemy>() {
-				public int compare(Enemy e1, Enemy e2) {
-					int dst1 = (int) pos.dst(e1.getPosition());
-					int dst2 = (int) pos.dst(e2.getPosition());
-					return dst1 - dst2;
-				}
-			});
-		}
-
-		return inRange;
+		return level;
 	}
 
 	public int getTile()
 	{
 		return tile;
+	}
+	
+	public Vector2 getPos()
+	{
+		return pos;
+	}
+
+	public int getDamage()
+	{
+		return damage;
+	}
+
+	public void setDamage(int damage)
+	{
+		this.damage = damage;
+	}
+
+	public long getCooldownTime()
+	{
+		return cooldownTime;
+	}
+
+	public void setCooldownTime(long cooldown)
+	{
+		this.cooldownTime = cooldown;
 	}
 }
