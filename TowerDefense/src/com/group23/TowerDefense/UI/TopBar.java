@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group23.TowerDefense.Level.Level;
 
-public class Button {
+public class TopBar {
 
 	public static BitmapFont health_font = null;
 	public static BitmapFont gold_font = null;
