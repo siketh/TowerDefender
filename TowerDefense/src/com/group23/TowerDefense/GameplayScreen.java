@@ -23,8 +23,6 @@ public class GameplayScreen implements Screen, InputProcessor{
 
 	private Vector3 touchPos;
 	
-	private int TowerFlag;
-	
 	public GameplayScreen(int level)
 	{
 		// initialize member variables
@@ -102,32 +100,15 @@ public class GameplayScreen implements Screen, InputProcessor{
 		int x  = (int)(touchPos.x) / 128;			// Converts to tile coordinates
 		int y  = (int)(touchPos.y) / 128;			// Converts to tile coordinates
 		
-		
-		if(TowerFlag == 0){
-			if (y < curLevel.getHeight())
-			{
-				switch (button)
-				{
-				case Buttons.LEFT:
-					if(x == 4 && y == 0){
-						TowerFlag = 1;
-						break;
-					}
-				
-				case Buttons.RIGHT: curLevel.removeTower(x, y); break;
-			
-				}
-			}
-		}
-		else{
-			
+		if (y < curLevel.getHeight())
+		{
 			switch (button)
 			{
-			case Buttons.LEFT: curLevel.placeTower(x, y); TowerFlag = 0; break;
-			case Buttons.RIGHT: TowerFlag = 0; break;
+			case Buttons.LEFT:  curLevel.placeTower(x, y);  break;
+			case Buttons.RIGHT: curLevel.removeTower(x, y); break;
 			}
-			
 		}
+		
 		return true;
 	}
 
