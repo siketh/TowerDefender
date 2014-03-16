@@ -66,7 +66,7 @@ public abstract class Level
 	{
 		int startTile = getStartY() * getWidth() + getStartX();
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		directions[startTile] = getStartDir();			// Set the starting cell/*
+		directions[15] = getStartDir();			// Set the starting cell/*
 		
 		boolean leftEdge; 				// True if current index is on the left edge of the map
 		boolean rightEdge;				// True if current index is on the right edge of the map
@@ -76,7 +76,7 @@ public abstract class Level
 		// DFS loop, start at whichever index the starting cell is
 		// Sets the direction FROM the current cell TO the next cell
 		// Runs as long as we aren't on a base cell
-		int i = startTile;	
+		int i = 15;	
 		while(tiles[i] != 2)
 		{
 			// Initialize edge cases to false
@@ -99,10 +99,10 @@ public abstract class Level
 			// already set the direction of the northern tile, set current tile's direction 
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
-			if(topEdge == false && tiles[i-getWidth()] == 1 && directions[i-getWidth()] == Dir.I)
+			if(topEdge == false && tiles[i-15] == 1 && directions[i-15] == Dir.I)
 			{
 				directions[i] = Dir.N;
-				i = i-getWidth();
+				i = i-15;
 			}
 			// East is 1 tile forward
 			else if(rightEdge == false && tiles[i+1] == 1 && directions[i+1] == Dir.I)
@@ -111,10 +111,10 @@ public abstract class Level
 				i = i+1;
 			}
 			// South is 15 tiles forward
-			else if(bottomEdge == false && tiles[i+getWidth()] == 1 && directions[i+getWidth()] == Dir.I)
+			else if(bottomEdge == false && tiles[i+15] == 1 && directions[i+15] == Dir.I)
 			{
 				directions[i] = Dir.S;
-				i = i+getWidth();
+				i = i+15;
 			}
 			// West is 1 tile backwards
 			else if(leftEdge == false && tiles[i-1] == 1 && directions[i-1] == Dir.I)
@@ -123,28 +123,28 @@ public abstract class Level
 				i = i-1;
 			}
 			// NE is 14 tiles backwards
-			else if(topEdge == false && rightEdge == false && tiles[i-getWidth()-1] == 1 && directions[i-getWidth()-1] == Dir.I)
+			else if(topEdge == false && rightEdge == false && tiles[i-14] == 1 && directions[i-14] == Dir.I)
 			{
 				directions[i] = Dir.NE;
-				i = i-getWidth()-1;
+				i = i-14;
 			}
 			// SE is 16 tiles forwards
-			else if(bottomEdge == false && rightEdge == false && tiles[i+getWidth()+1] == 1 && directions[i+getWidth()+1] == Dir.I)
+			else if(bottomEdge == false && rightEdge == false && tiles[i+16] == 1 && directions[i+16] == Dir.I)
 			{
 				directions[i] = Dir.SE;
-				i = i+getWidth()+1;
+				i = i+16;
 			}
 			// SW is 14 tiles forwards
-			else if(bottomEdge == false && leftEdge == false && tiles[i+getWidth()-1] == 1 && directions[i+getWidth()-1] == Dir.I)
+			else if(bottomEdge == false && leftEdge == false && tiles[i+14] == 1 && directions[i+14] == Dir.I)
 			{
 				directions[i] = Dir.SW;
-				i = i+getWidth()-1;
+				i = i+14;
 			}
 			// NW is 16 tiles backwards
-			else if(topEdge == false && leftEdge == false && tiles[i-getWidth()+1] == 1 && directions[i-getWidth()+1] == Dir.I)
+			else if(topEdge == false && leftEdge == false && tiles[i-16] == 1 && directions[i-16] == Dir.I)
 			{
 				directions[i] = Dir.NW;
-				i = i-getWidth()+1;
+				i = i-16;
 			}
 			
 			else
