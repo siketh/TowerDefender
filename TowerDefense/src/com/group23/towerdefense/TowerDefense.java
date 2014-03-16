@@ -28,7 +28,7 @@ public class TowerDefense extends Game
 	@Override
 	// Essentially just loads the game
 	public void create() 
-	{		
+	{
 		game = this;
 		
 		// set debug variables
@@ -39,9 +39,7 @@ public class TowerDefense extends Game
 		Enemy.font     = new BitmapFont();
 		TopBar.health_font = new BitmapFont();
 		TopBar.gold_font = new BitmapFont();
-		
-		Enemy1.texture = ResourceManager.loadTexture("enemy01.png"); 
-		Enemy2.texture = ResourceManager.loadTexture("enemy02.png");
+		 
 		TopBar.texture = ResourceManager.loadTexture("button.png");
 		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
 		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
@@ -62,6 +60,7 @@ public class TowerDefense extends Game
 		TowerBar.textures = new Texture[2];
 		TowerBar.textures[0] = ResourceManager.loadTexture("towerbar00.png");
 		TowerBar.textures[1] = ResourceManager.loadTexture("towerbar01.png");
+		//TowerBar.textures[2] = ResourceManager.loadTexture("towerbar03.png");
 		
 		// initialize static batches
 		spriteBatch   = new SpriteBatch();
