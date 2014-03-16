@@ -345,6 +345,11 @@ public abstract class Level
 		return towers.size < MAX_TOWERS;
 	}
 	
+	/**
+	 * Return the direction of the start of the path
+	 * 
+	 * @return The direction of the start of the path
+	 */
 	public Dir getStartDir() 
 	{
 		return directions[getStart()];
