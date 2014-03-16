@@ -35,6 +35,7 @@ public abstract class Tower
 	
 	private int damage = 0;
 	private long cooldownTime = 0L;
+	private int goldCost = 0;
 	
 	/**
 	 * Finds targets to attack and adds them to the input <code>Array</code>.
@@ -130,5 +131,15 @@ public abstract class Tower
 	public void setCooldownTime(long cooldown)
 	{
 		this.cooldownTime = cooldown;
+	}
+
+	public int getGoldCost()
+	{
+		return goldCost;
+	}
+
+	public void setGoldCost(int goldCost)
+	{
+		this.goldCost = goldCost;
 	}
 }
