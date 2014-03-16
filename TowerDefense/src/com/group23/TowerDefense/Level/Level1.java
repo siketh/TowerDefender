@@ -91,8 +91,7 @@ public class Level1 extends Level
 	}
 
 	@Override
-	protected int[] setStartingGold() {
+	protected void setStartingGold() {
 		playerGold = 500;
-		return null;
 	}
 }

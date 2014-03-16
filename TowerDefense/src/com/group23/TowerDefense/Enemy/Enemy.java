@@ -19,6 +19,7 @@ public abstract class Enemy
 	protected Level path;								// Points to level 
 	protected int curTile;							// Stores current tile index of enemy
 	protected float distTraveled;						// Stores distance traveled since last new tile
+	protected int goldValue;						//Stores the enemies value in gold
 	
 	private Color color;
 
@@ -185,5 +186,11 @@ public abstract class Enemy
 		color.b = (from.b * mult) + (to.b * inv);
 		
 		return color;
+	}
+
+	public void rewardGold() 
+	{
+		path.giveGold(goldValue);
+		goldValue = 0; //So its not accidentally given twice.
 	}
 }

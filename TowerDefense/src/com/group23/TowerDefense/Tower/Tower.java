@@ -31,6 +31,8 @@ public class Tower
 	// Range the tower has to acquire an an enemy
 	private float range;
 	
+	private int goldCost;
+	
 	// Time in between shots
 	private long cooldown;
 	private long lastShotFired;
@@ -41,6 +43,7 @@ public class Tower
 	
 	public Tower(Level map, int x, int y) 
 	{
+		this.goldCost = 100;
 		this.tile = y * map.getWidth() + x;
 		
 		this.range  = 250.0f;
@@ -76,6 +79,7 @@ public class Tower
 				
 				if (target.dealDamage(damage) <= 0)
 				{
+					target.rewardGold();
 					map.removeEnemy(target);
 					target = findTarget();
 				}
@@ -150,5 +154,10 @@ public class Tower
 	public int getTile()
 	{
 		return tile;
+	}
+	
+	public int getCost()
+	{
+		return goldCost;
 	}
 }

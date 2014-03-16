@@ -28,7 +28,7 @@ public abstract class Level
 	private Dir[] directions;
 	
 	//Player Statistics
-	protected int playerGold;
+	int playerGold;
 	
 	private Array<Tower> towers;
 	private Tower selectedTower;
@@ -215,7 +215,18 @@ public abstract class Level
 	public void placeTower(int x, int y)
 	{
 		if (canPlaceTower(x, y))
-			towers.add(new Tower(this, x, y));
+		{
+			Tower temp = new Tower(this, x, y);
+			if(temp.getCost() <= playerGold)
+			{
+				towers.add(temp);
+				playerGold -= temp.getCost();
+			}
+			else
+			{
+				temp = null;
+			}
+		}
 	}
 	
 	/**
@@ -349,7 +360,7 @@ public abstract class Level
 	 * 
 	 * @return
 	 */
-	protected abstract int[] setStartingGold();
+	protected abstract void setStartingGold();
 	
 	/**
 	 * 
@@ -360,4 +371,9 @@ public abstract class Level
 	public abstract int getStartX();
 	public abstract int getStartY();
 	public abstract Dir getStartDir();
+
+	public void giveGold(int goldValue) 
+	{
+		playerGold += goldValue;		
+	}
 }

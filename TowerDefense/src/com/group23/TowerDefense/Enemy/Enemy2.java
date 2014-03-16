@@ -19,6 +19,7 @@ public class Enemy2 extends Enemy
 		moveSpeed = 64;
 		texWidth = 64;
 		texHeight = 64;
+		goldValue = 30;
 	}
 	
 	public void draw(SpriteBatch batch)
