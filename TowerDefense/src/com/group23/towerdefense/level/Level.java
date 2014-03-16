@@ -20,7 +20,7 @@ public abstract class Level
 	public static Texture background;
 
 	public static Texture[] textures;
-	
+
 	// Level constants
 	private final static int NUM_TILES_WIDTH = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
@@ -30,20 +30,19 @@ public abstract class Level
 	private int[] tiles;
 	private Dir[] directions;
 
-	
-	//Player Statistics
+	// Player Statistics
 	int playerGold;
 	int playerLives;
-	
+
 	private Array<Tower> towers;
 	private Tower selectedTower;
-	
+
 	private Array<Enemy> enemies;
 	private LevelWave wave;
 
 	private TowerBar tbar = new TowerBar();
 	private TopBar menu = new TopBar();
-	
+
 	/**
 	 * Initializes the level class For now, the level uses a pre-defined tile
 	 * array and direction array
@@ -52,11 +51,11 @@ public abstract class Level
 	{
 		setStartingStats();
 		enemies = new Array<Enemy>();
-		
-		towers  = new Array<Tower>();
-		wave    = new LevelWave();
+
+		towers = new Array<Tower>();
+		wave = new LevelWave();
 		selectedTower = null;
-		
+
 		// initialize tile array
 		tiles = loadTiles();
 
@@ -76,14 +75,17 @@ public abstract class Level
 	// Creates a direction map for enemies to follow, based off of the tile map
 	private void createDirMap()
 	{
-		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		directions[15] = getStartDir();			// Set the starting cell
-		
-		boolean leftEdge; 				// True if current index is on the left edge of the map
-		boolean rightEdge;				// True if current index is on the right edge of the map
-		boolean topEdge;				// True if current index is on the top edge of the map
-		boolean bottomEdge;				// True if current index is on the bottom edge of the map
-		
+		Arrays.fill(directions, Dir.I); // Initialize all cells to invalid
+		directions[15] = getStartDir(); // Set the starting cell
+
+		boolean leftEdge; // True if current index is on the left edge of the
+							// map
+		boolean rightEdge; // True if current index is on the right edge of the
+							// map
+		boolean topEdge; // True if current index is on the top edge of the map
+		boolean bottomEdge; // True if current index is on the bottom edge of
+							// the map
+
 		// DFS loop, start at whichever index the starting cell is
 		// Sets the direction FROM the current cell TO the next cell
 		// Runs as long as we aren't on a base cell
@@ -112,28 +114,31 @@ public abstract class Level
 			// tile's direction
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
-			if (topEdge == false && tiles[i - 15] == 1
+			if (topEdge == false && (tiles[i - 15] == 1 || tiles[i - 15] == 2)
 					&& directions[i - 15] == Dir.I)
 			{
 				directions[i] = Dir.N;
 				i = i - 15;
 			}
 			// East is 1 tile forward
-			else if (rightEdge == false && tiles[i + 1] == 1
+			else if (rightEdge == false
+					&& (tiles[i + 1] == 1 || tiles[i + 1] == 2)
 					&& directions[i + 1] == Dir.I)
 			{
 				directions[i] = Dir.E;
 				i = i + 1;
 			}
 			// South is 15 tiles forward
-			else if (bottomEdge == false && tiles[i + 15] == 1
+			else if (bottomEdge == false
+					&& (tiles[i + 15] == 1 || tiles[i + 15] == 2)
 					&& directions[i + 15] == Dir.I)
 			{
 				directions[i] = Dir.S;
 				i = i + 15;
 			}
 			// West is 1 tile backwards
-			else if (leftEdge == false && tiles[i - 1] == 1
+			else if (leftEdge == false
+					&& (tiles[i - 1] == 1 || tiles[i - 1] == 2)
 					&& directions[i - 1] == Dir.I)
 			{
 				directions[i] = Dir.W;
@@ -141,43 +146,49 @@ public abstract class Level
 			}
 			// NE is 14 tiles backwards
 			else if (topEdge == false && rightEdge == false
-					&& tiles[i - 14] == 1 && directions[i - 14] == Dir.I)
+					&& (tiles[i - 14] == 1 || tiles[i - 14] == 2)
+					&& directions[i - 14] == Dir.I)
 			{
 				directions[i] = Dir.NE;
 				i = i - 14;
 			}
 			// SE is 16 tiles forwards
 			else if (bottomEdge == false && rightEdge == false
-					&& tiles[i + 16] == 1 && directions[i + 16] == Dir.I)
+					&& (tiles[i + 16] == 1 || tiles[i + 16] == 2)
+					&& directions[i + 16] == Dir.I)
 			{
 				directions[i] = Dir.SE;
 				i = i + 16;
 			}
 			// SW is 14 tiles forwards
 			else if (bottomEdge == false && leftEdge == false
-					&& tiles[i + 14] == 1 && directions[i + 14] == Dir.I)
+					&& (tiles[i + 14] == 1 || tiles[i + 14] == 2)
+					&& directions[i + 14] == Dir.I)
 			{
 				directions[i] = Dir.SW;
 				i = i + 14;
 			}
 			// NW is 16 tiles backwards
 			else if (topEdge == false && leftEdge == false
-					&& tiles[i - 16] == 1 && directions[i - 16] == Dir.I)
+					&& (tiles[i - 16] == 1 || tiles[i - 16] == 2)
+					&& directions[i - 16] == Dir.I)
 			{
 				directions[i] = Dir.NW;
 				i = i - 16;
 			}
+			else
+				break;
 		}
 		// Loop exited since we are on a base tile, so make this the end tile
 		directions[i] = Dir.End;
 	}
 
-	
 	/**
-	 * Updates the positions and values of all the enemies, 
-	 * towers and wave spawning system.
+	 * Updates the positions and values of all the enemies, towers and wave
+	 * spawning system.
 	 * 
-	 * @param dt The amount of time since the last update
+	 * @param dt
+	 *            The amount of time since the last update
 	 */
 	public void update(float dt)
 	{
@@ -204,14 +215,14 @@ public abstract class Level
 	public void draw(SpriteBatch batch)
 	{
 		// Draw background
-		batch.draw(background, 0,0);
-		
+		batch.draw(background, 0, 0);
+
 		// Draws level tiles
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
-				if(getTile(x,y) != 0)
+				if (getTile(x, y) != 0)
 					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
-		
+
 		// Draw Bars
 		menu.draw(batch, this);
 		tbar.draw(batch);
@@ -222,9 +233,9 @@ public abstract class Level
 
 		// Draw towers
 		for (Tower t : towers)
-			t.draw(batch);	
-		
-		if(selectedTower != null)
+			t.draw(batch);
+
+		if (selectedTower != null)
 			selectedTower.draw(batch);
 	}
 
@@ -285,18 +296,20 @@ public abstract class Level
 	/**
 	 * Selects a tower on a tile-coordinate position
 	 * 
-	 * @param x Tile x-coordinate to select tower
-	 * @param y Tile y-coordinate to select tower
+	 * @param x
+	 *            Tile x-coordinate to select tower
+	 * @param y
+	 *            Tile y-coordinate to select tower
 	 */
 	public void selectTower(int x, int y)
 	{
 		final int index = convertTileToIndex(x, y);
-		
+
 		Iterator<Tower> iter = towers.iterator();
 		while (iter.hasNext())
 		{
 			Tower t = iter.next();
-			
+
 			if (t.getTile() == index)
 			{
 				selectedTower = t;
@@ -304,7 +317,7 @@ public abstract class Level
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks if a tower can be placed on a tile coordinate position
 	 * 
@@ -328,8 +341,7 @@ public abstract class Level
 
 		return towers.size < MAX_TOWERS;
 	}
-	
-	
+
 	/**
 	 * Return the tile index of the end of the path
 	 * 
@@ -338,11 +350,11 @@ public abstract class Level
 	public int getEnd()
 	{
 		int i = 0;
-		while(tiles[i] != 2)
+		while (tiles[i] != 2)
 			i++;
 		return i;
 	}
-	
+
 	/**
 	 * Returns the number of tiles wide the tilemap is
 	 * 
@@ -352,7 +364,7 @@ public abstract class Level
 	{
 		return NUM_TILES_WIDTH;
 	}
-	
+
 	/**
 	 * Returns the number of tiles high the tilemap is
 	 * 
@@ -362,34 +374,38 @@ public abstract class Level
 	{
 		return NUM_TILES_HEIGHT;
 	}
-	
+
 	/**
 	 * Returns the tile value of a specific tile
 	 * 
-	 * @param tile The tile you want the value of
+	 * @param tile
+	 *            The tile you want the value of
 	 * @return The tile value
 	 */
 	public int getTile(int tile)
 	{
 		return tiles[tile];
 	}
-	
+
 	/**
 	 * Returns the tile value of a specific tile
 	 * 
-	 * @param x The column of the tile
-	 * @param y The row of the tile
+	 * @param x
+	 *            The column of the tile
+	 * @param y
+	 *            The row of the tile
 	 * @return The tile value
 	 */
 	public int getTile(int x, int y)
 	{
 		return getTile(y * getWidth() + x);
 	}
-	
+
 	/**
 	 * Returns the Direction of the tile index
 	 * 
-	 * @param tile Index of the tile to find the direction for
+	 * @param tile
+	 *            Index of the tile to find the direction for
 	 * @return Direction of the tile
 	 */
 	public Dir getDirection(int tile)
@@ -402,7 +418,7 @@ public abstract class Level
 	{
 		return getDirection(y * getWidth() + x);
 	}
-	
+
 	/**
 	 * Returns the Array of Enemies
 	 * 
@@ -412,11 +428,12 @@ public abstract class Level
 	{
 		return enemies;
 	}
-	
+
 	/**
 	 * Removes an enemy from the enemy array
 	 * 
-	 * @param enemy The enemy to be Removed
+	 * @param enemy
+	 *            The enemy to be Removed
 	 */
 	public void removeEnemy(Enemy enemy)
 	{
@@ -424,17 +441,18 @@ public abstract class Level
 	}
 
 	/**
-	 * Removes an enemy from the enemy array and subtracts their lives
-	 * from the players lives
+	 * Removes an enemy from the enemy array and subtracts their lives from the
+	 * players lives
 	 * 
-	 * @param enemy The enemy to be Removed
+	 * @param enemy
+	 *            The enemy to be Removed
 	 */
 	public void enemyReachedEnd(Enemy enemy)
 	{
 		playerLives -= enemy.getLives();
 		enemies.removeValue(enemy, false);
 	}
-	
+
 	/**
 	 * Converts a tile coordinate to index coordinate
 	 * 
@@ -494,18 +512,20 @@ public abstract class Level
 	public abstract int getStartY();
 
 	public abstract Dir getStartDir();
+
 	protected abstract void setStartingStats();
 
 	/**
 	 * Adds gold to the player
 	 * 
-	 * @param goldValue The amount of gold to be added
+	 * @param goldValue
+	 *            The amount of gold to be added
 	 */
-	public void giveGold(int goldValue) 
+	public void giveGold(int goldValue)
 	{
-		playerGold += goldValue;		
+		playerGold += goldValue;
 	}
-	
+
 	/**
 	 * Returns the amount of gold the player has
 	 * 
@@ -515,7 +535,7 @@ public abstract class Level
 	{
 		return playerGold;
 	}
-	
+
 	/**
 	 * Returns the amount of lives the player has
 	 * 
