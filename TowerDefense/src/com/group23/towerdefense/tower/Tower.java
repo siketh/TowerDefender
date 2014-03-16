@@ -1,5 +1,7 @@
 package com.group23.towerdefense.tower;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -53,7 +55,6 @@ public abstract class Tower
 	public void update()
 	{
 		// remove any targets that left range
-		targets.clear();
 		findTargets(targets);
 		
 		// save variable so result are same
@@ -66,13 +67,19 @@ public abstract class Tower
 			
 			/** 
 			 * Attack an enemy in the <code>targets</code> array.
-			 * If the enemy is dead, remove them from the map.
-			 * The <code>targets</code> array is cleared every update,
-			 * so its reference is destroyed.
+			 * If the enemy is dead, remove them from the map and
+			 * the <code>targets</code> array.
 			 */
-			for (Enemy e : targets)
+			Iterator<Enemy> iter = targets.iterator();
+			while (iter.hasNext())
+			{
+				Enemy e = iter.next();
 				if (e.dealDamage(getDamage()) <= 0)
+				{
 					level.removeEnemy(e);
+					iter.remove();
+				}
+			}
 		}
 	}
 	

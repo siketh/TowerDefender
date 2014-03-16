@@ -24,6 +24,7 @@ public abstract class CircularRangeTower extends Tower
 	@Override
 	protected void findTargets(Array<Enemy> targets)
 	{
+		targets.clear();
 		Array<Enemy> enemies = getMap().getEnemies();
 		
 		// must be at least one enemy

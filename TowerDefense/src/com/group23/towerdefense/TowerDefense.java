@@ -12,6 +12,7 @@ import com.group23.towerdefense.enemy.Enemy1;
 import com.group23.towerdefense.enemy.Enemy2;
 import com.group23.towerdefense.level.Level;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.ui.Button;
 import com.group23.towerdefense.ui.TowerBar;
 
 public class TowerDefense extends Game 
