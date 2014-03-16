@@ -64,7 +64,7 @@ public abstract class Level
 	private void createDirMap()
 	{
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		directions[15] = getStartDir();			// Set the starting cell
+		directions[15] = getStartDir();			// Set the starting cell/*
 		
 		boolean leftEdge; 				// True if current index is on the left edge of the map
 		boolean rightEdge;				// True if current index is on the right edge of the map
@@ -83,7 +83,7 @@ public abstract class Level
 			topEdge = false;
 			bottomEdge = false;
 			
-			// Determine if we are CURRENTLY on an edge
+			// Determine if we are currently on an edge
 			if(i % getWidth() == 0) 
 				leftEdge = true;
 			if(i % getWidth() == getWidth() - 1)
@@ -97,53 +97,56 @@ public abstract class Level
 			// already set the direction of the northern tile, set current tile's direction 
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
-			if(topEdge == false && tiles[i-15] != 0 && directions[i-15] == Dir.I)
+			if(topEdge == false && tiles[i-15] == 1 && directions[i-15] == Dir.I)
 			{
 				directions[i] = Dir.N;
 				i = i-15;
 			}
 			// East is 1 tile forward
-			else if(rightEdge == false && tiles[i+1] != 0 && directions[i+1] == Dir.I)
+			else if(rightEdge == false && tiles[i+1] == 1 && directions[i+1] == Dir.I)
 			{	
 				directions[i] = Dir.E;
 				i = i+1;
 			}
 			// South is 15 tiles forward
-			else if(bottomEdge == false && tiles[i+15] != 0 && directions[i+15] == Dir.I)
+			else if(bottomEdge == false && tiles[i+15] == 1 && directions[i+15] == Dir.I)
 			{
 				directions[i] = Dir.S;
 				i = i+15;
 			}
 			// West is 1 tile backwards
-			else if(leftEdge == false && tiles[i-1] != 0 && directions[i-1] == Dir.I)
+			else if(leftEdge == false && tiles[i-1] == 1 && directions[i-1] == Dir.I)
 			{
 				directions[i] = Dir.W;
 				i = i-1;
 			}
 			// NE is 14 tiles backwards
-			else if(topEdge == false && rightEdge == false && tiles[i-14] != 0 && directions[i-14] == Dir.I)
+			else if(topEdge == false && rightEdge == false && tiles[i-14] == 1 && directions[i-14] == Dir.I)
 			{
 				directions[i] = Dir.NE;
 				i = i-14;
 			}
 			// SE is 16 tiles forwards
-			else if(bottomEdge == false && rightEdge == false && tiles[i+16] != 0 && directions[i+16] == Dir.I)
+			else if(bottomEdge == false && rightEdge == false && tiles[i+16] == 1 && directions[i+16] == Dir.I)
 			{
 				directions[i] = Dir.SE;
 				i = i+16;
 			}
 			// SW is 14 tiles forwards
-			else if(bottomEdge == false && leftEdge == false && tiles[i+14] != 0 && directions[i+14] == Dir.I)
+			else if(bottomEdge == false && leftEdge == false && tiles[i+14] == 1 && directions[i+14] == Dir.I)
 			{
 				directions[i] = Dir.SW;
 				i = i+14;
 			}
 			// NW is 16 tiles backwards
-			else if(topEdge == false && leftEdge == false && tiles[i-16] != 0 && directions[i-16] == Dir.I)
+			else if(topEdge == false && leftEdge == false && tiles[i-16] == 1 && directions[i-16] == Dir.I)
 			{
 				directions[i] = Dir.NW;
 				i = i-16;
 			}
+			
+			else
+				break;
 		}	
 		// Loop exited since we are on a base tile, so make this the end tile
 		directions[i] = Dir.End;
