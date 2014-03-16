@@ -7,7 +7,7 @@ public class DirectAttackTower extends SingleTargetCircularRangeTower
 	{
 		setCooldownTime(100L);
 		setRange(250.0f);
-		setDamage(2);
+		setDamage(4);
 		setGoldCost(100);
 	}
 }

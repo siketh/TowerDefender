@@ -4,7 +4,7 @@ public class DirectMultiAttackTower extends CircularRangeTower
 {
 	public DirectMultiAttackTower()
 	{
-		setCooldownTime(100L);
+		setCooldownTime(150L);
 		setDamage(2);
 		setRange(250.0f);
 		setGoldCost(100);
