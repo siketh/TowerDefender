@@ -10,7 +10,7 @@ import com.group23.TowerDefense.Dir;
 import com.group23.TowerDefense.Enemy.Enemy;
 import com.group23.TowerDefense.Spawn.LevelWave;
 import com.group23.TowerDefense.Tower.Tower;
-import com.group23.TowerDefense.UI.Button;
+import com.group23.TowerDefense.UI.TopBar;
 import com.group23.TowerDefense.UI.TowerBar;
 
 public abstract class Level 
@@ -39,7 +39,7 @@ public abstract class Level
 	private LevelWave wave;
 	
 	private TowerBar tbar = new TowerBar();
-	private Button menu = new Button();
+	private TopBar menu = new TopBar();
 	
 	/**
 	 * Initializes the level class
@@ -202,7 +202,7 @@ public abstract class Level
 			}
 		
 		// Draw Bars
-		menu.draw(batch);
+		menu.draw(batch, this);
 		tbar.draw(batch);
 		
 		// Draw enemies
