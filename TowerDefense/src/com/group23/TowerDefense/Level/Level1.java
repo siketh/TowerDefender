@@ -91,7 +91,8 @@ public class Level1 extends Level
 	}
 
 	@Override
-	protected void setStartingGold() {
+	protected void setStartingStats() {
 		playerGold = 500;
+		playerLives = 10;
 	}
 }

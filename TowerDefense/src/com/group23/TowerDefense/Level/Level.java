@@ -29,6 +29,7 @@ public abstract class Level
 	
 	//Player Statistics
 	int playerGold;
+	int playerLives;
 	
 	private Array<Tower> towers;
 	private Tower selectedTower;
@@ -45,7 +46,7 @@ public abstract class Level
 	 */
 	public Level()
 	{
-		setStartingGold();
+		setStartingStats();
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
 		wave    = new LevelWave();
@@ -422,7 +423,7 @@ public abstract class Level
 	public abstract int getStartX();
 	public abstract int getStartY();
 	public abstract Dir getStartDir();
-	protected abstract void setStartingGold();
+	protected abstract void setStartingStats();
 
 	/**
 	 * Adds gold to the player
@@ -432,5 +433,15 @@ public abstract class Level
 	public void giveGold(int goldValue) 
 	{
 		playerGold += goldValue;		
+	}
+	
+	/**
+	 * Returns the amount of gold the player has
+	 * 
+	 * @return The amount of gold the player has
+	 */
+	public int getGold()
+	{
+		return playerGold;
 	}
 }
