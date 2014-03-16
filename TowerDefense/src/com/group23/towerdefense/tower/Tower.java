@@ -80,6 +80,7 @@ public abstract class Tower
 				Enemy e = iter.next();
 				if (e.dealDamage(getDamage()) <= 0)
 				{
+					e.rewardGold();
 					level.removeEnemy(e);
 					iter.remove();
 				}
