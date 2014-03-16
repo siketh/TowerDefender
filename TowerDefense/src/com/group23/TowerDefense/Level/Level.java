@@ -203,7 +203,7 @@ public abstract class Level
 			}
 		
 		// Draw Bars
-		menu.draw(batch);
+		menu.draw(batch, this);
 		tbar.draw(batch);
 		
 		// Draw enemies
