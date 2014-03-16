@@ -12,7 +12,7 @@ import com.group23.towerdefense.enemy.Enemy1;
 import com.group23.towerdefense.enemy.Enemy2;
 import com.group23.towerdefense.level.Level;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.ui.Button;
+import com.group23.towerdefense.ui.TopBar;
 import com.group23.towerdefense.ui.TowerBar;
 
 public class TowerDefense extends Game 
@@ -36,16 +36,19 @@ public class TowerDefense extends Game
 		Tower.DEBUG_DRAWRANGE  = true;
 		Tower.DEBUG_DRAWTARGET = true;
 		
-		// initialize textures
+		// initialize textures and fonts
 		Enemy.font     = new BitmapFont();
+		TopBar.health_font = new BitmapFont();
+		TopBar.gold_font = new BitmapFont();
+		
 		Enemy1.texture = new Texture(Gdx.files.internal("enemy01.png")); 
 		Enemy2.texture = new Texture(Gdx.files.internal("enemy02.png"));
 		Tower.texture  = new Texture(Gdx.files.internal("tower00.png"));
-		Button.texture = new Texture(Gdx.files.internal("button.png"));
-		Button.start_b = new Texture(Gdx.files.internal("start_b.png"));
-		Button.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
-		Button.health  = new Texture(Gdx.files.internal("health.png"));
-		Button.gold    = new Texture(Gdx.files.internal("gold.png"));
+		TopBar.texture = new Texture(Gdx.files.internal("button.png"));
+		TopBar.start_b = new Texture(Gdx.files.internal("start_b.png"));
+		TopBar.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
+		TopBar.health  = new Texture(Gdx.files.internal("health.png"));
+		TopBar.gold    = new Texture(Gdx.files.internal("gold.png"));
 		
 		Level.background = new Texture(Gdx.files.internal("background.png"));
 		Level.textures    = new Texture[8];
@@ -79,11 +82,11 @@ public class TowerDefense extends Game
 			t.dispose();
 		Level.background.dispose();
 		Tower.texture.dispose();
-		Button.texture.dispose();
-		Button.start_b.dispose();;
-		Button.tower_b.dispose();
-		Button.health.dispose();
-		Button.gold.dispose();
+		TopBar.texture.dispose();
+		TopBar.start_b.dispose();;
+		TopBar.tower_b.dispose();
+		TopBar.health.dispose();
+		TopBar.gold.dispose();
 		Enemy1.texture.dispose();
 		Enemy2.texture.dispose();
 		spriteBatch.dispose();

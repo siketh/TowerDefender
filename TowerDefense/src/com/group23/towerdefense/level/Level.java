@@ -11,7 +11,7 @@ import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.TowerGenerator;
-import com.group23.towerdefense.ui.Button;
+import com.group23.towerdefense.ui.TopBar;
 import com.group23.towerdefense.ui.TowerBar;
 
 public abstract class Level
@@ -42,8 +42,8 @@ public abstract class Level
 	private LevelWave wave;
 
 	private TowerBar tbar = new TowerBar();
-	private Button menu = new Button();
-
+	private TopBar menu = new TopBar();
+	
 	/**
 	 * Initializes the level class For now, the level uses a pre-defined tile
 	 * array and direction array
@@ -216,7 +216,7 @@ public abstract class Level
 					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
 		
 		// Draw Bars
-		menu.draw(batch);
+		menu.draw(batch, this);
 		tbar.draw(batch);
 
 		// Draw enemies
