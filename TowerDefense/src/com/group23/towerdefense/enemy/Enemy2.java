@@ -16,6 +16,7 @@ public class Enemy2 extends Enemy
 	protected void setBaseStats() 
 	{
 		hp = maxHP = 200;
+		armor = 2;
 		moveSpeed = 64;
 		texWidth = 64;
 		texHeight = 64;
