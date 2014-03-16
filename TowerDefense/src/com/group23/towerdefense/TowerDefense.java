@@ -55,10 +55,10 @@ public class TowerDefense extends Game
 		Level.textures[6] = ResourceManager.loadTexture("tile06.png");
 		Level.textures[7] = ResourceManager.loadTexture("tile07.png");
 
-		TowerBar.textures = new Texture[2];
+		TowerBar.textures = new Texture[3];
 		TowerBar.textures[0] = ResourceManager.loadTexture("towerbar00.png");
 		TowerBar.textures[1] = ResourceManager.loadTexture("towerbar01.png");
-		// TowerBar.textures[2] = ResourceManager.loadTexture("towerbar03.png");
+		TowerBar.textures[2] = ResourceManager.loadTexture("towerbar03.png");
 
 		// initialize static batches
 		spriteBatch = new SpriteBatch();
