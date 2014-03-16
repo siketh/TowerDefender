@@ -30,7 +30,7 @@ public abstract class CircularRangeTower extends Tower
 		// must be at least one enemy
 		if (enemies.size > 0)
 		{
-			final Vector2 pos = getPos();
+			final Vector2 pos = getPosition();
 			
 			// find all enemies within range
 			for (Enemy e : enemies)
@@ -44,12 +44,12 @@ public abstract class CircularRangeTower extends Tower
 	{
 		super.draw(batch);
 		
-		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
-		Vector2 pos = getPos();
-		
 		// draw the radius of the range
 		if (isSelected() && DEBUG_DRAWRANGE)
 		{
+			ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+			Vector2 pos = getPosition();
+			
 			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
 			shapeRenderer.circle(pos.x, pos.y, getRange());
 		}

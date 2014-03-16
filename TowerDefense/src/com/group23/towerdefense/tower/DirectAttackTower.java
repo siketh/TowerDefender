@@ -8,5 +8,6 @@ public class DirectAttackTower extends SingleTargetCircularRangeTower
 		setRange(250.0f);
 		setDamage(4);
 		setGoldCost(100);
+		setTexture("tower00.png");
 	}
 }

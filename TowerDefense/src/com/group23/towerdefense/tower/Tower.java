@@ -8,23 +8,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.group23.towerdefense.TextureObject;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.level.Level;
 
-public abstract class Tower
+public abstract class Tower extends TextureObject
 {
-	public static Texture texture = null;
-	private static final int texWidth = 64;
-	private static final int texHeight = 64;
-
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
 
 	// Tile index position in the map array
 	private int tile;
-
-	// World coordinate of tower
+	
+	// World coordinate position
 	private Vector2 pos = new Vector2();
 
 	// Time in between shots
@@ -52,8 +49,9 @@ public abstract class Tower
 	{
 		this.level = level;
 		this.tile = y * level.getWidth() + x;
-		this.pos.x = x * 128 + texWidth;
-		this.pos.y = y * 128 + texHeight;
+		this.pos.x = (x * Level.TILE_WIDTH) + (Level.TILE_WIDTH / 2);
+		this.pos.y = (y * Level.TILE_HEIGHT) + (Level.TILE_HEIGHT / 2);
+		updateTexturePosition();
 	}
 
 	public void update()
@@ -90,9 +88,9 @@ public abstract class Tower
 
 	public void draw(SpriteBatch batch)
 	{
+		super.draw(batch);
+		
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
-		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
-
 		// draw the line(s) to the target(s) (if applicable)
 		if (DEBUG_DRAWTARGET)
 			for (Enemy e : targets)
@@ -110,11 +108,6 @@ public abstract class Tower
 	public int getTile()
 	{
 		return tile;
-	}
-
-	public Vector2 getPos()
-	{
-		return pos;
 	}
 
 	public int getDamage()
@@ -155,5 +148,29 @@ public abstract class Tower
 	public void setSelected(boolean isSelected)
 	{
 		this.isSelected = isSelected;
+	}
+	
+	@Override
+	public void setTexture(String filename)
+	{
+		super.setTexture(filename);
+		updateTexturePosition();
+	}
+	
+	private void updateTexturePosition()
+	{
+		Texture texture = getTexture();
+		if (texture != null)
+		{
+			int texWidth = texture.getWidth();
+			int texHeight = texture.getHeight();
+			
+			setTexturePosition(pos.x - texWidth / 2, pos.y - texHeight / 2);
+		}
+	}
+	
+	public Vector2 getPosition()
+	{
+		return pos;
 	}
 }

@@ -1,7 +1,6 @@
 package com.group23.towerdefense;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -41,30 +40,28 @@ public class TowerDefense extends Game
 		TopBar.health_font = new BitmapFont();
 		TopBar.gold_font = new BitmapFont();
 		
-		Enemy1.texture = new Texture(Gdx.files.internal("enemy01.png")); 
-		Enemy2.texture = new Texture(Gdx.files.internal("enemy02.png"));
-		Tower.texture  = new Texture(Gdx.files.internal("tower00.png"));
-		TopBar.texture = new Texture(Gdx.files.internal("button.png"));
-		TopBar.start_b = new Texture(Gdx.files.internal("start_b.png"));
-		TopBar.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
-		TopBar.health  = new Texture(Gdx.files.internal("health.png"));
-		TopBar.gold    = new Texture(Gdx.files.internal("gold.png"));
+		Enemy1.texture = ResourceManager.loadTexture("enemy01.png"); 
+		Enemy2.texture = ResourceManager.loadTexture("enemy02.png");
+		TopBar.texture = ResourceManager.loadTexture("button.png");
+		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
+		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
+		TopBar.health  = ResourceManager.loadTexture("health.png");
+		TopBar.gold    = ResourceManager.loadTexture("gold.png");
 		
-		Level.background = new Texture(Gdx.files.internal("background.png"));
+		Level.background = ResourceManager.loadTexture("background.png");
 		Level.textures    = new Texture[8];
-		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
-		Level.textures[1] = new Texture(Gdx.files.internal("tile01.png"));
-		Level.textures[2] = new Texture(Gdx.files.internal("tile02.png"));
-		Level.textures[3] = new Texture(Gdx.files.internal("tile03.png"));
-		Level.textures[4] = new Texture(Gdx.files.internal("tile04.png"));
-		Level.textures[5] = new Texture(Gdx.files.internal("tile05.png"));
-		Level.textures[6] = new Texture(Gdx.files.internal("tile06.png"));
-		Level.textures[7] = new Texture(Gdx.files.internal("tile07.png"));
-		
+		Level.textures[0] = ResourceManager.loadTexture("tile00.png");
+		Level.textures[1] = ResourceManager.loadTexture("tile01.png");
+		Level.textures[2] = ResourceManager.loadTexture("tile02.png");
+		Level.textures[3] = ResourceManager.loadTexture("tile03.png");
+		Level.textures[4] = ResourceManager.loadTexture("tile04.png");
+		Level.textures[5] = ResourceManager.loadTexture("tile05.png");
+		Level.textures[6] = ResourceManager.loadTexture("tile06.png");
+		Level.textures[7] = ResourceManager.loadTexture("tile07.png");
 		
 		TowerBar.textures = new Texture[2];
-		TowerBar.textures[0] = new Texture(Gdx.files.internal("towerbar00.png"));
-		TowerBar.textures[1] = new Texture(Gdx.files.internal("towerbar01.png"));
+		TowerBar.textures[0] = ResourceManager.loadTexture("towerbar00.png");
+		TowerBar.textures[1] = ResourceManager.loadTexture("towerbar01.png");
 		
 		// initialize static batches
 		spriteBatch   = new SpriteBatch();
@@ -80,16 +77,11 @@ public class TowerDefense extends Game
 	{
 		for (Texture t : Level.textures)
 			t.dispose();
-		Level.background.dispose();
-		Tower.texture.dispose();
-		TopBar.texture.dispose();
-		TopBar.start_b.dispose();;
-		TopBar.tower_b.dispose();
-		TopBar.health.dispose();
-		TopBar.gold.dispose();
-		Enemy1.texture.dispose();
-		Enemy2.texture.dispose();
+		Enemy.font.dispose();
+		TopBar.gold_font.dispose();
+		TopBar.health_font.dispose();
 		spriteBatch.dispose();
+		ResourceManager.dispose();
 	}
 	
 	static public void changeScreen(Screen screen)

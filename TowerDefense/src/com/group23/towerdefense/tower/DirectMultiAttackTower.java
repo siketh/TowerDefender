@@ -8,5 +8,6 @@ public class DirectMultiAttackTower extends CircularRangeTower
 		setDamage(2);
 		setRange(250.0f);
 		setGoldCost(100);
+		setTexture("tower00.png");
 	}
 }

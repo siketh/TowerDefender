@@ -24,7 +24,7 @@ public abstract class SingleTargetCircularRangeTower extends CircularRangeTower
 
 		if (targets.size > 0)
 		{
-			final Vector2 pos = getPos();
+			final Vector2 pos = getPosition();
 
 			// sort the enemies in range by closest first
 			targets.sort(new Comparator<Enemy>() {
@@ -45,6 +45,6 @@ public abstract class SingleTargetCircularRangeTower extends CircularRangeTower
 
 	private boolean isInRange(Enemy enemy)
 	{
-		return getPos().dst(enemy.getPosition()) <= getRange();
+		return getPosition().dst(enemy.getPosition()) <= getRange();
 	}
 }

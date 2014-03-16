@@ -25,6 +25,8 @@ public abstract class Level
 	private final static int NUM_TILES_WIDTH = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
 	private final static int MAX_TOWERS = 10;
+	public final static int TILE_WIDTH = 128;
+	public final static int TILE_HEIGHT = 128;
 
 	// Tile data
 	private int[] tiles;
@@ -234,9 +236,6 @@ public abstract class Level
 		// Draw towers
 		for (Tower t : towers)
 			t.draw(batch);
-
-		if (selectedTower != null)
-			selectedTower.draw(batch);
 	}
 
 	/**
@@ -310,7 +309,7 @@ public abstract class Level
 				if (selectedTower != null)
 				{
 					selectedTower.setSelected(false);
-					if (selectedTower.hashCode() == t.hashCode())
+					if (selectedTower.equals(t))
 					{
 						selectedTower = null;
 						break;
