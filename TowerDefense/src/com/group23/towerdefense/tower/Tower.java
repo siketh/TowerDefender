@@ -2,7 +2,6 @@ package com.group23.towerdefense.tower;
 
 import java.util.Iterator;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -51,7 +50,7 @@ public abstract class Tower extends TextureObject
 		this.tile = y * level.getWidth() + x;
 		this.pos.x = (x * Level.TILE_WIDTH) + (Level.TILE_WIDTH / 2);
 		this.pos.y = (y * Level.TILE_HEIGHT) + (Level.TILE_HEIGHT / 2);
-		updateTexturePosition();
+		updateTexturePosition(pos);
 	}
 
 	public void update()
@@ -154,19 +153,7 @@ public abstract class Tower extends TextureObject
 	public void setTexture(String filename)
 	{
 		super.setTexture(filename);
-		updateTexturePosition();
-	}
-	
-	private void updateTexturePosition()
-	{
-		Texture texture = getTexture();
-		if (texture != null)
-		{
-			int texWidth = texture.getWidth();
-			int texHeight = texture.getHeight();
-			
-			setTexturePosition(pos.x - texWidth / 2, pos.y - texHeight / 2);
-		}
+		updateTexturePosition(pos);
 	}
 	
 	public Vector2 getPosition()

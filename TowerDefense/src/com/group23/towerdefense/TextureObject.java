@@ -37,6 +37,19 @@ public class TextureObject
 	
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(mTexture, mTexturePosition.x, mTexturePosition.y);
+		if (mTexture != null)
+			batch.draw(mTexture, mTexturePosition.x, mTexturePosition.y);
+	}
+	
+	protected void updateTexturePosition(Vector2 pos)
+	{
+		Texture texture = getTexture();
+		if (texture != null)
+		{
+			int texWidth = texture.getWidth();
+			int texHeight = texture.getHeight();
+			
+			setTexturePosition(pos.x - texWidth / 2, pos.y - texHeight / 2);
+		}
 	}
 }

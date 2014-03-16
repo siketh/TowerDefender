@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.group23.towerdefense.Dir;
+import com.group23.towerdefense.TextureObject;
 import com.group23.towerdefense.level.Level;
 
-public abstract class Enemy 
+public abstract class Enemy extends TextureObject 
 {
 	public static BitmapFont font       = null;
 
@@ -142,11 +143,15 @@ public abstract class Enemy
 		if(path.getEnd() == curTile)
 			path.enemyReachedEnd(this);
 		
+		updateTexturePosition(pos);
+		
 		return false;
 	}
 	
 	public void draw(SpriteBatch batch)
 	{
+		super.draw(batch);
+		
 		// draw health
 		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
 		font.setScale(2.0f);
