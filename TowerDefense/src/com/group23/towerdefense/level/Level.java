@@ -20,7 +20,6 @@ public abstract class Level
 	public static Texture background;
 
 	public static Texture[] textures;
-
 	// Level constants
 	private final static int NUM_TILES_WIDTH = 15;
 	private final static int NUM_TILES_HEIGHT = 8;
@@ -234,9 +233,6 @@ public abstract class Level
 		// Draw towers
 		for (Tower t : towers)
 			t.draw(batch);
-
-		if (selectedTower != null)
-			selectedTower.draw(batch);
 	}
 
 	/**
@@ -259,6 +255,7 @@ public abstract class Level
 				towers.add(tower);
 				tower.registerToLevel(this, x, y);
 				playerGold -= tower.getGoldCost();
+				selectTower(x, y);
 			}
 		}
 	}
