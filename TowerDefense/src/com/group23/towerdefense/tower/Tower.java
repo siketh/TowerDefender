@@ -54,6 +54,7 @@ public abstract class Tower
 	{
 		// remove any targets that left range
 		targets.clear();
+		findTargets(targets);
 		
 		// save variable so result are same
 		long ms = TimeUtils.millis();

@@ -11,6 +11,16 @@ public abstract class CircularRangeTower extends Tower
 {
 	private float range;
 	
+	public float getRange()
+	{
+		return range;
+	}
+
+	public void setRange(float range)
+	{
+		this.range = range;
+	}
+	
 	@Override
 	protected void findTargets(Array<Enemy> targets)
 	{
@@ -42,15 +52,5 @@ public abstract class CircularRangeTower extends Tower
 			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
 			shapeRenderer.circle(pos.x, pos.y, getRange());
 		}
-	}
-
-	public float getRange()
-	{
-		return range;
-	}
-
-	public void setRange(float range)
-	{
-		this.range = range;
 	}
 }
