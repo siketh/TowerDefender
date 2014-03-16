@@ -36,8 +36,11 @@ public class TowerDefense extends Game
 		Tower.DEBUG_DRAWRANGE  = true;
 		Tower.DEBUG_DRAWTARGET = true;
 		
-		// initialize textures
+		// initialize textures and fonts
 		Enemy.font     = new BitmapFont();
+		Button.health_font = new BitmapFont();
+		Button.gold_font = new BitmapFont();
+		
 		Enemy1.texture = new Texture(Gdx.files.internal("enemy01.png")); 
 		Enemy2.texture = new Texture(Gdx.files.internal("enemy02.png"));
 		Tower.texture  = new Texture(Gdx.files.internal("tower00.png"));
