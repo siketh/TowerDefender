@@ -21,6 +21,7 @@ public abstract class Enemy
 	protected float distTraveled;						// Stores distance traveled since last new tile
 	protected int goldValue;						//Stores the enemies value in gold
 	protected int livesValue;						//The amount of lives the enemy is worth
+	protected int armor;
 	
 	private Color color;
 
@@ -165,7 +166,7 @@ public abstract class Enemy
 	 */
 	public int dealDamage(int damage) 
 	{
-		return hp -= damage;
+		return hp -= (damage - armor);
 	}
 	
 	public Vector2 getPosition()
