@@ -457,4 +457,14 @@ public abstract class Level
 	{
 		return playerGold;
 	}
+	
+	/**
+	 * Returns the amount of lives the player has
+	 * 
+	 * @return The amount of lives the player has
+	 */
+	public int getLives()
+	{
+		return playerLives;
+	}
 }
