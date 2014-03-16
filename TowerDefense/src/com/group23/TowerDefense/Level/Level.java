@@ -27,7 +27,12 @@ public abstract class Level
 	private int[] tiles;				
 	private Dir[] directions;
 	
+	//Player Statistics
+	private int playerGold;
+	
 	private Array<Tower> towers;
+	private Tower selectedTower;
+	
 	private Array<Enemy> enemies;
 	private LevelWave wave;
 	
@@ -43,6 +48,7 @@ public abstract class Level
 		enemies = new Array<Enemy>();
 		towers  = new Array<Tower>();
 		wave    = new LevelWave();
+		selectedTower = null;
 		
 		// initialize tile array
 		tiles = loadTiles();
@@ -190,7 +196,10 @@ public abstract class Level
 		
 		// Draw towers
 		for (Tower t : towers)
-			t.draw(batch);		
+			t.draw(batch);	
+		
+		if(selectedTower != null)
+			selectedTower.drawSelected(batch);
 	}
 	
 	/**
@@ -233,6 +242,23 @@ public abstract class Level
 		}
 		
 		return removed;
+	}
+	
+	public void selectTower(int x, int y)
+	{
+		final int index = convertTileToIndex(x, y);
+		
+		Iterator<Tower> iter = towers.iterator();
+		while (iter.hasNext())
+		{
+			Tower t = iter.next();
+			
+			if (t.getTile() == index)
+			{
+				selectedTower = t;
+				break;
+			}
+		}
 	}
 	
 	/**

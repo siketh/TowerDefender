@@ -88,13 +88,6 @@ public class Tower
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
 		
-		// draw the radius of the range
-		if (DEBUG_DRAWRANGE)
-		{
-			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-			shapeRenderer.circle(pos.x, pos.y, range);
-		}
-		
 		// draw the line to the target (if applicable)
 		if (DEBUG_DRAWTARGET && target != null)
 		{
@@ -103,6 +96,16 @@ public class Tower
 		}
 	}
 	
+	public void drawSelected(SpriteBatch batch)
+	{
+		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+		// draw the radius of the range
+		if (DEBUG_DRAWRANGE)
+		{
+			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+			shapeRenderer.circle(pos.x, pos.y, range);
+		}
+	}
 	/**
 	 * Finds the closest Enemy in the map to the tower
 	 * @return The closest Enemy to the tower or null is no target found

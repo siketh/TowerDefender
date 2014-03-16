@@ -114,7 +114,7 @@ public class GameplayScreen implements Screen, InputProcessor{
 						break;
 					}
 				
-				case Buttons.RIGHT: curLevel.removeTower(x, y); break;
+				case Buttons.RIGHT: curLevel.selectTower(x, y); break;
 			
 				}
 			}
