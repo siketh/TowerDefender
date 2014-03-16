@@ -46,7 +46,7 @@ public abstract class Level
 		wave    = new LevelWave();
 		
 		// initialize tile array
-		tiles = fixTiles(loadTiles());
+		tiles = loadTiles();
 		
 		// initialize direction array
 		directions = new Dir[tiles.length];
