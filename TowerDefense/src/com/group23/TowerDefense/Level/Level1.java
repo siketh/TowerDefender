@@ -56,14 +56,26 @@ public class Level1 extends Level
 			public void generate(Wave wave) {
 				wave.addSpawn(100, Enemy2.class)
 					.addSpawn(200, Enemy1.class)
-					.addSpawn(300, Enemy1.class);
+					.addSpawn(300, Enemy1.class)
+					.addSpawn(340, Enemy1.class)
+					.addSpawn(420, Enemy1.class)
+					.addSpawn(500, Enemy1.class)
+					.addSpawn(550, Enemy1.class)
+					.addSpawn(650, Enemy2.class);
 			}
 		});
 		
 		// Wave 4
 		waves.addWave(new WaveGenerator() {
 			public void generate(Wave wave) {
-				wave.addSpawn(100, Enemy1.class);
+				wave.addSpawn(100, Enemy1.class)
+					.addSpawn(130, Enemy2.class)
+					.addSpawn(160, Enemy2.class)
+					.addSpawn(190, Enemy2.class)
+					.addSpawn(220, Enemy2.class)
+					.addSpawn(250, Enemy2.class)
+					.addSpawn(280, Enemy2.class)
+					.addSpawn(300, Enemy2.class);
 			}
 		});
 		
