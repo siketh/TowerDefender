@@ -86,15 +86,6 @@ public class Level2 extends Level
 		});
 	}
 
-	public int getStartX() 
-	{
-		return 0;
-	}
-
-	public int getStartY() 
-	{
-		return 1;
-	}
 
 	@Override
 	protected void setStartingStats() {

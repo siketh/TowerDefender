@@ -528,10 +528,6 @@ public abstract class Level
 	 */
 	protected abstract void loadWaves(LevelWave waves);
 
-	public abstract int getStartX();
-
-	public abstract int getStartY();
-
 	protected abstract void setStartingStats();
 
 	/**

@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 import com.group23.towerdefense.level.Level;
-import com.group23.towerdefense.level.Level1;
+import com.group23.towerdefense.level.Level3;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
@@ -33,7 +33,7 @@ public class GameplayScreen implements Screen, InputProcessor
 	public GameplayScreen(int level)
 	{
 		// initialize member variables
-		curLevel = new Level1();
+		curLevel = new Level3();
 		touchPos = new Vector3();
 
 		camera = new OrthographicCamera();

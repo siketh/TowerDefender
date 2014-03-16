@@ -28,7 +28,7 @@ public class Level3 extends Level
 		// Wave 1
 		waves.addWave(new WaveGenerator() {
 			public void generate(Wave wave) {
-				wave.addSpawn(100,  Enemy1.class)
+				wave.addSpawn(0,  Enemy1.class)
 					.addSpawn(800,  Enemy1.class)
 					.addSpawn(1700, Enemy2.class)
 					.addSpawn(3500, Enemy1.class)

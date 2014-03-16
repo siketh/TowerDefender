@@ -37,13 +37,14 @@ public abstract class Enemy extends TextureObject
 		// Converts from tile coordinates to pixel coordinates and centers 
 		// enemy in tile and offsets for image height and width
 		pos = new Vector2();
-		pos.x = path.getStartX() * 128 + 64;
-		pos.y = path.getStartY() * 128 + 64;
 		
 		color = new Color(Color.WHITE);
 		
 		// Calculates tiles index based on width of tile map
-		curTile = path.getStartY() * path.getWidth() + path.getStartX();
+		curTile = path.getStart();
+
+		pos.x = (curTile % path.getWidth()) * 128 + 64;
+		pos.y = (curTile / path.getWidth()) * 128 + 64;
 	}
 	
 	//Put base stats of the monster here
