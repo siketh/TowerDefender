@@ -397,6 +397,19 @@ public abstract class Level
 	}
 	
 	/**
+	 * Removes an enemy from the enemy array and subtracts their lives
+	 * from the players lives
+	 * 
+	 * @param enemy The enemy to be Removed
+	 */
+	public void enemyReachedEnd(Enemy enemy)
+	{
+		playerLives -= enemy.getLives();
+		enemies.removeValue(enemy, false);
+		System.out.println(playerLives);
+	}
+	
+	/**
 	 * Converts a tile coordinate to index coordinate
 	 * 
 	 * @param x Tile x-coordinate

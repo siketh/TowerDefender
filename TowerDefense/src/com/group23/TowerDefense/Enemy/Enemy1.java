@@ -20,6 +20,7 @@ public class Enemy1 extends Enemy
 		texWidth = 64;
 		texHeight = 64;
 		goldValue = 20;
+		livesValue = 1;
 	}
 	
 	public void draw(SpriteBatch batch)
