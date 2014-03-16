@@ -406,7 +406,6 @@ public abstract class Level
 	{
 		playerLives -= enemy.getLives();
 		enemies.removeValue(enemy, false);
-		System.out.println(playerLives);
 	}
 	
 	/**
