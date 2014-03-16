@@ -41,7 +41,7 @@ public abstract class Level
 	
 	/**
 	 * Initializes the level class
-	 * For now, the level uses a pre-defined tile array and direction array
+	 * For now, the level uses a pre-defined tile array
 	 */
 	public Level()
 	{
@@ -159,6 +159,12 @@ public abstract class Level
 		directions[i] = Dir.End;
 	}
 	
+	/**
+	 * Updates the positions and values of all the enemies, 
+	 * towers and wave spawning system.
+	 * 
+	 * @param dt The amount of time since the last update
+	 */
 	public void update(float dt)
 	{
 		wave.update(this);
@@ -178,6 +184,7 @@ public abstract class Level
 	
 	/**
 	 * Draws the level, including the enemies and towers
+	 * 
 	 * @param batch
 	 */
 	public void draw(SpriteBatch batch)
@@ -209,6 +216,7 @@ public abstract class Level
 	 * <li>No other tower is already placed</li>
 	 * <br/>
 	 * WARNING: No check is done to ensure boundary
+	 * 
 	 * @param x Tile x-coordinate to place the new tower
 	 * @param y Tile y-coordinate to place the new tower
 	 */
@@ -232,6 +240,7 @@ public abstract class Level
 	
 	/**
 	 * Removes a tower on a tile-coordinate position
+	 * 
 	 * @param x Tile x-coordinate to remove tower
 	 * @param y Tile y-coordinate to remove tower
 	 * @return true if tower removed
@@ -257,6 +266,12 @@ public abstract class Level
 		return removed;
 	}
 	
+	/**
+	 * Selects a tower on a tile-coordinate position
+	 * 
+	 * @param x Tile x-coordinate to select tower
+	 * @param y Tile y-coordinate to select tower
+	 */
 	public void selectTower(int x, int y)
 	{
 		final int index = convertTileToIndex(x, y);
@@ -296,45 +311,85 @@ public abstract class Level
 		return towers.size < MAX_TOWERS;
 	}
 	
+	/**
+	 * Returns the number of tiles wide the tilemap is
+	 * 
+	 * @return The width of the tilemap
+	 */
 	public int getWidth()
 	{
 		return NUM_TILES_WIDTH;
 	}
 	
+	/**
+	 * Returns the number of tiles high the tilemap is
+	 * 
+	 * @return The height of the tilemap
+	 */
 	public int getHeight()
 	{
 		return NUM_TILES_HEIGHT;
 	}
 	
-	// Get tile in tile index 
+	/**
+	 * Returns the tile value of a specific tile
+	 * 
+	 * @param tile The tile you want the value of
+	 * @return The tile value
+	 */
 	public int getTile(int tile)
 	{
 		return tiles[tile];
 	}
 	
-	// Get tile in tile x and y coordinates
+	/**
+	 * Returns the tile value of a specific tile
+	 * 
+	 * @param x The column of the tile
+	 * @param y The row of the tile
+	 * @return The tile value
+	 */
 	public int getTile(int x, int y)
 	{
 		return getTile(y * getWidth() + x);
 	}
 	
-	// Get direction in tile index 
+	/**
+	 * Returns the Direction of the tile index
+	 * 
+	 * @param tile Index of the tile to find the direction for
+	 * @return Direction of the tile
+	 */
 	public Dir getDirection(int tile)
 	{
 		return directions[tile];
 	}
 	
-	// Get direction in tile x and y coordinates
+	/**
+	 * Returns the Array of Enemies
+	 * 
+	 * @return The Enemy Arrays
+	 */
 	public Dir getDirection(int x, int y)
 	{
 		return getDirection(y * getWidth() + x);
 	}
 	
+	/**
+	 * Returns the Array of Enemies
+	 * 
+	 * @return The Enemy Arrays
+	 */
 	public Array<Enemy> getEnemies()
 	{
 		return enemies;
 	}
 	
+	/**
+	 * Removes an enemy from the enemy array
+	 * 
+	 * @param enemy The enemy to be Removed
+	 */
 	public void removeEnemy(Enemy enemy)
 	{
 		enemies.removeValue(enemy, false);
@@ -342,6 +397,7 @@ public abstract class Level
 	
 	/**
 	 * Converts a tile coordinate to index coordinate
+	 * 
 	 * @param x Tile x-coordinate
 	 * @param y Tile y-coordinate
 	 * @return index position of the tile (x,y) coordinate
@@ -352,27 +408,27 @@ public abstract class Level
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return An numerical representation of the tilemap
 	 */
 	protected abstract int[] loadTiles();
 	
 	/**
+	 * Loads up the enemy waves for the level
 	 * 
-	 * @return
-	 */
-	protected abstract void setStartingGold();
-	
-	/**
-	 * 
-	 * @param waves
+	 * @param waves Stores all the enemy waves for the level
 	 */
 	protected abstract void loadWaves(LevelWave waves);
 	
 	public abstract int getStartX();
 	public abstract int getStartY();
 	public abstract Dir getStartDir();
+	protected abstract void setStartingGold();
 
+	/**
+	 * Adds gold to the player
+	 * 
+	 * @param goldValue The amount of gold to be added
+	 */
 	public void giveGold(int goldValue) 
 	{
 		playerGold += goldValue;		
