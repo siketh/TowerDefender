@@ -13,7 +13,7 @@ import com.group23.TowerDefense.TowerDefense;
 
 public class TowerBar {
 
-	public static BitmapFont font       = null;
+	public static BitmapFont font = null;
 	public static Texture[] textures;
 	private static final int texWidth  = 132;
 	private static final int texHeight = 132;

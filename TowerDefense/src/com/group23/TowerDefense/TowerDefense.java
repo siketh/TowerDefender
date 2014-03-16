@@ -44,7 +44,7 @@ public class TowerDefense extends Game
 		Enemy1.texture = new Texture(Gdx.files.internal("enemy01.png")); 
 		Enemy2.texture = new Texture(Gdx.files.internal("enemy02.png"));
 		Tower.texture  = new Texture(Gdx.files.internal("tower00.png"));
-		TopBar.texture = new Texture(Gdx.files.internal("Button.png"));
+		TopBar.texture = new Texture(Gdx.files.internal("button.png"));
 		TopBar.start_b = new Texture(Gdx.files.internal("start_b.png"));
 		TopBar.tower_b = new Texture(Gdx.files.internal("tower_b.png"));
 		TopBar.health  = new Texture(Gdx.files.internal("health.png"));

@@ -19,11 +19,6 @@ public class TopBar {
 	private static final int texWidth = 180;
 	private static final int texHeight = 60;
 	
-	// Health Status
-	float percent = (float) Math.floor((float) 1 * 100.0f);
-	Color font_color = new Color(Color.WHITE);
-	
-	
 	
 	//Drawing Function
 	public void draw(SpriteBatch batch, Level level) {
