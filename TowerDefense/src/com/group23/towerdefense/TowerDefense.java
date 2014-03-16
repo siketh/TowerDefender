@@ -12,6 +12,7 @@ import com.group23.towerdefense.enemy.Enemy1;
 import com.group23.towerdefense.enemy.Enemy2;
 import com.group23.towerdefense.level.Level;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.ui.TowerBar;
 
 public class TowerDefense extends Game 
 {
@@ -45,11 +46,20 @@ public class TowerDefense extends Game
 		Button.health  = new Texture(Gdx.files.internal("health.png"));
 		Button.gold    = new Texture(Gdx.files.internal("gold.png"));
 		
-		Level.textures    = new Texture[4];
+		Level.textures    = new Texture[8];
 		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
 		Level.textures[1] = new Texture(Gdx.files.internal("tile01.png"));
 		Level.textures[2] = new Texture(Gdx.files.internal("tile02.png"));
 		Level.textures[3] = new Texture(Gdx.files.internal("tile03.png"));
+		Level.textures[4] = new Texture(Gdx.files.internal("tile04.png"));
+		Level.textures[5] = new Texture(Gdx.files.internal("tile05.png"));
+		Level.textures[6] = new Texture(Gdx.files.internal("tile06.png"));
+		Level.textures[7] = new Texture(Gdx.files.internal("tile07.png"));
+		
+		
+		TowerBar.textures = new Texture[2];
+		TowerBar.textures[0] = new Texture(Gdx.files.internal("towerbar00.png"));
+		TowerBar.textures[1] = new Texture(Gdx.files.internal("towerbar01.png"));
 		
 		// initialize static batches
 		spriteBatch   = new SpriteBatch();

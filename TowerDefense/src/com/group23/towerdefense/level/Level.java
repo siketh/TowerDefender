@@ -6,11 +6,13 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.group23.towerdefense.Button;
 import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
+import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.tower.Tower1;
+import com.group23.towerdefense.ui.TowerBar;
 
 public abstract class Level 
 {	
@@ -29,6 +31,9 @@ public abstract class Level
 	private Array<Tower> towers;
 	private Array<Enemy> enemies;
 	private LevelWave wave;
+	
+	private TowerBar tbar = new TowerBar();
+	private Button menu = new Button();
 	
 	/**
 	 * Initializes the level class
@@ -59,8 +64,9 @@ public abstract class Level
 	// Creates a direction map for enemies to follow, based off of the tile map
 	private void createDirMap()
 	{
+		int startTile = getStartY() * getWidth() + getStartX();
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		directions[15] = getStartDir();			// Set the starting cell
+		directions[startTile] = getStartDir();			// Set the starting cell/*
 		
 		boolean leftEdge; 				// True if current index is on the left edge of the map
 		boolean rightEdge;				// True if current index is on the right edge of the map
@@ -70,7 +76,7 @@ public abstract class Level
 		// DFS loop, start at whichever index the starting cell is
 		// Sets the direction FROM the current cell TO the next cell
 		// Runs as long as we aren't on a base cell
-		int i = 15;	
+		int i = startTile;	
 		while(tiles[i] != 2)
 		{
 			// Initialize edge cases to false
@@ -79,7 +85,7 @@ public abstract class Level
 			topEdge = false;
 			bottomEdge = false;
 			
-			// Determine if we are CURRENTLY on an edge
+			// Determine if we are currently on an edge
 			if(i % getWidth() == 0) 
 				leftEdge = true;
 			if(i % getWidth() == getWidth() - 1)
@@ -93,53 +99,56 @@ public abstract class Level
 			// already set the direction of the northern tile, set current tile's direction 
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
-			if(topEdge == false && tiles[i-15] != 0 && directions[i-15] == Dir.I)
+			if(topEdge == false && tiles[i-getWidth()] == 1 && directions[i-getWidth()] == Dir.I)
 			{
 				directions[i] = Dir.N;
-				i = i-15;
+				i = i-getWidth();
 			}
 			// East is 1 tile forward
-			else if(rightEdge == false && tiles[i+1] != 0 && directions[i+1] == Dir.I)
+			else if(rightEdge == false && tiles[i+1] == 1 && directions[i+1] == Dir.I)
 			{	
 				directions[i] = Dir.E;
 				i = i+1;
 			}
 			// South is 15 tiles forward
-			else if(bottomEdge == false && tiles[i+15] != 0 && directions[i+15] == Dir.I)
+			else if(bottomEdge == false && tiles[i+getWidth()] == 1 && directions[i+getWidth()] == Dir.I)
 			{
 				directions[i] = Dir.S;
-				i = i+15;
+				i = i+getWidth();
 			}
 			// West is 1 tile backwards
-			else if(leftEdge == false && tiles[i-1] != 0 && directions[i-1] == Dir.I)
+			else if(leftEdge == false && tiles[i-1] == 1 && directions[i-1] == Dir.I)
 			{
 				directions[i] = Dir.W;
 				i = i-1;
 			}
 			// NE is 14 tiles backwards
-			else if(topEdge == false && rightEdge == false && tiles[i-14] != 0 && directions[i-14] == Dir.I)
+			else if(topEdge == false && rightEdge == false && tiles[i-getWidth()-1] == 1 && directions[i-getWidth()-1] == Dir.I)
 			{
 				directions[i] = Dir.NE;
-				i = i-14;
+				i = i-getWidth()-1;
 			}
 			// SE is 16 tiles forwards
-			else if(bottomEdge == false && rightEdge == false && tiles[i+16] != 0 && directions[i+16] == Dir.I)
+			else if(bottomEdge == false && rightEdge == false && tiles[i+getWidth()+1] == 1 && directions[i+getWidth()+1] == Dir.I)
 			{
 				directions[i] = Dir.SE;
-				i = i+16;
+				i = i+getWidth()+1;
 			}
 			// SW is 14 tiles forwards
-			else if(bottomEdge == false && leftEdge == false && tiles[i+14] != 0 && directions[i+14] == Dir.I)
+			else if(bottomEdge == false && leftEdge == false && tiles[i+getWidth()-1] == 1 && directions[i+getWidth()-1] == Dir.I)
 			{
 				directions[i] = Dir.SW;
-				i = i+14;
+				i = i+getWidth()-1;
 			}
 			// NW is 16 tiles backwards
-			else if(topEdge == false && leftEdge == false && tiles[i-16] != 0 && directions[i-16] == Dir.I)
+			else if(topEdge == false && leftEdge == false && tiles[i-getWidth()+1] == 1 && directions[i-getWidth()+1] == Dir.I)
 			{
 				directions[i] = Dir.NW;
-				i = i-16;
+				i = i-getWidth()+1;
 			}
+			
+			else
+				break;
 		}	
 		// Loop exited since we are on a base tile, so make this the end tile
 		directions[i] = Dir.End;
@@ -173,6 +182,10 @@ public abstract class Level
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
 				batch.draw(textures[getTile(x, y)], x * 128, y * 128);
 		
+		// Draw Bars
+		menu.draw(batch);
+		tbar.draw(batch);
+		
 		// Draw enemies
 		for (Enemy e : enemies)
 			e.draw(batch);
@@ -194,7 +207,11 @@ public abstract class Level
 	public void placeTower(int x, int y)
 	{
 		if (canPlaceTower(x, y))
-			towers.add(new Tower1(this, x, y));
+		{
+			Tower tower = new DirectAttackTower();
+			towers.add(tower);
+			tower.registerToLevel(this, x, y);
+		}
 	}
 	
 	/**
