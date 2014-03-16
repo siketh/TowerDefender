@@ -14,7 +14,7 @@ public class Level1 extends Level
 		return new int[]
 			{
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0,		//Bottom Right
-				1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 0, 1, 0, 0,
+				3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 0, 1, 0, 0,
 				1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1, 0, 1, 1, 2,
 				1, 0, 5, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0,		
 				1, 0, 1, 7, 0, 5, 1, 0, 1, 0, 0, 0, 0, 0, 0,
@@ -95,11 +95,6 @@ public class Level1 extends Level
 	public int getStartY() 
 	{
 		return 1;
-	}
-
-	public Dir getStartDir() 
-	{
-		return Dir.S;
 	}
 
 	@Override
