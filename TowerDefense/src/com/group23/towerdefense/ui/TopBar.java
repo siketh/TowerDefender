@@ -23,10 +23,10 @@ public class TopBar
 	// Health Status
 	float percent = (float) Math.floor((float) 1 * 100.0f);
 	Color font_color = new Color(Color.WHITE);
-
-	// Drawing Function
-	public void draw(SpriteBatch batch, Level level)
-	{
+	
+	
+	//Drawing Function
+	public void draw(SpriteBatch batch, Level level) {
 		batch.draw(start_b, 0, 1020, texWidth, texHeight);
 		batch.draw(tower_b, 200, 1020, texWidth, texHeight);
 		batch.draw(gold, 1300, 1020, 60, texHeight);
