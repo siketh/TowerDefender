@@ -221,6 +221,7 @@ public abstract class Level
 			{
 				towers.add(temp);
 				playerGold -= temp.getCost();
+				selectTower(x, y);
 			}
 			else
 			{
