@@ -94,5 +94,7 @@ public class Level1 extends Level
 	protected void setStartingStats() {
 		playerGold = 500;
 		playerLives = 10;
+		// TODO Auto-generated method stub
+		
 	}
 }

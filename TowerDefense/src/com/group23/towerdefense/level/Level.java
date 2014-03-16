@@ -167,9 +167,6 @@ public abstract class Level
 				directions[i] = Dir.NW;
 				i = i - 16;
 			}
-
-			else
-				break;
 		}
 		// Loop exited since we are on a base tile, so make this the end tile
 		directions[i] = Dir.End;
@@ -331,7 +328,13 @@ public abstract class Level
 
 		return towers.size < MAX_TOWERS;
 	}
-	 
+	
+	
+	/**
+	 * Return the tile index of the end of the path
+	 * 
+	 * @return The tile index of the end of the path
+	 */
 	public int getEnd()
 	{
 		int i = 0;
