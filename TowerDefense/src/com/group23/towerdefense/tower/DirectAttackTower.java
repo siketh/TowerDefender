@@ -1,6 +1,5 @@
 package com.group23.towerdefense.tower;
 
-
 public class DirectAttackTower extends SingleTargetCircularRangeTower
 {
 	public DirectAttackTower()

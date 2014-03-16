@@ -14,37 +14,39 @@ import com.group23.towerdefense.level.Level;
 
 public abstract class Tower
 {
-	public  static Texture texture      = null;
-	private static final int texWidth  = 64;
+	public static Texture texture = null;
+	private static final int texWidth = 64;
 	private static final int texHeight = 64;
-	
+
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
-	
+
 	// Tile index position in the map array
 	private int tile;
-	
+
 	// World coordinate of tower
 	private Vector2 pos = new Vector2();
-	
+
 	// Time in between shots
 	private long lastShotFired = TimeUtils.millis();
-	
+
 	private Level level;
 	private Array<Enemy> targets = new Array<Enemy>();
-	
+
 	private int damage = 0;
 	private long cooldownTime = 0L;
 	private int goldCost = 0;
-	
+
 	/**
 	 * Finds targets to attack and adds them to the input <code>Array</code>.
-	 * Place algorithms to search for target enemies in your overridden implementation.
+	 * Place algorithms to search for target enemies in your overridden
+	 * implementation.
 	 * 
-	 * @param targets The <code>Array</code> containing the target enemies
+	 * @param targets
+	 *            The <code>Array</code> containing the target enemies
 	 */
 	abstract void findTargets(Array<Enemy> targets);
-	
+
 	public final void registerToLevel(Level level, int x, int y)
 	{
 		this.level = level;
@@ -52,24 +54,24 @@ public abstract class Tower
 		this.pos.x = x * 128 + texWidth;
 		this.pos.y = y * 128 + texHeight;
 	}
-	
+
 	public void update()
 	{
 		// remove any targets that left range
 		findTargets(targets);
-		
+
 		// save variable so result are same
 		long ms = TimeUtils.millis();
-		
+
 		// attack the target(s) after cooldown
 		if (ms - lastShotFired >= getCooldownTime())
 		{
 			lastShotFired = ms;
-			
-			/** 
-			 * Attack an enemy in the <code>targets</code> array.
-			 * If the enemy is dead, remove them from the map and
-			 * the <code>targets</code> array.
+
+			/**
+			 * Attack an enemy in the <code>targets</code> array. If the enemy
+			 * is dead, remove them from the map and the <code>targets</code>
+			 * array.
 			 */
 			Iterator<Enemy> iter = targets.iterator();
 			while (iter.hasNext())
@@ -83,12 +85,12 @@ public abstract class Tower
 			}
 		}
 	}
-	
+
 	public void draw(SpriteBatch batch)
 	{
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 		batch.draw(texture, pos.x - texWidth / 2.0f, pos.y - texHeight / 2.0f);
-		
+
 		// draw the line(s) to the target(s) (if applicable)
 		if (DEBUG_DRAWTARGET)
 			for (Enemy e : targets)
@@ -97,7 +99,7 @@ public abstract class Tower
 				shapeRenderer.line(pos, e.getPosition());
 			}
 	}
-	
+
 	public Level getMap()
 	{
 		return level;
@@ -107,7 +109,7 @@ public abstract class Tower
 	{
 		return tile;
 	}
-	
+
 	public Vector2 getPos()
 	{
 		return pos;
