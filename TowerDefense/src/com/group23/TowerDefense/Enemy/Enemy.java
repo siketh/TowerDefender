@@ -138,7 +138,8 @@ public abstract class Enemy
 		// Gets enemy a new direction
 		direction = path.getDirection(curTile);
 		
-		path.enemyReachedEnd(this);
+		if(path.getEnd() == curTile)
+			path.enemyReachedEnd(this);
 		
 		return false;
 	}
