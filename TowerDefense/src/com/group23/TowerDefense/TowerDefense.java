@@ -47,6 +47,7 @@ public class TowerDefense extends Game
 		Button.health  = new Texture(Gdx.files.internal("health.png"));
 		Button.gold    = new Texture(Gdx.files.internal("gold.png"));
 		
+		Level.background = new Texture(Gdx.files.internal("background.png"));
 		Level.textures    = new Texture[8];
 		Level.textures[0] = new Texture(Gdx.files.internal("tile00.png"));
 		Level.textures[1] = new Texture(Gdx.files.internal("tile01.png"));
@@ -76,6 +77,7 @@ public class TowerDefense extends Game
 	{
 		for (Texture t : Level.textures)
 			t.dispose();
+		Level.background.dispose();
 		Tower.texture.dispose();
 		Button.texture.dispose();
 		Button.start_b.dispose();;

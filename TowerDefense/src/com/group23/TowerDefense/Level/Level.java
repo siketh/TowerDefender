@@ -17,6 +17,7 @@ public abstract class Level
 {	
 	// Tile textures array
 	public static Texture[] textures;
+	public static Texture background;
 	
 	// Level constants
 	private final static int NUM_TILES_WIDTH  = 15;
@@ -70,7 +71,7 @@ public abstract class Level
 	private void createDirMap()
 	{
 		Arrays.fill(directions, Dir.I);			// Initialize all cells to invalid
-		directions[15] = getStartDir();			// Set the starting cell/*
+		directions[15] = getStartDir();			// Set the starting cell
 		
 		boolean leftEdge; 				// True if current index is on the left edge of the map
 		boolean rightEdge;				// True if current index is on the right edge of the map
@@ -181,10 +182,16 @@ public abstract class Level
 	 */
 	public void draw(SpriteBatch batch)
 	{
+		// Draw background
+		batch.draw(background, 0,0);
+		
 		// Draws level tiles
 		for (int y = 0; y < NUM_TILES_HEIGHT; y++)		
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
-				batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+			{
+				if(getTile(x,y) != 0)
+					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
+			}
 		
 		// Draw Bars
 		menu.draw(batch);
@@ -281,6 +288,14 @@ public abstract class Level
 				return false;
 		
 		return towers.size < MAX_TOWERS;
+	}
+	
+	public int getEnd()
+	{
+		int i = 0;
+		while(tiles[i] != 2)
+			i++;
+		return i;
 	}
 	
 	public int getWidth()
