@@ -37,6 +37,7 @@ public class GameplayScreen implements Screen, InputProcessor
 
 	public GameplayScreen(int level)
 	{
+		System.out.println("rawr");
 		// initialize member variables
 		curLevel = levelGenerator.getLevel(level);
 		touchPos = new Vector3();

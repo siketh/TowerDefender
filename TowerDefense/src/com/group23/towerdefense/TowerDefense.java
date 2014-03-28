@@ -70,7 +70,7 @@ public class TowerDefense extends Game
 		shapeRenderer = new ShapeRenderer();
 
 		// set the screen to its initial state
-		setScreen(new GameplayScreen(1));
+		setScreen(new LevelSelectScreen(this));
 	}
 
 	@Override
