@@ -159,6 +159,7 @@ public class GameplayScreen implements Screen, InputProcessor
 		}
 		else
 		{
+			if (y < curLevel.getHeight()) {
 
 			switch (button)
 			{
@@ -186,7 +187,7 @@ public class GameplayScreen implements Screen, InputProcessor
 				TowerFlag = 0;
 				break;
 			}
-
+			}
 		}
 		return true;
 	}

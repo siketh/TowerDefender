@@ -383,7 +383,9 @@ public class Level
 		// Check if tile is an empty tile
 		if (getTile(x, y) != 0)
 			return false;
-
+		// Check if tile is a tower bar tile
+		else if (x >= 4 && x < 9 && y == 0)
+			return false;
 		// Check that no towers conflict with position
 		final int pos = y * getWidth() + x;
 		for (Tower t : towers)
