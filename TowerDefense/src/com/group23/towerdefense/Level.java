@@ -1,4 +1,4 @@
-package com.group23.towerdefense.level;
+package com.group23.towerdefense;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -6,16 +6,67 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
+import com.group23.towerdefense.spawn.WaveGenerator;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.TowerGenerator;
 import com.group23.towerdefense.ui.TopBar;
 import com.group23.towerdefense.ui.TowerBar;
 
-public abstract class Level
+public class Level
 {
+	/**
+	 * 
+	 * @author Robert
+	 *
+	 */
+	public static class Builder
+	{
+		private int[] tiles;
+		private LevelWave waves;
+		private int startGold = 500, startLives = 10;
+		
+		public Level build()
+		{
+			return new Level(this);
+		}
+		
+		public Builder setTiles(int[] tiles)
+		{
+			this.tiles = tiles;
+			return this;
+		}
+		
+		public Builder addWave(WaveGenerator generator)
+		{
+			waves.addWave(generator);
+			return this;
+		}
+		
+		public Builder setStartGold(int gold)
+		{
+			this.startGold = gold;
+			return this;
+		}
+		
+		public Builder setStartLives(int lives)
+		{
+			this.startLives = lives;
+			return this;
+		}
+	}
+	
+	/**
+	 * 
+	 * @author Robert
+	 *
+	 */
+	public static abstract class Generator
+	{
+		public abstract Level getLevel(int levelNum);
+	}
+	
 	// Tile textures array
 	public static Texture background;
 
@@ -48,28 +99,34 @@ public abstract class Level
 	 * Initializes the level class For now, the level uses a pre-defined tile
 	 * array and direction array
 	 */
-	public Level()
+	private Level(Builder builder)
 	{
-		setStartingStats();
+		/**
+		 * Initialize internal classes 
+		 */
+		
 		enemies = new Array<Enemy>();
-
 		towers = new Array<Tower>();
-		wave = new LevelWave();
-		selectedTower = null;
-
-		// initialize tile array
-		tiles = loadTiles();
-
-		// initialize direction array
 		directions = new Dir[tiles.length];
+		selectedTower = null;
+		
+		/**
+		 * Retrieve variables from builder
+		 */
+		
+		tiles = builder.tiles;
+		wave = builder.waves;
+		playerGold = builder.startGold;
+		playerLives = builder.startLives;
 
-		// Create a direction map based off of the tile map
+		/**
+		 * Create the direction map based on the tiles
+		 */
 		createDirMap();
 
-		// load the waves
-		loadWaves(wave);
-
-		// DEBUG start the first wave
+		/**
+		 * DEBUG Start the first wave
+		 */
 		wave.next(enemies);
 	}
 
@@ -518,23 +575,6 @@ public abstract class Level
 
 		return tiles;
 	}
-
-	/**
-	 * Generates the map tiles.
-	 * 
-	 * @return An numerical representation of the tilemap
-	 */
-	protected abstract int[] loadTiles();
-
-	/**
-	 * Generates the enemy spawn waves
-	 * 
-	 * @param waves
-	 *            The LevelWave to modify
-	 */
-	protected abstract void loadWaves(LevelWave waves);
-
-	protected abstract void setStartingStats();
 
 	/**
 	 * Adds gold to the player

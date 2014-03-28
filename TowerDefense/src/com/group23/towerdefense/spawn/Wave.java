@@ -6,8 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.group23.towerdefense.Level;
 import com.group23.towerdefense.enemy.Enemy;
-import com.group23.towerdefense.level.Level;
 
 public class Wave 
 {

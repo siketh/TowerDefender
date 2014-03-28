@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TextureObject;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
-import com.group23.towerdefense.level.Level;
 
 public abstract class Tower extends TextureObject
 {
