@@ -4,10 +4,14 @@ import com.group23.towerdefense.Level;
 
 public class SmallSlime extends Enemy
 {
-	public SmallSlime(Level map) 
+	public SmallSlime(Level map, int tile) 
 	{
 		super(map);
-		setTexture("enemy01.png");
+		setTexture("enemy04.png");
+		
+		curTile = tile;
+		pos.x = (curTile % path.getWidth()) * 128 + 64;
+		pos.y = (curTile / path.getWidth()) * 128 + 64;
 	}
 
 	protected void setBaseStats() 

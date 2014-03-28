@@ -3,6 +3,10 @@ package com.group23.towerdefense.world;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.enemy.Enemy1;
 import com.group23.towerdefense.enemy.Enemy2;
+<<<<<<< HEAD
+=======
+import com.group23.towerdefense.enemy.Slime;
+>>>>>>> origin/Cole
 import com.group23.towerdefense.spawn.Wave;
 import com.group23.towerdefense.spawn.WaveGenerator;
 
@@ -39,12 +43,16 @@ public class World1 extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
+<<<<<<< HEAD
 					wave.addSpawn(100,  Enemy1.class)
 						.addSpawn(800,  Enemy1.class)
 						.addSpawn(1700, Enemy2.class)
 						.addSpawn(3500, Enemy1.class)
 						.addSpawn(5000, Enemy1.class)
 						.addSpawn(6000, Enemy2.class);
+=======
+					wave.addSpawn(100,  Slime.class);
+>>>>>>> origin/Cole
 				}
 			})
 			.addWave(new WaveGenerator() 
@@ -116,12 +124,16 @@ public class World1 extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
+<<<<<<< HEAD
 					wave.addSpawn(100,  Enemy1.class)
 						.addSpawn(800,  Enemy1.class)
 						.addSpawn(1700, Enemy2.class)
 						.addSpawn(3500, Enemy1.class)
 						.addSpawn(5000, Enemy1.class)
 						.addSpawn(6000, Enemy2.class);
+=======
+					wave.addSpawn(100,  Slime.class);
+>>>>>>> origin/Cole
 				}
 			})
 			.addWave(new WaveGenerator()
