@@ -3,6 +3,7 @@ package com.group23.towerdefense;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -33,17 +34,24 @@ public class TowerDefense extends Game
 		// set debug variables
 		Tower.DEBUG_DRAWRANGE = true;
 		Tower.DEBUG_DRAWTARGET = true;
-		
-		//TO DO: Make this loop permanently
+
 		// initialize music and play
 		Music planning = ResourceManager.loadMusic("Planning.mp3");
-	    planning.play();
-		
+		planning.setOnCompletionListener(new OnCompletionListener()
+		{
+			@Override
+			public void onCompletion(Music music)
+			{
+				music.play();
+			}
+		});
+		planning.play();
+
 		// initialize textures and fonts
 		Enemy.font = new BitmapFont();
 		TopBar.health_font = new BitmapFont();
 		TopBar.gold_font = new BitmapFont();
-		
+
 		TopBar.texture = ResourceManager.loadTexture("button.png");
 		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
 		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
