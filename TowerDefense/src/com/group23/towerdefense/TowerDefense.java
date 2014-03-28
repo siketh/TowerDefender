@@ -3,7 +3,6 @@ package com.group23.towerdefense;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,14 +35,7 @@ public class TowerDefense extends Game
 
 		// initialize music and play
 		Music planning = ResourceManager.loadMusic("Planning.mp3");
-		planning.setOnCompletionListener(new OnCompletionListener()
-		{
-			@Override
-			public void onCompletion(Music music)
-			{
-				music.play();
-			}
-		});
+		planning.setLooping(true);
 		planning.play();
 
 		// initialize textures and fonts
