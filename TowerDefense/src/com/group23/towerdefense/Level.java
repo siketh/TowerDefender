@@ -24,7 +24,7 @@ public class Level
 	public static class Builder
 	{
 		private int[] tiles;
-		private LevelWave waves;
+		private LevelWave waves = new LevelWave();
 		private int startGold = 500, startLives = 10;
 		
 		public Level build()
@@ -100,16 +100,7 @@ public class Level
 	 * array and direction array
 	 */
 	private Level(Builder builder)
-	{
-		/**
-		 * Initialize internal classes 
-		 */
-		
-		enemies = new Array<Enemy>();
-		towers = new Array<Tower>();
-		directions = new Dir[tiles.length];
-		selectedTower = null;
-		
+	{	
 		/**
 		 * Retrieve variables from builder
 		 */
@@ -118,6 +109,15 @@ public class Level
 		wave = builder.waves;
 		playerGold = builder.startGold;
 		playerLives = builder.startLives;
+		
+		/**
+		 * Initialize internal classes 
+		 */
+		
+		enemies = new Array<Enemy>();
+		towers = new Array<Tower>();
+		directions = new Dir[tiles.length];
+		selectedTower = null;
 
 		/**
 		 * Create the direction map based on the tiles
