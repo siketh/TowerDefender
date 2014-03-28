@@ -1,6 +1,6 @@
 package com.group23.towerdefense.enemy;
 
-import com.group23.towerdefense.level.Level;
+import com.group23.towerdefense.Level;
 
 public class Slime extends Enemy
 {
