@@ -14,6 +14,8 @@ import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.TowerGenerator;
+import com.group23.towerdefense.ui.TopBar;
+import com.group23.towerdefense.ui.TowerBar;
 import com.group23.towerdefense.world.World1;
 
 public class GameplayScreen implements Screen, InputProcessor
@@ -22,6 +24,9 @@ public class GameplayScreen implements Screen, InputProcessor
 	private OrthographicCamera camera;
 	
 	private Level.Generator levelGenerator = new World1();
+	
+	private TowerBar tbar = new TowerBar();
+	private TopBar menu = new TopBar();
 
 	// current level being played
 	private Level curLevel;
@@ -62,6 +67,8 @@ public class GameplayScreen implements Screen, InputProcessor
 		spriteBatch.begin();
 
 		curLevel.draw(spriteBatch);
+		menu.draw(spriteBatch, curLevel);
+		tbar.draw(spriteBatch);
 
 		spriteBatch.end();
 		shapeRenderer.end();

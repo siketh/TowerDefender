@@ -11,8 +11,6 @@ import com.group23.towerdefense.spawn.LevelWave;
 import com.group23.towerdefense.spawn.WaveGenerator;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.TowerGenerator;
-import com.group23.towerdefense.ui.TopBar;
-import com.group23.towerdefense.ui.TowerBar;
 
 public class Level
 {
@@ -91,9 +89,6 @@ public class Level
 
 	private Array<Enemy> enemies;
 	private LevelWave wave;
-
-	private TowerBar tbar = new TowerBar();
-	private TopBar menu = new TopBar();
 
 	/**
 	 * Initializes the level class For now, the level uses a pre-defined tile
@@ -279,10 +274,6 @@ public class Level
 			for (int x = 0; x < NUM_TILES_WIDTH; x++)
 				if (getTile(x, y) != 0)
 					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
-
-		// Draw Bars
-		menu.draw(batch, this);
-		tbar.draw(batch);
 
 		// Draw enemies
 		for (Enemy e : enemies)
