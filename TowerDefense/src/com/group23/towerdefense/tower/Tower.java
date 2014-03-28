@@ -19,7 +19,7 @@ public abstract class Tower extends TextureObject
 
 	// Tile index position in the map array
 	private int tile;
-	
+
 	// World coordinate position
 	private Vector2 pos = new Vector2();
 
@@ -75,7 +75,8 @@ public abstract class Tower extends TextureObject
 			while (iter.hasNext())
 			{
 				Enemy e = iter.next();
-				if (e.dealDamage(getDamage()) <= 0)
+				e.dealDamage(getDamage());
+				if (!e.isAlive())
 				{
 					e.rewardGold();
 					level.removeEnemy(e);
@@ -88,7 +89,7 @@ public abstract class Tower extends TextureObject
 	public void draw(SpriteBatch batch)
 	{
 		super.draw(batch);
-		
+
 		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 		// draw the line(s) to the target(s) (if applicable)
 		if (DEBUG_DRAWTARGET)
@@ -148,14 +149,14 @@ public abstract class Tower extends TextureObject
 	{
 		this.isSelected = isSelected;
 	}
-	
+
 	@Override
 	public void setTexture(String filename)
 	{
 		super.setTexture(filename);
 		updateTexturePosition(pos);
 	}
-	
+
 	public Vector2 getPosition()
 	{
 		return pos;

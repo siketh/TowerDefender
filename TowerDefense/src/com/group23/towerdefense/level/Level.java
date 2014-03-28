@@ -463,6 +463,7 @@ public abstract class Level
 	 */
 	public void removeEnemy(Enemy enemy)
 	{
+		enemy.setAlive(false);
 		enemies.removeValue(enemy, false);
 	}
 

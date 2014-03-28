@@ -12,13 +12,11 @@ public class ResourceManager
 	private static ArrayMap<String, Texture> mTextureMap = new ArrayMap<String, Texture>();
 	private static ArrayMap<String, Music> mMusicMap = new ArrayMap<String, Music>();
 
-	
-		
 	private ResourceManager()
 	{
 		// Class is non-instantiable
 	}
-	
+
 	public static Texture loadTexture(String filename)
 	{
 		try
@@ -37,7 +35,7 @@ public class ResourceManager
 			return null;
 		}
 	}
-	
+
 	public static Music loadMusic(String filename)
 	{
 		try
@@ -56,14 +54,14 @@ public class ResourceManager
 			return null;
 		}
 	}
-	
+
 	public static void dispose()
 	{
 		ArrayMap.Values<Texture> textures = mTextureMap.values();
 		for (Texture texture : textures)
 			texture.dispose();
 		mTextureMap.clear();
-		
+
 		ArrayMap.Values<Music> musics = mMusicMap.values();
 		for (Music music : musics)
 			music.dispose();
