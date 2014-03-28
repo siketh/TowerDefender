@@ -10,6 +10,7 @@ import com.group23.towerdefense.enemy.Enemy;
 public abstract class CircularRangeTower extends Tower
 {
 	private float range;
+	private int maxTargets;
 	
 	public float getRange()
 	{
@@ -19,6 +20,16 @@ public abstract class CircularRangeTower extends Tower
 	public void setRange(float range)
 	{
 		this.range = range;
+	}
+	
+	public int getMaxTargets()
+	{
+		return maxTargets;
+	}
+	
+	public void setMaxTargets(int numTargets)
+	{
+		maxTargets = numTargets;
 	}
 	
 	@Override
@@ -32,10 +43,18 @@ public abstract class CircularRangeTower extends Tower
 		{
 			final Vector2 pos = getPosition();
 			
+			int numTargets = 0;
 			// find all enemies within range
 			for (Enemy e : enemies)
+			{
 				if (pos.dst(e.getPosition()) <= getRange())
+				{
 					targets.add(e);
+					numTargets++;
+				}
+				if(numTargets >= maxTargets)
+					break;
+			}
 		}
 	}
 	
