@@ -14,29 +14,38 @@ public class ResourceManager
 
 	public static Texture loadTexture(String filename)
 	{
-		return load(filename, sTextureMap, textureLoader);
+		return load(filename, textureMap, textureLoader);
 	}
 
 	public static Music loadMusic(String filename)
 	{
-		return load(filename, sMusicMap, musicLoader);
+		return load(filename, musicMap, musicLoader);
+	}
+	
+	public static BitmapFont loadDefaultFont()
+	{
+		loadDefaultFont = true;
+		return load("default", fontMap, fontLoader);
 	}
 	
 	public static BitmapFont loadFont(String filename)
 	{
-		return load(filename, sFontMap, fontLoader);
+		loadDefaultFont = false;
+		return load(filename, fontMap, fontLoader);
 	}
 
 	public static void dispose()
 	{
-		disposeMap(sTextureMap);
-		disposeMap(sMusicMap);
-		disposeMap(sFontMap);
+		disposeMap(textureMap);
+		disposeMap(musicMap);
+		disposeMap(fontMap);
 	}
 
-	private static ArrayMap<String, Texture> sTextureMap = new ArrayMap<String, Texture>();
-	private static ArrayMap<String, Music> sMusicMap = new ArrayMap<String, Music>();
-	private static ArrayMap<String, BitmapFont> sFontMap = new ArrayMap<String, BitmapFont>();
+	private static ArrayMap<String, Texture> textureMap = new ArrayMap<String, Texture>();
+	private static ArrayMap<String, Music> musicMap = new ArrayMap<String, Music>();
+	private static ArrayMap<String, BitmapFont> fontMap = new ArrayMap<String, BitmapFont>();
+	
+	private static boolean loadDefaultFont = false;
 
 	private interface Loader<Resource>
 	{
@@ -66,7 +75,7 @@ public class ResourceManager
 		@Override
 		public BitmapFont load(String filename)
 		{
-			return new BitmapFont(Gdx.files.internal(filename));
+			return loadDefaultFont ? new BitmapFont() : new BitmapFont(Gdx.files.internal(filename));
 		}
 	};
 

@@ -1,8 +1,8 @@
 package com.group23.towerdefense.enemy;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.Level;
@@ -156,7 +156,7 @@ public abstract class Enemy extends TextureObject
 		return false;
 	}
 
-	public void draw(SpriteBatch batch)
+	public void draw(Batch batch)
 	{
 		super.draw(batch);
 

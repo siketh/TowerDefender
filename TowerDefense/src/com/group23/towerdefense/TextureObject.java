@@ -1,7 +1,7 @@
 package com.group23.towerdefense;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 public class TextureObject
@@ -35,7 +35,7 @@ public class TextureObject
 		return mTexturePosition;
 	}
 	
-	public void draw(SpriteBatch batch)
+	public void draw(Batch batch)
 	{
 		if (mTexture != null)
 			batch.draw(mTexture, mTexturePosition.x, mTexturePosition.y);

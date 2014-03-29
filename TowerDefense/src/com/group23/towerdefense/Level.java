@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
@@ -263,7 +263,7 @@ public class Level
 	 * 
 	 * @param batch
 	 */
-	public void draw(SpriteBatch batch)
+	public void draw(Batch batch)
 	{
 		// Draw background
 		batch.draw(background, 0, 0);
