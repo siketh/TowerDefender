@@ -10,7 +10,6 @@ import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
 import com.group23.towerdefense.spawn.WaveGenerator;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.tower.TowerGenerator;
 
 public class Level
 {
@@ -294,10 +293,9 @@ public class Level
 	 * @param y
 	 *            Tile y-coordinate to place the new tower
 	 */
-	public void placeTower(TowerGenerator gen, int x, int y)
+	public void placeTower(Tower tower, int x, int y)
 	{
-		Tower tower;
-		if (canPlaceTower(x, y) && (tower = gen.newTower()) != null)
+		if (canPlaceTower(x, y) && tower != null)
 		{
 			if (tower.getGoldCost() <= playerGold)
 			{

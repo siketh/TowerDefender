@@ -1,217 +1,232 @@
 package com.group23.towerdefense;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.group23.towerdefense.tower.DirectAttackTower;
-import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.tower.TowerGenerator;
-import com.group23.towerdefense.ui.TopBar;
-import com.group23.towerdefense.ui.TowerBar;
 import com.group23.towerdefense.world.World1;
 
-public class GameplayScreen implements Screen, InputProcessor
+public class GameplayScreen implements Screen
 {
+	private Stage stage;
+	
 	// Camera defines view space of screen
-	private OrthographicCamera camera;
+	private OrthographicCamera camera = new OrthographicCamera();
 	
 	private Level.Generator levelGenerator = new World1();
-	
-	private TowerBar tbar = new TowerBar();
-	private TopBar menu = new TopBar();
 
 	// current level being played
 	private Level curLevel;
-
-	private Vector3 touchPos;
 
 	private int TowerFlag;
 
 	public GameplayScreen(int level)
 	{
-		System.out.println("rawr");
-		// initialize member variables
 		curLevel = levelGenerator.getLevel(level);
-		touchPos = new Vector3();
-
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, TowerDefense.SCREEN_WIDTH,
-				TowerDefense.SCREEN_HEIGHT);
+		camera.setToOrtho(false, TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT);
+		
+		/**
+		 * Setup buttons
+		 */
+		
+		stage = new Stage(TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT, true, TowerDefense.spriteBatch);
+		
+		stage.addActor(new LevelActor());
+		stage.addActor(new TowerButton());
 	}
 
 	public void render(float delta)
 	{
-		// update the current level
-		curLevel.update(delta);
-
-		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
-		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
-		
-		// update the camera
-		camera.update();
-		spriteBatch.setProjectionMatrix(camera.combined);
-
-		// clear the screen
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		// draw to screen
-		shapeRenderer.begin(ShapeType.Line);
-		spriteBatch.begin();
-
-		curLevel.draw(spriteBatch);
-		menu.draw(spriteBatch, curLevel);
-		tbar.draw(spriteBatch);
-
-		spriteBatch.end();
-		shapeRenderer.end();
+		TowerDefense.shapeRenderer.begin(ShapeType.Line);
+		stage.act(delta);
+		stage.draw();
+		TowerDefense.shapeRenderer.end();
 	}
 
 	public void resize(int width, int height)
 	{
+		
 	}
 
 	public void show()
 	{
-		Gdx.input.setInputProcessor(this);
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	public void hide()
 	{
+		
 	}
 
 	public void pause()
 	{
+		
 	}
 
 	public void resume()
 	{
+		
 	}
 
 	public void dispose()
 	{
+		
 	}
-
-	@Override
-	public boolean keyDown(int keycode)
+	
+	private class LevelActor extends Actor
 	{
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button)
-	{
-		touchPos.x = screenX;
-		touchPos.y = screenY;
-		touchPos.z = 0;
-
-		camera.unproject(touchPos); // Converts where you touched into pixel
-									// coordinates
-		int x = (int) (touchPos.x) / 128; // Converts to tile coordinates
-		int y = (int) (touchPos.y) / 128; // Converts to tile coordinates
-
-		if (TowerFlag == 0)
+		public LevelActor()
 		{
-			if (y < curLevel.getHeight())
+			int width = TowerDefense.SCREEN_WIDTH;
+			int height = TowerDefense.SCREEN_HEIGHT;
+			int tsize = TowerDefense.TILE_SIZE;
+			
+			setPosition(0.0f, 0.0f);
+			setWidth(width);
+			setHeight(height - (height % tsize));
+			
+			addListener(new EventListener()
 			{
-				switch (button)
+				@Override
+				public boolean handle(Event event)
 				{
-				case Buttons.LEFT:
-					/*
-					 * TODO make this a lot better
-					 */
-
-					if (x == 4 && y == 0)
-						TowerFlag = 1;
-					else if (x == 5 && y == 0)
-						TowerFlag = 2;
-					else
-						curLevel.selectTower(x, y);
-
-					break;
-
-				case Buttons.RIGHT:
-					curLevel.removeTower(x, y);
-					break;
-
-				}
-			}
-		}
-		else
-		{
-
-			switch (button)
-			{
-			case Buttons.LEFT:
-				TowerGenerator gen = new TowerGenerator() {
-					@Override
-					public Tower newTower()
+					InputEvent input = (InputEvent) event;
+					if (input.getType() == InputEvent.Type.touchDown)
 					{
-						switch (TowerFlag)
-						{
-						case 1:
-							return new DirectAttackTower();
-						case 2:
-							return new DirectMultiAttackTower();
-						default:
-							return null;
-						}
+						int x = (int) (input.getStageX() / TowerDefense.TILE_SIZE);
+						int y = (int) (input.getStageY() / TowerDefense.TILE_SIZE);
+						Tower tower = new DirectAttackTower();
+						
+						System.out.format("(%d, %d)\n", x, y);
+						curLevel.placeTower(tower, x, y);
 					}
-				};
-
-				curLevel.placeTower(gen, x, y);
-				TowerFlag = 0;
-				break;
-			case Buttons.RIGHT:
-				TowerFlag = 0;
-				break;
-			}
-
+					return true;
+				}
+			});
 		}
-		return true;
+		
+		@Override
+		public void act(float delta)
+		{
+			curLevel.update(delta);
+		}
+		
+		@Override
+		public void draw(SpriteBatch batch, float parentAlpha)
+		{
+			curLevel.draw(batch);
+		}
+	}
+	
+	private class TowerButton extends Actor
+	{
+		private Texture texture = ResourceManager.loadTexture("tower_b.png");
+
+		public TowerButton()
+		{
+			int height = TowerDefense.SCREEN_HEIGHT;
+			int tsize = TowerDefense.TILE_SIZE;
+			
+			setPosition(0.0f, height - (height % tsize));
+			setWidth(texture.getWidth());
+			setHeight(texture.getHeight());
+			
+			addListener(new EventListener()
+			{
+				@Override
+				public boolean handle(Event event)
+				{
+					InputEvent input = (InputEvent) event;
+					if (input.getType() == InputEvent.Type.touchDown)
+						System.out.println("TowerButton pressed");
+					return true;
+				}
+			});
+		}
+		
+		@Override
+		public void draw(SpriteBatch batch, float parentAlpha)
+		{
+			batch.draw(texture, getX(), getY());
+		}
 	}
 
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount)
-	{
-		return false;
-	}
+//	@Override
+//	public boolean touchDown(int screenX, int screenY, int pointer, int button)
+//	{
+//		touchPos.x = screenX;
+//		touchPos.y = screenY;
+//		touchPos.z = 0;
+//
+//		camera.unproject(touchPos); // Converts where you touched into pixel
+//									// coordinates
+//		int x = (int) (touchPos.x) / 128; // Converts to tile coordinates
+//		int y = (int) (touchPos.y) / 128; // Converts to tile coordinates
+//
+//		if (TowerFlag == 0)
+//		{
+//			if (y < curLevel.getHeight())
+//			{
+//				switch (button)
+//				{
+//				case Buttons.LEFT:
+//
+//					if (x == 4 && y == 0)
+//						TowerFlag = 1;
+//					else if (x == 5 && y == 0)
+//						TowerFlag = 2;
+//					else
+//						curLevel.selectTower(x, y);
+//
+//					break;
+//
+//				case Buttons.RIGHT:
+//					curLevel.removeTower(x, y);
+//					break;
+//
+//				}
+//			}
+//		}
+//		else
+//		{
+//
+//			switch (button)
+//			{
+//			case Buttons.LEFT:
+//				TowerGenerator gen = new TowerGenerator() {
+//					@Override
+//					public Tower newTower()
+//					{
+//						switch (TowerFlag)
+//						{
+//						case 1:
+//							return new DirectAttackTower();
+//						case 2:
+//							return new DirectMultiAttackTower();
+//						default:
+//							return null;
+//						}
+//					}
+//				};
+//
+//				curLevel.placeTower(gen, x, y);
+//				TowerFlag = 0;
+//				break;
+//			case Buttons.RIGHT:
+//				TowerFlag = 0;
+//				break;
+//			}
+//
+//		}
+//		return true;
+//	}
 }

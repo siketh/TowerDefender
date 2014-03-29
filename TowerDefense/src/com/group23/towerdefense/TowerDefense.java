@@ -70,15 +70,13 @@ public class TowerDefense extends Game
 		shapeRenderer = new ShapeRenderer();
 
 		// set the screen to its initial state
-		setScreen(new LevelSelectScreen(this));
+		setScreen(new GameplayScreen(1));
 	}
 
 	@Override
 	// Called when game is killed, unloads everything
 	public void dispose()
 	{
-		for (Texture t : Level.textures)
-			t.dispose();
 		Enemy.font.dispose();
 		TopBar.gold_font.dispose();
 		TopBar.health_font.dispose();
