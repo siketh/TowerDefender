@@ -19,13 +19,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.world.World1;
+import com.group23.towerdefense.world.DefaultLevelGenerator;
 
 public class GameplayScreen implements Screen
 {
 	private Stage stage;
 	private Level curLevel;
-	private Level.Generator levelGenerator = new World1();
+	private Level.Generator levelGenerator = new DefaultLevelGenerator();
 
 	public GameplayScreen()
 	{
@@ -34,6 +34,17 @@ public class GameplayScreen implements Screen
 
 	public GameplayScreen(int level)
 	{
+		loadLevel(level);
+	}
+	
+	public GameplayScreen(Level.Generator levelGenerator)
+	{
+		this.levelGenerator = levelGenerator;
+	}
+	
+	public GameplayScreen(Level.Generator levelGenerator, int level)
+	{
+		this.levelGenerator = levelGenerator;
 		loadLevel(level);
 	}
 
@@ -107,7 +118,7 @@ public class GameplayScreen implements Screen
 	public void show()
 	{
 		if (curLevel == null)
-			loadLevel(1);
+			loadLevel(0);
 
 		int width = TowerDefense.SCREEN_WIDTH;
 		int height = TowerDefense.SCREEN_HEIGHT;

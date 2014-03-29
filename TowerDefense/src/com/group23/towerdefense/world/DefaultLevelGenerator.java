@@ -7,7 +7,7 @@ import com.group23.towerdefense.enemy.Slime;
 import com.group23.towerdefense.spawn.Wave;
 import com.group23.towerdefense.spawn.WaveGenerator;
 
-public class World1 extends Level.Generator
+public class DefaultLevelGenerator extends Level.Generator
 {
 	@Override
 	public Level getLevel(int level)
