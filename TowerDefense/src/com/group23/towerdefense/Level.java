@@ -241,9 +241,9 @@ public class Level
 	 * @param dt
 	 *            The amount of time since the last update
 	 */
-	public void update(float dt)
+	public void act(float dt)
 	{
-		wave.update(this);
+		wave.act(this);
 
 		// DEBUG when one wave is finished, start the next one
 		if (!wave.isPlaying() && !wave.isFinished())
@@ -251,11 +251,11 @@ public class Level
 
 		// Update enemies
 		for (Enemy e : enemies)
-			e.update(dt);
+			e.act(dt);
 
 		// Update towers
 		for (Tower t : towers)
-			t.update();
+			t.act();
 	}
 
 	/**

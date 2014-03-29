@@ -35,7 +35,7 @@ public class LevelWave
 		waves.get(curWaveIndex).start(enemies);
 	}
 	
-	public void update(Level level)
+	public void act(Level level)
 	{
 		if (isFinished() || !isPlaying())
 			return;

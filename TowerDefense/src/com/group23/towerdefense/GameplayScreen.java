@@ -39,7 +39,7 @@ public class GameplayScreen implements Screen
 		final int height = TowerDefense.SCREEN_HEIGHT;
 		final int tsize = TowerDefense.TILE_SIZE;
 		SpriteBatch sb = TowerDefense.spriteBatch;
-		
+
 		stage = new Stage(new FitViewport(width, height), sb);
 		Sprite sprite;
 		SpriteDrawable spriteDrawable;
@@ -53,7 +53,7 @@ public class GameplayScreen implements Screen
 			@Override
 			public void act(float delta)
 			{
-				curLevel.update(delta);
+				curLevel.act(delta);
 			}
 
 			@Override
@@ -82,7 +82,7 @@ public class GameplayScreen implements Screen
 		});
 
 		stage.addActor(levelActor);
-		
+
 		/**
 		 * Start Button
 		 */
@@ -135,8 +135,8 @@ public class GameplayScreen implements Screen
 		goldGroup.addActor(goldImage);
 		goldGroup.addActor(goldLabel);
 		goldGroup.setPosition(0.0f, 0.0f);
-		
-		
+		// goldGroup.bottom();
+
 		stage.addActor(goldGroup);
 
 		/**
@@ -147,8 +147,8 @@ public class GameplayScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
-		TowerDefense.shapeRenderer.begin(ShapeType.Line);
 		stage.act(delta);
+		TowerDefense.shapeRenderer.begin(ShapeType.Line);
 		stage.draw();
 		TowerDefense.shapeRenderer.end();
 	}

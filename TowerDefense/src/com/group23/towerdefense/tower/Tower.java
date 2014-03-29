@@ -53,7 +53,7 @@ public abstract class Tower extends TextureObject
 		updateTexturePosition(pos);
 	}
 
-	public void update()
+	public void act()
 	{
 		// remove any targets that left range
 		findTargets(targets);

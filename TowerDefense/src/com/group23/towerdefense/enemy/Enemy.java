@@ -53,7 +53,7 @@ public abstract class Enemy extends TextureObject
 	abstract protected void setBaseStats();
 
 	// Returns true if reached the end
-	public boolean update(float dt)
+	public boolean act(float dt)
 	{
 		// Updates units position based on change in time and unit's movement
 		// speed

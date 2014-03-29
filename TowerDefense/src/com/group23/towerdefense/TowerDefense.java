@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.ui.TopBar;
 import com.group23.towerdefense.ui.TowerBar;
 
 public class TowerDefense extends Game
@@ -40,14 +39,14 @@ public class TowerDefense extends Game
 
 		// initialize textures and fonts
 		Enemy.font = new BitmapFont();
-		TopBar.health_font = new BitmapFont();
-		TopBar.gold_font = new BitmapFont();
-
-		TopBar.texture = ResourceManager.loadTexture("button.png");
-		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
-		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
-		TopBar.health = ResourceManager.loadTexture("health.png");
-		TopBar.gold = ResourceManager.loadTexture("gold.png");
+//		TopBar.health_font = new BitmapFont();
+//		TopBar.gold_font = new BitmapFont();
+//
+//		TopBar.texture = ResourceManager.loadTexture("button.png");
+//		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
+//		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
+//		TopBar.health = ResourceManager.loadTexture("health.png");
+//		TopBar.gold = ResourceManager.loadTexture("gold.png");
 
 		Level.background = ResourceManager.loadTexture("background.png");
 		Level.textures = new Texture[8];
@@ -78,8 +77,8 @@ public class TowerDefense extends Game
 	public void dispose()
 	{
 		Enemy.font.dispose();
-		TopBar.gold_font.dispose();
-		TopBar.health_font.dispose();
+//		TopBar.gold_font.dispose();
+//		TopBar.health_font.dispose();
 		spriteBatch.dispose();
 		ResourceManager.dispose();
 	}
