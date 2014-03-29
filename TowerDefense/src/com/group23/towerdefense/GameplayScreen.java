@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
+import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.world.DefaultLevelGenerator;
 
@@ -26,6 +29,8 @@ public class GameplayScreen implements Screen
 	private Stage stage;
 	private Level curLevel;
 	private Level.Generator levelGenerator = new DefaultLevelGenerator();
+	private TowerGenerator towerGenerator;
+	private TowerSelector towerSelector;
 
 	public GameplayScreen()
 	{
@@ -36,12 +41,12 @@ public class GameplayScreen implements Screen
 	{
 		loadLevel(level);
 	}
-	
+
 	public GameplayScreen(Level.Generator levelGenerator)
 	{
 		this.levelGenerator = levelGenerator;
 	}
-	
+
 	public GameplayScreen(Level.Generator levelGenerator, int level)
 	{
 		this.levelGenerator = levelGenerator;
@@ -74,8 +79,8 @@ public class GameplayScreen implements Screen
 	 */
 	protected void onTowerButtonPressed()
 	{
-		// TODO make pressing the tower button show the tower bar
-		System.out.format("onTowerButtonPressed() called\n");
+		if (!towerSelector.isMoving())
+			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
 	/**
@@ -89,13 +94,17 @@ public class GameplayScreen implements Screen
 	protected void onLevelPressed(float x, float y)
 	{
 		int tsize = TowerDefense.TILE_SIZE;
-
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
-		Tower tower = new DirectAttackTower();
-
-		System.out.format("(%d, %d)\n", tileX, tileY);
-		curLevel.placeTower(tower, tileX, tileY);
+		
+		if (towerGenerator != null)
+		{
+			Tower tower = towerGenerator.newTower();
+			towerGenerator = null;
+			curLevel.placeTower(tower, tileX, tileY);
+		}
+		else
+			curLevel.selectTower(tileX, tileY);
 	}
 
 	@Override
@@ -128,19 +137,22 @@ public class GameplayScreen implements Screen
 		viewport.update(width / 2, height / 2, true);
 
 		stage = new Stage(viewport, spriteBatch);
-		Gdx.input.setInputProcessor(stage);
 
 		Actor startButton = getStartButtonActor();
 		Actor towerButton = getTowerButtonActor();
 		Actor goldDisplay = getGoldDisplayActor();
 		Actor healthDisplay = getHealthDisplayActor();
 		Actor levelActor = getLevelActor();
+		towerSelector = new TowerSelector();
 
 		stage.addActor(levelActor);
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
+		stage.addActor(towerSelector);
+
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
@@ -268,7 +280,7 @@ public class GameplayScreen implements Screen
 		healthGroup.addActor(healthImage);
 		healthGroup.addActor(healthLabelContainer);
 		healthGroup.setPosition(1500.0f, 1020.0f);
-		healthGroup.setHeight(60.0f);
+		healthGroup.pack();
 
 		return healthGroup;
 	}
@@ -297,79 +309,108 @@ public class GameplayScreen implements Screen
 		goldGroup.addActor(goldImage);
 		goldGroup.addActor(goldLabelContainer);
 		goldGroup.setPosition(1300.0f, 1020.0f);
-		goldGroup.setHeight(60.0f);
+		goldGroup.pack();
 
 		return goldGroup;
 	}
 
-	// @Override
-	// public boolean touchDown(int screenX, int screenY, int pointer, int
-	// button)
-	// {
-	// touchPos.x = screenX;
-	// touchPos.y = screenY;
-	// touchPos.z = 0;
-	//
-	// camera.unproject(touchPos); // Converts where you touched into pixel
-	// // coordinates
-	// int x = (int) (touchPos.x) / 128; // Converts to tile coordinates
-	// int y = (int) (touchPos.y) / 128; // Converts to tile coordinates
-	//
-	// if (TowerFlag == 0)
-	// {
-	// if (y < curLevel.getHeight())
-	// {
-	// switch (button)
-	// {
-	// case Buttons.LEFT:
-	//
-	// if (x == 4 && y == 0)
-	// TowerFlag = 1;
-	// else if (x == 5 && y == 0)
-	// TowerFlag = 2;
-	// else
-	// curLevel.selectTower(x, y);
-	//
-	// break;
-	//
-	// case Buttons.RIGHT:
-	// curLevel.removeTower(x, y);
-	// break;
-	//
-	// }
-	// }
-	// }
-	// else
-	// {
-	//
-	// switch (button)
-	// {
-	// case Buttons.LEFT:
-	// TowerGenerator gen = new TowerGenerator() {
-	// @Override
-	// public Tower newTower()
-	// {
-	// switch (TowerFlag)
-	// {
-	// case 1:
-	// return new DirectAttackTower();
-	// case 2:
-	// return new DirectMultiAttackTower();
-	// default:
-	// return null;
-	// }
-	// }
-	// };
-	//
-	// curLevel.placeTower(gen, x, y);
-	// TowerFlag = 0;
-	// break;
-	// case Buttons.RIGHT:
-	// TowerFlag = 0;
-	// break;
-	// }
-	//
-	// }
-	// return true;
-	// }
+	private interface TowerGenerator
+	{
+		public abstract Tower newTower();
+	}
+
+	private class TowerSelector extends HorizontalGroup
+	{	
+		private static final float DURATION = 0.25f;
+		
+		private MoveToAction showAction = new MoveToAction();
+		private MoveToAction hideAction = new MoveToAction();
+		private boolean visible = false;
+		
+		public TowerSelector()
+		{	
+			addActor(generateButton("towerbar00.png", new TowerGenerator()
+			{
+				@Override
+				public Tower newTower()
+				{
+					return new DirectAttackTower();
+				}
+			}));
+			
+			addActor(generateButton("towerbar01.png", new TowerGenerator()
+			{
+				@Override
+				public Tower newTower()
+				{
+					return new DirectMultiAttackTower();
+				}
+			}));
+			
+			pack();
+			setPosition(TowerDefense.SCREEN_WIDTH / 2 - getWidth() / 2, -getHeight());
+			
+			showAction.setDuration(DURATION);
+			showAction.setPosition(getX(), 0.0f);
+			
+			hideAction.setDuration(DURATION);
+			hideAction.setPosition(getX(), -getHeight());
+		}
+		
+		public boolean isMoving()
+		{
+			return getActions().size != 0;
+		}
+		
+		@Override
+		public void setVisible(boolean visible)
+		{
+			if (visible)
+				show();
+			else
+				hide();
+		}
+		
+		@Override
+		public boolean isVisible()
+		{
+			return visible;
+		}
+		
+		public void show()
+		{
+			visible = true;
+			showAction.restart();
+			addAction(showAction);
+		}
+		
+		public void hide()
+		{
+			hideAction.restart();
+			addAction(Actions.sequence(hideAction, Actions.run(new Runnable()
+			{
+				public void run()
+				{
+					visible = false;
+				}
+			})));
+		}
+		
+		private Actor generateButton(String filename, final TowerGenerator gen)
+		{
+			Image tower = new Image(ResourceManager.loadTexture(filename));
+			tower.addListener(new InputListener()
+			{
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button)
+				{
+					towerGenerator = gen;
+					towerSelector.setVisible(false);
+					return true;
+				}
+			});
+			return tower;
+		}
+	}
 }

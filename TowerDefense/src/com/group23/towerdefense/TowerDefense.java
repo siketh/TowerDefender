@@ -38,15 +38,7 @@ public class TowerDefense extends Game
 		planning.play();
 
 		// initialize textures and fonts
-		Enemy.font = new BitmapFont();
-//		TopBar.health_font = new BitmapFont();
-//		TopBar.gold_font = new BitmapFont();
-//
-//		TopBar.texture = ResourceManager.loadTexture("button.png");
-//		TopBar.start_b = ResourceManager.loadTexture("start_b.png");
-//		TopBar.tower_b = ResourceManager.loadTexture("tower_b.png");
-//		TopBar.health = ResourceManager.loadTexture("health.png");
-//		TopBar.gold = ResourceManager.loadTexture("gold.png");
+		Enemy.font = ResourceManager.loadDefaultFont();
 
 		Level.background = ResourceManager.loadTexture("background.png");
 		Level.textures = new Texture[8];
@@ -58,11 +50,6 @@ public class TowerDefense extends Game
 		Level.textures[5] = ResourceManager.loadTexture("tile05.png");
 		Level.textures[6] = ResourceManager.loadTexture("tile06.png");
 		Level.textures[7] = ResourceManager.loadTexture("tile07.png");
-
-		TowerBar.textures = new Texture[3];
-		TowerBar.textures[0] = ResourceManager.loadTexture("towerbar00.png");
-		TowerBar.textures[1] = ResourceManager.loadTexture("towerbar01.png");
-		TowerBar.textures[2] = ResourceManager.loadTexture("towerbar03.png");
 
 		// initialize static batches
 		spriteBatch = new SpriteBatch();
@@ -76,9 +63,6 @@ public class TowerDefense extends Game
 	// Called when game is killed, unloads everything
 	public void dispose()
 	{
-		Enemy.font.dispose();
-//		TopBar.gold_font.dispose();
-//		TopBar.health_font.dispose();
 		spriteBatch.dispose();
 		ResourceManager.dispose();
 	}
