@@ -117,11 +117,6 @@ public class Level
 		 * Create the direction map based on the tiles
 		 */
 		createDirMap();
-
-		/**
-		 * DEBUG Start the first wave
-		 */
-		wave.next(enemies);
 	}
 
 	// Creates a direction map for enemies to follow, based off of the tile map
@@ -244,10 +239,6 @@ public class Level
 	public void act(float dt)
 	{
 		wave.act(this);
-
-		// DEBUG when one wave is finished, start the next one
-		if (!wave.isPlaying() && !wave.isFinished())
-			wave.next(enemies);
 
 		// Update enemies
 		for (Enemy e : enemies)
@@ -596,5 +587,20 @@ public class Level
 	public int getLives()
 	{
 		return playerLives;
+	}
+	
+	public boolean isWavePlaying()
+	{
+		return wave.isPlaying();
+	}
+	
+	public boolean hasFinishedAllWaves()
+	{
+		return wave.isFinished();
+	}
+	
+	public void startNextWave()
+	{
+		wave.next(enemies);
 	}
 }

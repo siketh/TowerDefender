@@ -5,18 +5,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
@@ -48,21 +46,39 @@ public class GameplayScreen implements Screen
 	{
 		return curLevel;
 	}
-	
-	private void onStartButtonPressed()
+
+	/**
+	 * Called when the Start button on the top bar is pressed. Starts a new wave
+	 * if no wave is playing and the current level has not finished all of its
+	 * waves.
+	 */
+	protected void onStartButtonPressed()
 	{
-		// TODO make pressing the start button, start the next wave
+		if (!(curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
+			curLevel.startNextWave();
 	}
 
-	private void onTowerButtonPressed()
+	/**
+	 * Called when the Tower button on the top bar is pressed.
+	 */
+	protected void onTowerButtonPressed()
 	{
 		// TODO make pressing the tower button show the tower bar
+		System.out.format("onTowerButtonPressed() called\n");
 	}
 
-	private void onLevelPressed(float x, float y)
+	/**
+	 * Called when the game's current Level is pressed
+	 * 
+	 * @param x
+	 *            Stage x-coordinate of the Level pressed
+	 * @param y
+	 *            Stage y-coordinate of the Level pressed
+	 */
+	protected void onLevelPressed(float x, float y)
 	{
 		int tsize = TowerDefense.TILE_SIZE;
-		
+
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
 		Tower tower = new DirectAttackTower();
@@ -92,7 +108,7 @@ public class GameplayScreen implements Screen
 	{
 		if (curLevel == null)
 			loadLevel(1);
-		
+
 		int width = TowerDefense.SCREEN_WIDTH;
 		int height = TowerDefense.SCREEN_HEIGHT;
 		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
@@ -102,16 +118,18 @@ public class GameplayScreen implements Screen
 
 		stage = new Stage(viewport, spriteBatch);
 		Gdx.input.setInputProcessor(stage);
-		
+
 		Actor startButton = getStartButtonActor();
 		Actor towerButton = getTowerButtonActor();
 		Actor goldDisplay = getGoldDisplayActor();
+		Actor healthDisplay = getHealthDisplayActor();
 		Actor levelActor = getLevelActor();
 
+		stage.addActor(levelActor);
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
 		stage.addActor(goldDisplay);
-		stage.addActor(levelActor);
+		stage.addActor(healthDisplay);
 	}
 
 	@Override
@@ -137,13 +155,13 @@ public class GameplayScreen implements Screen
 	{
 
 	}
-	
+
 	private Actor getLevelActor()
 	{
 		int width = TowerDefense.SCREEN_WIDTH;
 		int height = TowerDefense.SCREEN_HEIGHT;
 		int tsize = TowerDefense.TILE_SIZE;
-		
+
 		Actor levelActor = new Actor()
 		{
 			@Override
@@ -171,20 +189,16 @@ public class GameplayScreen implements Screen
 				return true;
 			}
 		});
-		
+
 		return levelActor;
 	}
-	
+
 	private Actor getStartButtonActor()
 	{
-		int height = TowerDefense.SCREEN_HEIGHT;
-		int tsize = TowerDefense.TILE_SIZE;
-		
-		Sprite sprite = new Sprite(ResourceManager.loadTexture("start_b.png"));
-		sprite.setScale((height % tsize) / sprite.getHeight());
+		Image buttonStart = new Image(
+				ResourceManager.loadTexture("start_b.png"));
 
-		ImageButton buttonStart = new ImageButton(new SpriteDrawable(sprite));
-		buttonStart.setPosition(0.0f, height - buttonStart.getHeight());
+		buttonStart.setBounds(0.0f, 1020.0f, 200.0f, 60.0f);
 		buttonStart.addListener(new InputListener()
 		{
 			@Override
@@ -195,20 +209,16 @@ public class GameplayScreen implements Screen
 				return true;
 			}
 		});
-		
+
 		return buttonStart;
 	}
-	
+
 	private Actor getTowerButtonActor()
 	{
-		int height = TowerDefense.SCREEN_HEIGHT;
-		int tsize = TowerDefense.TILE_SIZE;
-		
-		Sprite sprite = new Sprite(ResourceManager.loadTexture("tower_b.png"));
-		sprite.setScale((height % tsize) / sprite.getHeight());
-		SpriteDrawable spriteDrawable = new SpriteDrawable(sprite);
-		ImageButton buttonTower = new ImageButton(spriteDrawable);
-		buttonTower.setPosition(200.0f, height - buttonTower.getHeight());
+		Image buttonTower = new Image(
+				ResourceManager.loadTexture("tower_b.png"));
+
+		buttonTower.setBounds(200.0f, 1020.0f, 200.0f, 60.0f);
 		buttonTower.addListener(new InputListener()
 		{
 			@Override
@@ -219,10 +229,39 @@ public class GameplayScreen implements Screen
 				return true;
 			}
 		});
-		
+
 		return buttonTower;
 	}
-	
+
+	private Actor getHealthDisplayActor()
+	{
+		Label.LabelStyle healthStyle = new Label.LabelStyle();
+		healthStyle.fontColor = Color.WHITE;
+		healthStyle.font = ResourceManager.loadDefaultFont();
+
+		Image healthImage = new Image(ResourceManager.loadTexture("health.png"));
+		Label healthLabel = new Label("", healthStyle)
+		{
+			@Override
+			public void act(float delta)
+			{
+				setText(Integer.toString(curLevel.getLives()));
+			}
+		};
+		healthLabel.setFontScale(2.5f);
+
+		Container healthLabelContainer = new Container(healthLabel);
+		healthLabelContainer.padLeft(15.0f);
+
+		HorizontalGroup healthGroup = new HorizontalGroup();
+		healthGroup.addActor(healthImage);
+		healthGroup.addActor(healthLabelContainer);
+		healthGroup.setPosition(1500.0f, 1020.0f);
+		healthGroup.setHeight(60.0f);
+
+		return healthGroup;
+	}
+
 	private Actor getGoldDisplayActor()
 	{
 		Label.LabelStyle goldStyle = new Label.LabelStyle();
@@ -235,16 +274,20 @@ public class GameplayScreen implements Screen
 			@Override
 			public void act(float delta)
 			{
-				setText(Integer.toString(curLevel.getLives()));
+				setText(Integer.toString(curLevel.getGold()));
 			}
 		};
 		goldLabel.setFontScale(2.5f);
 
+		Container goldLabelContainer = new Container(goldLabel);
+		goldLabelContainer.padLeft(15.0f);
+
 		HorizontalGroup goldGroup = new HorizontalGroup();
 		goldGroup.addActor(goldImage);
-		goldGroup.addActor(goldLabel);
-		goldGroup.setPosition(0.0f, 300.0f);
-		
+		goldGroup.addActor(goldLabelContainer);
+		goldGroup.setPosition(1300.0f, 1020.0f);
+		goldGroup.setHeight(60.0f);
+
 		return goldGroup;
 	}
 
