@@ -31,17 +31,44 @@ public class GameplayScreen implements Screen
 
 	public GameplayScreen()
 	{
-		
+
 	}
-	
+
 	public GameplayScreen(int level)
 	{
 		loadLevel(level);
 	}
-	
+
 	public void loadLevel(int level)
 	{
 		curLevel = levelGenerator.getLevel(level);
+	}
+
+	public Level getLevel()
+	{
+		return curLevel;
+	}
+	
+	private void onStartButtonPressed()
+	{
+		// TODO make pressing the start button, start the next wave
+	}
+
+	private void onTowerButtonPressed()
+	{
+		// TODO make pressing the tower button show the tower bar
+	}
+
+	private void onLevelPressed(float x, float y)
+	{
+		int tsize = TowerDefense.TILE_SIZE;
+		
+		int tileX = (int) (x / tsize);
+		int tileY = (int) (y / tsize);
+		Tower tower = new DirectAttackTower();
+
+		System.out.format("(%d, %d)\n", tileX, tileY);
+		curLevel.placeTower(tower, tileX, tileY);
 	}
 
 	@Override
@@ -65,124 +92,26 @@ public class GameplayScreen implements Screen
 	{
 		if (curLevel == null)
 			loadLevel(1);
-
-		/**
-		 * Setup Stage
-		 */
-
-		final int width = TowerDefense.SCREEN_WIDTH;
-		final int height = TowerDefense.SCREEN_HEIGHT;
-		final int tsize = TowerDefense.TILE_SIZE;
+		
+		int width = TowerDefense.SCREEN_WIDTH;
+		int height = TowerDefense.SCREEN_HEIGHT;
 		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
 
 		Viewport viewport = new FitViewport(width, height);
-		viewport.update(width/2, height/2, true);
-		
+		viewport.update(width / 2, height / 2, true);
+
 		stage = new Stage(viewport, spriteBatch);
-		Sprite sprite;
-		SpriteDrawable spriteDrawable;
-		
 		Gdx.input.setInputProcessor(stage);
+		
+		Actor startButton = getStartButtonActor();
+		Actor towerButton = getTowerButtonActor();
+		Actor goldDisplay = getGoldDisplayActor();
+		Actor levelActor = getLevelActor();
 
-		/**
-		 * Level
-		 */
-
-		Actor levelActor = new Actor()
-		{
-			@Override
-			public void act(float delta)
-			{
-				curLevel.act(delta);
-			}
-
-			@Override
-			public void draw(Batch batch, float parentAlpha)
-			{
-				curLevel.draw(batch);
-			}
-		};
-		levelActor.setPosition(0.0f, 0.0f);
-		levelActor.setWidth(width);
-		levelActor.setHeight(height - (height % tsize));
-		levelActor.addListener(new InputListener()
-		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
-			{
-				int tileX = (int) (x / tsize);
-				int tileY = (int) (y / tsize);
-				Tower tower = new DirectAttackTower();
-
-				System.out.format("(%d, %d)\n", tileX, tileY);
-				curLevel.placeTower(tower, tileX, tileY);
-				return true;
-			}
-		});
-
+		stage.addActor(startButton);
+		stage.addActor(towerButton);
+		stage.addActor(goldDisplay);
 		stage.addActor(levelActor);
-
-		/**
-		 * Start Button
-		 */
-
-		sprite = new Sprite(ResourceManager.loadTexture("start_b.png"));
-		sprite.setScale((height % tsize) / sprite.getHeight());
-
-		/**
-		 * Tower Button
-		 */
-
-		sprite = new Sprite(ResourceManager.loadTexture("tower_b.png"));
-		sprite.setScale((height % tsize) / sprite.getHeight());
-		spriteDrawable = new SpriteDrawable(sprite);
-		ImageButton buttonTower = new ImageButton(spriteDrawable);
-		buttonTower.setPosition(200.0f, height - buttonTower.getHeight());
-		buttonTower.addListener(new InputListener()
-		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
-			{
-				System.out.println("Tower Button Pressed");
-				return true;
-			}
-		});
-
-		stage.addActor(buttonTower);
-
-		/**
-		 * Gold Display
-		 */
-
-		Label.LabelStyle goldStyle = new Label.LabelStyle();
-		goldStyle.fontColor = Color.WHITE;
-		goldStyle.font = ResourceManager.loadDefaultFont();
-
-		Image goldImage = new Image(ResourceManager.loadTexture("gold.png"));
-		Label goldLabel = new Label("", goldStyle)
-		{
-			@Override
-			public void act(float delta)
-			{
-				setText(Integer.toString(curLevel.getLives()));
-			}
-		};
-		goldLabel.setFontScale(2.5f);
-
-		HorizontalGroup goldGroup = new HorizontalGroup();
-		goldGroup.addActor(goldImage);
-		goldGroup.addActor(goldLabel);
-		goldGroup.setPosition(0.0f, 0.0f);
-
-		stage.addActor(goldGroup);
-
-		/**
-		 * Health Display
-		 */
-		
-		
 	}
 
 	@Override
@@ -207,6 +136,116 @@ public class GameplayScreen implements Screen
 	public void dispose()
 	{
 
+	}
+	
+	private Actor getLevelActor()
+	{
+		int width = TowerDefense.SCREEN_WIDTH;
+		int height = TowerDefense.SCREEN_HEIGHT;
+		int tsize = TowerDefense.TILE_SIZE;
+		
+		Actor levelActor = new Actor()
+		{
+			@Override
+			public void act(float delta)
+			{
+				curLevel.act(delta);
+			}
+
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				curLevel.draw(batch);
+			}
+		};
+		levelActor.setPosition(0.0f, 0.0f);
+		levelActor.setWidth(width);
+		levelActor.setHeight(height - (height % tsize));
+		levelActor.addListener(new InputListener()
+		{
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button)
+			{
+				onLevelPressed(x, y);
+				return true;
+			}
+		});
+		
+		return levelActor;
+	}
+	
+	private Actor getStartButtonActor()
+	{
+		int height = TowerDefense.SCREEN_HEIGHT;
+		int tsize = TowerDefense.TILE_SIZE;
+		
+		Sprite sprite = new Sprite(ResourceManager.loadTexture("start_b.png"));
+		sprite.setScale((height % tsize) / sprite.getHeight());
+
+		ImageButton buttonStart = new ImageButton(new SpriteDrawable(sprite));
+		buttonStart.setPosition(0.0f, height - buttonStart.getHeight());
+		buttonStart.addListener(new InputListener()
+		{
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button)
+			{
+				onStartButtonPressed();
+				return true;
+			}
+		});
+		
+		return buttonStart;
+	}
+	
+	private Actor getTowerButtonActor()
+	{
+		int height = TowerDefense.SCREEN_HEIGHT;
+		int tsize = TowerDefense.TILE_SIZE;
+		
+		Sprite sprite = new Sprite(ResourceManager.loadTexture("tower_b.png"));
+		sprite.setScale((height % tsize) / sprite.getHeight());
+		SpriteDrawable spriteDrawable = new SpriteDrawable(sprite);
+		ImageButton buttonTower = new ImageButton(spriteDrawable);
+		buttonTower.setPosition(200.0f, height - buttonTower.getHeight());
+		buttonTower.addListener(new InputListener()
+		{
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button)
+			{
+				onTowerButtonPressed();
+				return true;
+			}
+		});
+		
+		return buttonTower;
+	}
+	
+	private Actor getGoldDisplayActor()
+	{
+		Label.LabelStyle goldStyle = new Label.LabelStyle();
+		goldStyle.fontColor = Color.YELLOW;
+		goldStyle.font = ResourceManager.loadDefaultFont();
+
+		Image goldImage = new Image(ResourceManager.loadTexture("gold.png"));
+		Label goldLabel = new Label("", goldStyle)
+		{
+			@Override
+			public void act(float delta)
+			{
+				setText(Integer.toString(curLevel.getLives()));
+			}
+		};
+		goldLabel.setFontScale(2.5f);
+
+		HorizontalGroup goldGroup = new HorizontalGroup();
+		goldGroup.addActor(goldImage);
+		goldGroup.addActor(goldLabel);
+		goldGroup.setPosition(0.0f, 300.0f);
+		
+		return goldGroup;
 	}
 
 	// @Override
