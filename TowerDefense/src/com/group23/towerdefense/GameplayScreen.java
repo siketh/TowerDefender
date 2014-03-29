@@ -2,10 +2,8 @@ package com.group23.towerdefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,27 +29,60 @@ public class GameplayScreen implements Screen
 	private Level curLevel;
 	private Level.Generator levelGenerator = new World1();
 
+	public GameplayScreen()
+	{
+		
+	}
+	
 	public GameplayScreen(int level)
 	{
+		loadLevel(level);
+	}
+	
+	public void loadLevel(int level)
+	{
 		curLevel = levelGenerator.getLevel(level);
+	}
+
+	@Override
+	public void render(float delta)
+	{
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(delta);
+		TowerDefense.shapeRenderer.begin(ShapeType.Line);
+		stage.draw();
+		TowerDefense.shapeRenderer.end();
+	}
+
+	@Override
+	public void resize(int width, int height)
+	{
+
+	}
+
+	@Override
+	public void show()
+	{
+		if (curLevel == null)
+			loadLevel(1);
 
 		/**
-		 * Setup actors
+		 * Setup Stage
 		 */
 
 		final int width = TowerDefense.SCREEN_WIDTH;
 		final int height = TowerDefense.SCREEN_HEIGHT;
 		final int tsize = TowerDefense.TILE_SIZE;
-		SpriteBatch sb = TowerDefense.spriteBatch;
+		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
 
-		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(false, width, height);
+		Viewport viewport = new FitViewport(width, height);
+		viewport.update(width/2, height/2, true);
 		
-		Viewport viewport = new FitViewport(width, height, camera);
-		
-		stage = new Stage(viewport, sb);
+		stage = new Stage(viewport, spriteBatch);
 		Sprite sprite;
 		SpriteDrawable spriteDrawable;
+		
+		Gdx.input.setInputProcessor(stage);
 
 		/**
 		 * Level
@@ -150,28 +181,8 @@ public class GameplayScreen implements Screen
 		/**
 		 * Health Display
 		 */
-	}
-
-	@Override
-	public void render(float delta)
-	{
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		TowerDefense.shapeRenderer.begin(ShapeType.Line);
-		stage.draw();
-		TowerDefense.shapeRenderer.end();
-	}
-
-	@Override
-	public void resize(int width, int height)
-	{
-
-	}
-
-	@Override
-	public void show()
-	{
-		Gdx.input.setInputProcessor(stage);
+		
+		
 	}
 
 	@Override
