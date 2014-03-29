@@ -16,6 +16,11 @@ public class Wave
 	private ArrayMap<Long, Class<? extends Enemy>> spawn;
 	private Array<Enemy> enemies;
 	
+	public static interface Generator
+	{
+		void generate(Wave wave);
+	}
+	
 	public Wave()
 	{
 		startSpawnTime = 0;

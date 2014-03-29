@@ -5,7 +5,6 @@ import com.group23.towerdefense.enemy.Enemy1;
 import com.group23.towerdefense.enemy.Enemy2;
 import com.group23.towerdefense.enemy.Slime;
 import com.group23.towerdefense.spawn.Wave;
-import com.group23.towerdefense.spawn.WaveGenerator;
 
 public class DefaultLevelGenerator extends Level.Generator
 {
@@ -36,14 +35,14 @@ public class DefaultLevelGenerator extends Level.Generator
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0			
 			})
-			.addWave(new WaveGenerator() 
+			.addWave(new Wave.Generator() 
 			{
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Slime.class);
 				}
 			})
-			.addWave(new WaveGenerator() 
+			.addWave(new Wave.Generator() 
 			{
 				public void generate(Wave wave) 
 				{
@@ -56,7 +55,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(1300, Enemy1.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -70,7 +69,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(650, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -84,7 +83,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(300, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -108,14 +107,14 @@ public class DefaultLevelGenerator extends Level.Generator
 				0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0			//Top Right
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Slime.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -128,7 +127,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(1300, Enemy1.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -142,7 +141,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(650, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -156,7 +155,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(300, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -180,7 +179,7 @@ public class DefaultLevelGenerator extends Level.Generator
 				0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0		//Top Right
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -192,7 +191,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(6000, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -205,7 +204,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(1300, Enemy1.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -219,7 +218,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(650, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -233,7 +232,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(300, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave)
 				{
@@ -257,7 +256,7 @@ public class DefaultLevelGenerator extends Level.Generator
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0			//Top Right
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -269,7 +268,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(6000, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -282,7 +281,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(1300, Enemy1.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -296,7 +295,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(650, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
@@ -310,7 +309,7 @@ public class DefaultLevelGenerator extends Level.Generator
 						.addSpawn(300, Enemy2.class);
 				}
 			})
-			.addWave(new WaveGenerator()
+			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{

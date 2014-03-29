@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
-import com.group23.towerdefense.spawn.WaveGenerator;
+import com.group23.towerdefense.spawn.Wave;
 import com.group23.towerdefense.tower.Tower;
 
 public class Level
@@ -35,7 +35,7 @@ public class Level
 			return this;
 		}
 		
-		public Builder addWave(WaveGenerator generator)
+		public Builder addWave(Wave.Generator generator)
 		{
 			waves.addWave(generator);
 			return this;

@@ -22,7 +22,7 @@ public class LevelWave
 	 * Adds a wave created by a <i>WaveGenerator</i>
 	 * @param gen The <i>WaveGenerator</i> to generate the enemies of a wave
 	 */
-	public void addWave(WaveGenerator gen)
+	public void addWave(Wave.Generator gen)
 	{
 		Wave wave = new Wave();
 		gen.generate(wave);
