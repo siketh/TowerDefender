@@ -3,50 +3,85 @@ package com.group23.towerdefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class ResourceManager
 {
 	private static final String TAG = "ResourceManager";
-	private static ArrayMap<String, Texture> mTextureMap = new ArrayMap<String, Texture>();
-	private static ArrayMap<String, Music> mMusicMap = new ArrayMap<String, Music>();
-
-	private ResourceManager()
-	{
-		// Class is non-instantiable
-	}
 
 	public static Texture loadTexture(String filename)
 	{
-		try
-		{
-			Texture texture = mTextureMap.get(filename);
-			if (texture == null)
-			{
-				texture = new Texture(Gdx.files.internal(filename));
-				mTextureMap.put(filename, texture);
-			}
-			return texture;
-		}
-		catch (GdxRuntimeException e)
-		{
-			Gdx.app.log(TAG, e.getMessage());
-			return null;
-		}
+		return load(filename, sTextureMap, textureLoader);
 	}
 
 	public static Music loadMusic(String filename)
 	{
+		return load(filename, sMusicMap, musicLoader);
+	}
+	
+	public static BitmapFont loadFont(String filename)
+	{
+		return load(filename, sFontMap, fontLoader);
+	}
+
+	public static void dispose()
+	{
+		disposeMap(sTextureMap);
+		disposeMap(sMusicMap);
+		disposeMap(sFontMap);
+	}
+
+	private static ArrayMap<String, Texture> sTextureMap = new ArrayMap<String, Texture>();
+	private static ArrayMap<String, Music> sMusicMap = new ArrayMap<String, Music>();
+	private static ArrayMap<String, BitmapFont> sFontMap = new ArrayMap<String, BitmapFont>();
+
+	private interface Loader<Resource>
+	{
+		Resource load(String filename);
+	}
+
+	private static Loader<Texture> textureLoader = new Loader<Texture>()
+	{
+		@Override
+		public Texture load(String filename)
+		{
+			return new Texture(Gdx.files.internal(filename));
+		}
+	};
+
+	private static Loader<Music> musicLoader = new Loader<Music>()
+	{
+		@Override
+		public Music load(String filename)
+		{
+			return Gdx.audio.newMusic(Gdx.files.internal(filename));
+		}
+	};
+
+	private static Loader<BitmapFont> fontLoader = new Loader<BitmapFont>()
+	{
+		@Override
+		public BitmapFont load(String filename)
+		{
+			return new BitmapFont(Gdx.files.internal(filename));
+		}
+	};
+
+	private static <Resource> Resource load(String filename,
+			ArrayMap<String, Resource> map, Loader<Resource> loader)
+	{
 		try
 		{
-			Music music = mMusicMap.get(filename);
-			if (music == null)
+			Resource res = map.get(filename);
+			if (res == null)
 			{
-				music = Gdx.audio.newMusic(Gdx.files.internal(filename));
-				mMusicMap.put(filename, music);
+				res = loader.load(filename);
+				map.put(filename, res);
 			}
-			return music;
+			return res;
 		}
 		catch (GdxRuntimeException e)
 		{
@@ -55,16 +90,17 @@ public class ResourceManager
 		}
 	}
 
-	public static void dispose()
+	private static <Resource extends Disposable> void disposeMap(
+			ArrayMap<String, Resource> map)
 	{
-		ArrayMap.Values<Texture> textures = mTextureMap.values();
-		for (Texture texture : textures)
-			texture.dispose();
-		mTextureMap.clear();
+		ArrayMap.Values<Resource> resources = map.values();
+		for (Resource resource : resources)
+			resource.dispose();
+		map.clear();
+	}
 
-		ArrayMap.Values<Music> musics = mMusicMap.values();
-		for (Music music : musics)
-			music.dispose();
-		mMusicMap.clear();
+	private ResourceManager()
+	{
+		// Class is non-instantiable
 	}
 }
