@@ -32,27 +32,53 @@ public class GameplayScreen implements Screen
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
 
+	/**
+	 * Uses DefaultLevelGenerator for its Level.Generator, and starts at level
+	 * 0.
+	 */
 	public GameplayScreen()
 	{
 
 	}
 
+	/**
+	 * Uses DefaultLevelGenerator for its Level.Generator, and starts at level
+	 * at the inputed level.
+	 * 
+	 * @param level
+	 */
 	public GameplayScreen(int level)
 	{
 		loadLevel(level);
 	}
 
+	/**
+	 * Uses an inputed Level.Generator, starting at level 0
+	 * 
+	 * @param levelGenerator
+	 */
 	public GameplayScreen(Level.Generator levelGenerator)
 	{
 		this.levelGenerator = levelGenerator;
 	}
 
+	/**
+	 * Uses an inputed Level.Generator, starting at the specified level.
+	 * 
+	 * @param levelGenerator
+	 * @param level
+	 */
 	public GameplayScreen(Level.Generator levelGenerator, int level)
 	{
 		this.levelGenerator = levelGenerator;
 		loadLevel(level);
 	}
 
+	/**
+	 * Sets the current level as the input level number from the Level.Generator
+	 * 
+	 * @param level
+	 */
 	public void loadLevel(int level)
 	{
 		curLevel = levelGenerator.getLevel(level);
@@ -96,7 +122,7 @@ public class GameplayScreen implements Screen
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
-		
+
 		if (towerGenerator != null)
 		{
 			Tower tower = towerGenerator.newTower();
@@ -179,6 +205,12 @@ public class GameplayScreen implements Screen
 
 	}
 
+	/**
+	 * Helper function to generate the Actor that represents the current Level.
+	 * 
+	 * @return Actor representing the current Level
+	 * @see GameplayScreen.onLevelPressed
+	 */
 	private Actor getLevelActor()
 	{
 		int width = TowerDefense.SCREEN_WIDTH;
@@ -216,6 +248,13 @@ public class GameplayScreen implements Screen
 		return levelActor;
 	}
 
+	/**
+	 * Helper function to generate the Actor for the Start button. When pressed,
+	 * the next wave in the level is started.
+	 * 
+	 * @return Actor for the Start button
+	 * @see GameplayScreen.onStartButtonPressed
+	 */
 	private Actor getStartButtonActor()
 	{
 		Image buttonStart = new Image(
@@ -236,6 +275,13 @@ public class GameplayScreen implements Screen
 		return buttonStart;
 	}
 
+	/**
+	 * Helper function to generate the Actor for the Tower button. When pressed,
+	 * show/hide the TowerSelector.
+	 * 
+	 * @return Actor for the Tower button
+	 * @see GameplayScreen.onTowerButtonPressed
+	 */
 	private Actor getTowerButtonActor()
 	{
 		Image buttonTower = new Image(
@@ -256,6 +302,11 @@ public class GameplayScreen implements Screen
 		return buttonTower;
 	}
 
+	/**
+	 * Helper function to generate the Actor to display the player's health.
+	 * 
+	 * @return Actor to display the player's health
+	 */
 	private Actor getHealthDisplayActor()
 	{
 		Label.LabelStyle healthStyle = new Label.LabelStyle();
@@ -285,6 +336,11 @@ public class GameplayScreen implements Screen
 		return healthGroup;
 	}
 
+	/**
+	 * Helper function to generate the Actor to display's the player's gold.
+	 * 
+	 * @return Actor to display the player's gold
+	 */
 	private Actor getGoldDisplayActor()
 	{
 		Label.LabelStyle goldStyle = new Label.LabelStyle();
@@ -314,21 +370,38 @@ public class GameplayScreen implements Screen
 		return goldGroup;
 	}
 
+	/**
+	 * Internal utility interface to generate a tower. The GameplayScreen holds
+	 * a reference to a TowerGenerator, which is used when the user has selected
+	 * a tower and places a tower on the level.
+	 * 
+	 * @author Robert
+	 * 
+	 */
 	private interface TowerGenerator
 	{
 		public abstract Tower newTower();
 	}
 
+	/**
+	 * Internal utility class for allowing player's to select a tower they want
+	 * to place. The TowerSelector is displayed when the player selects the
+	 * Tower button on the top of the screen. It is hidden when the Tower button
+	 * is selected again or a tower to place has been chosen.
+	 * 
+	 * @author Robert
+	 * 
+	 */
 	private class TowerSelector extends HorizontalGroup
-	{	
+	{
 		private static final float DURATION = 0.25f;
-		
+
 		private MoveToAction showAction = new MoveToAction();
 		private MoveToAction hideAction = new MoveToAction();
 		private boolean visible = false;
-		
+
 		public TowerSelector()
-		{	
+		{
 			addActor(generateButton("towerbar00.png", new TowerGenerator()
 			{
 				@Override
@@ -337,7 +410,7 @@ public class GameplayScreen implements Screen
 					return new DirectAttackTower();
 				}
 			}));
-			
+
 			addActor(generateButton("towerbar01.png", new TowerGenerator()
 			{
 				@Override
@@ -346,22 +419,23 @@ public class GameplayScreen implements Screen
 					return new DirectMultiAttackTower();
 				}
 			}));
-			
+
 			pack();
-			setPosition(TowerDefense.SCREEN_WIDTH / 2 - getWidth() / 2, -getHeight());
-			
+			setPosition(TowerDefense.SCREEN_WIDTH / 2 - getWidth() / 2,
+					-getHeight());
+
 			showAction.setDuration(DURATION);
 			showAction.setPosition(getX(), 0.0f);
-			
+
 			hideAction.setDuration(DURATION);
 			hideAction.setPosition(getX(), -getHeight());
 		}
-		
+
 		public boolean isMoving()
 		{
 			return getActions().size != 0;
 		}
-		
+
 		@Override
 		public void setVisible(boolean visible)
 		{
@@ -370,20 +444,20 @@ public class GameplayScreen implements Screen
 			else
 				hide();
 		}
-		
+
 		@Override
 		public boolean isVisible()
 		{
 			return visible;
 		}
-		
+
 		public void show()
 		{
 			visible = true;
 			showAction.restart();
 			addAction(showAction);
 		}
-		
+
 		public void hide()
 		{
 			hideAction.restart();
@@ -395,7 +469,7 @@ public class GameplayScreen implements Screen
 				}
 			})));
 		}
-		
+
 		private Actor generateButton(String filename, final TowerGenerator gen)
 		{
 			Image tower = new Image(ResourceManager.loadTexture(filename));
