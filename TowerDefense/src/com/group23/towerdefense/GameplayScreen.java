@@ -2,7 +2,6 @@ package com.group23.towerdefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -19,9 +18,6 @@ public class GameplayScreen implements Screen
 {
 	private Stage stage;
 	
-	// Camera defines view space of screen
-	private OrthographicCamera camera = new OrthographicCamera();
-	
 	private Level.Generator levelGenerator = new World1();
 
 	// current level being played
@@ -32,10 +28,9 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(int level)
 	{
 		curLevel = levelGenerator.getLevel(level);
-		camera.setToOrtho(false, TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT);
 		
 		/**
-		 * Setup buttons
+		 * Setup actors
 		 */
 		
 		stage = new Stage(TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT, true, TowerDefense.spriteBatch);
@@ -47,8 +42,8 @@ public class GameplayScreen implements Screen
 	public void render(float delta)
 	{
 		TowerDefense.shapeRenderer.begin(ShapeType.Line);
-		stage.act(delta);
-		stage.draw();
+			stage.act(delta);
+			stage.draw();
 		TowerDefense.shapeRenderer.end();
 	}
 
@@ -136,7 +131,7 @@ public class GameplayScreen implements Screen
 			int height = TowerDefense.SCREEN_HEIGHT;
 			int tsize = TowerDefense.TILE_SIZE;
 			
-			setPosition(0.0f, height - (height % tsize));
+			setPosition(200.0f, height - (height % tsize));
 			setWidth(texture.getWidth());
 			setHeight(texture.getHeight());
 			
