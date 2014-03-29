@@ -2,7 +2,10 @@ package com.group23.towerdefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.world.World1;
@@ -40,7 +44,12 @@ public class GameplayScreen implements Screen
 		final int tsize = TowerDefense.TILE_SIZE;
 		SpriteBatch sb = TowerDefense.spriteBatch;
 
-		stage = new Stage(new FitViewport(width, height), sb);
+		OrthographicCamera camera = new OrthographicCamera();
+		camera.setToOrtho(false, width, height);
+		
+		Viewport viewport = new FitViewport(width, height, camera);
+		
+		stage = new Stage(viewport, sb);
 		Sprite sprite;
 		SpriteDrawable spriteDrawable;
 
@@ -135,7 +144,6 @@ public class GameplayScreen implements Screen
 		goldGroup.addActor(goldImage);
 		goldGroup.addActor(goldLabel);
 		goldGroup.setPosition(0.0f, 0.0f);
-		// goldGroup.bottom();
 
 		stage.addActor(goldGroup);
 
@@ -147,6 +155,7 @@ public class GameplayScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		TowerDefense.shapeRenderer.begin(ShapeType.Line);
 		stage.draw();
