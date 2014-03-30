@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
@@ -38,7 +39,7 @@ public class GameplayScreen implements Screen
 	 */
 	public GameplayScreen()
 	{
-
+		initialize();
 	}
 
 	/**
@@ -50,6 +51,7 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(int level)
 	{
 		loadLevel(level);
+		initialize();
 	}
 
 	/**
@@ -60,6 +62,7 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(Level.Generator levelGenerator)
 	{
 		this.levelGenerator = levelGenerator;
+		initialize();
 	}
 
 	/**
@@ -72,6 +75,7 @@ public class GameplayScreen implements Screen
 	{
 		this.levelGenerator = levelGenerator;
 		loadLevel(level);
+		initialize();
 	}
 
 	/**
@@ -94,8 +98,10 @@ public class GameplayScreen implements Screen
 	 * if no wave is playing and the current level has not finished all of its
 	 * waves.
 	 */
-	protected void onStartButtonPressed()
+	private void onStartButtonPressed()
 	{
+		System.out.println("onStartButtonPressed() called");
+		
 		if (!(curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
 			curLevel.startNextWave();
 	}
@@ -103,8 +109,10 @@ public class GameplayScreen implements Screen
 	/**
 	 * Called when the Tower button on the top bar is pressed.
 	 */
-	protected void onTowerButtonPressed()
+	private void onTowerButtonPressed()
 	{
+		System.out.println("onTowerButtonPressed() called");
+		
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
@@ -117,20 +125,22 @@ public class GameplayScreen implements Screen
 	 * @param y
 	 *            Stage y-coordinate of the Level pressed
 	 */
-	protected void onLevelPressed(float x, float y)
+	private void onLevelPressed(float x, float y)
 	{
+		System.out.println("onLevelPressed(...) called");
+		
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
 
-		if (towerGenerator != null)
+		if (towerGenerator == null)
+			curLevel.selectTower(tileX, tileY);
+		else
 		{
 			Tower tower = towerGenerator.newTower();
 			towerGenerator = null;
 			curLevel.placeTower(tower, tileX, tileY);
 		}
-		else
-			curLevel.selectTower(tileX, tileY);
 	}
 
 	@Override
@@ -146,38 +156,12 @@ public class GameplayScreen implements Screen
 	@Override
 	public void resize(int width, int height)
 	{
-
+		stage.getViewport().update(width, height);
 	}
 
 	@Override
 	public void show()
 	{
-		if (curLevel == null)
-			loadLevel(0);
-
-		int width = TowerDefense.SCREEN_WIDTH;
-		int height = TowerDefense.SCREEN_HEIGHT;
-		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
-
-		Viewport viewport = new FitViewport(width, height);
-		viewport.update(width / 2, height / 2, true);
-
-		stage = new Stage(viewport, spriteBatch);
-
-		Actor startButton = getStartButtonActor();
-		Actor towerButton = getTowerButtonActor();
-		Actor goldDisplay = getGoldDisplayActor();
-		Actor healthDisplay = getHealthDisplayActor();
-		Actor levelActor = getLevelActor();
-		towerSelector = new TowerSelector();
-
-		stage.addActor(levelActor);
-		stage.addActor(startButton);
-		stage.addActor(towerButton);
-		stage.addActor(goldDisplay);
-		stage.addActor(healthDisplay);
-		stage.addActor(towerSelector);
-
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -203,6 +187,37 @@ public class GameplayScreen implements Screen
 	public void dispose()
 	{
 
+	}
+	
+	private void initialize()
+	{
+		if (curLevel == null)
+			loadLevel(0);
+
+		int width = TowerDefense.SCREEN_WIDTH;
+		int height = TowerDefense.SCREEN_HEIGHT;
+		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
+		
+		OrthographicCamera camera = new OrthographicCamera();
+		camera.setToOrtho(false, width, height);
+		
+		Viewport viewport = new FillViewport(width, height, camera);
+
+		stage = new Stage(viewport, spriteBatch);
+
+		Actor startButton = getStartButtonActor();
+		Actor towerButton = getTowerButtonActor();
+		Actor goldDisplay = getGoldDisplayActor();
+		Actor healthDisplay = getHealthDisplayActor();
+		Actor levelActor = getLevelActor();
+		towerSelector = new TowerSelector();
+
+		stage.addActor(levelActor);
+		stage.addActor(startButton);
+		stage.addActor(towerButton);
+		stage.addActor(goldDisplay);
+		stage.addActor(healthDisplay);
+		stage.addActor(towerSelector);
 	}
 
 	/**
