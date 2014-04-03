@@ -67,7 +67,7 @@ public abstract class Enemy extends TextureObject
 		//Handles Health Regeneration
 		if(timeToRegen <= 0)
 		{
-			hp+= healthRegen;
+			hp+= healthRegen * scaling;
 			if(hp > maxHP)
 				hp = maxHP;
 			timeToRegen = 1;

@@ -4,6 +4,7 @@ import com.group23.towerdefense.enemy.Goblin;
 import com.group23.towerdefense.enemy.Necromancer;
 import com.group23.towerdefense.enemy.Ogre;
 import com.group23.towerdefense.enemy.Slime;
+import com.group23.towerdefense.enemy.Troll;
 import com.group23.towerdefense.spawn.Wave;
 
 public class DefaultLevelGenerator extends Level.Generator
@@ -112,7 +113,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Slime.class);
+					wave.addSpawn(100,  Troll.class);
 					wave.addSpawn(500,  Necromancer.class);
 				}
 			})
