@@ -25,6 +25,8 @@ public abstract class Enemy extends TextureObject
 	protected int goldValue; // Stores the enemies value in gold
 	protected int livesValue; // The amount of lives the enemy is worth
 	protected int armor;
+	protected int healthRegen; //Health Regen, defaults to 0
+	protected float timeToRegen;
 
 	private boolean isAlive = true;
 	private Color color;
@@ -32,6 +34,8 @@ public abstract class Enemy extends TextureObject
 	// Constructor for enemy
 	public Enemy(Level map, double scale)
 	{
+		healthRegen = 0;
+		timeToRegen = 1;
 		setBaseStats();
 		scaling = scale;
 		maxHP *= scale;
@@ -59,6 +63,15 @@ public abstract class Enemy extends TextureObject
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
+		timeToRegen -= dt;
+		//Handles Health Regeneration
+		if(timeToRegen <= 0)
+		{
+			hp+= healthRegen;
+			if(hp > maxHP)
+				hp = maxHP;
+			timeToRegen = 1;
+		}
 		// Updates units position based on change in time and unit's movement
 		// speed
 		// 0.71 is for diagonal cases to match movement speed to horizontal and

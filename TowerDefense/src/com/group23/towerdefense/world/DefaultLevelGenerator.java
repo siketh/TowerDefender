@@ -121,8 +121,8 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Goblin.class);
-					//	.addSpawn(1000,  Goblin.class, 3.0);
+					wave.addSpawn(100,  Ogre.class);
+					//	.addSpawn(1000,  Ogre.class, 3.0);
 				}
 			})
 			.addWave(new Wave.Generator()

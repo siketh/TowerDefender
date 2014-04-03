@@ -25,5 +25,6 @@ public class Ogre extends Enemy
 		texHeight = 64;
 		goldValue = 30;
 		livesValue = 2;
+		healthRegen = 2;
 	}
 }
