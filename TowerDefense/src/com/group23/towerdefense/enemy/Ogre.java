@@ -2,9 +2,9 @@ package com.group23.towerdefense.enemy;
 
 import com.group23.towerdefense.Level;
 
-public class Enemy2 extends Enemy
+public class Ogre extends Enemy
 {
-	public Enemy2(Level map)
+	public Ogre(Level map)
 	{
 		super(map);
 		setTexture("enemy02.png");

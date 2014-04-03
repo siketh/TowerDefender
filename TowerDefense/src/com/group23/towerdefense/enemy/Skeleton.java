@@ -2,12 +2,12 @@ package com.group23.towerdefense.enemy;
 
 import com.group23.towerdefense.Level;
 
-public class SmallSlime extends Enemy
+public class Skeleton extends Enemy
 {
-	public SmallSlime(Level map, int tile) 
+	public Skeleton(Level map, int tile) 
 	{
 		super(map);
-		setTexture("enemy04.png");
+		setTexture("enemy02.png");
 		
 		curTile = tile;
 		pos.x = (curTile % path.getWidth()) * 128 + 64;
@@ -16,12 +16,12 @@ public class SmallSlime extends Enemy
 
 	protected void setBaseStats() 
 	{
-		hp = maxHP = 75;
+		hp = maxHP = 60;
 		armor = 0;
-		moveSpeed = 120;
+		moveSpeed = 150;
 		texWidth = 64;
 		texHeight = 64;
-		goldValue = 10;
+		goldValue = 0;
 		livesValue = 1;
 	}
 }

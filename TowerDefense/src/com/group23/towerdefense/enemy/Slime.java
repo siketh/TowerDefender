@@ -14,7 +14,7 @@ public class Slime extends Enemy
 	{
 		hp = maxHP = 150;
 		armor = 0;
-		moveSpeed = 64;
+		moveSpeed = 90;
 		texWidth = 64;
 		texHeight = 64;
 		goldValue = 10;
