@@ -6,7 +6,13 @@ public class Ogre extends Enemy
 {
 	public Ogre(Level map)
 	{
-		super(map);
+		super(map, 1.0);
+		setTexture("enemy02.png");
+	}
+	
+	public Ogre(Level map, double scale)
+	{
+		super(map, scale);
 		setTexture("enemy02.png");
 	}
 

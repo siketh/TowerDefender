@@ -21,6 +21,7 @@ public abstract class Enemy extends TextureObject
 	protected int curTile; // Stores current tile index of enemy
 	protected float distTraveled; // Stores distance traveled since last new
 									// tile
+	protected double scaling; //Stores how much scaling the enemy needs from the default
 	protected int goldValue; // Stores the enemies value in gold
 	protected int livesValue; // The amount of lives the enemy is worth
 	protected int armor;
@@ -29,9 +30,12 @@ public abstract class Enemy extends TextureObject
 	private Color color;
 
 	// Constructor for enemy
-	public Enemy(Level map)
+	public Enemy(Level map, double scale)
 	{
 		setBaseStats();
+		scaling = scale;
+		maxHP *= scale;
+		hp *= scale;
 		distTraveled = 0;
 		path = map;
 		direction = path.getStartDir(); // Pulls starting direction from map

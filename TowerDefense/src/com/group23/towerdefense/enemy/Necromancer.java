@@ -12,7 +12,13 @@ public class Necromancer extends Enemy
 
 	public Necromancer(Level map) 
 	{
-		super(map);
+		super(map, 1.0);
+		setTexture("enemy03.png");
+	}
+	
+	public Necromancer(Level map, double scale) 
+	{
+		super(map, scale);
 		setTexture("enemy03.png");
 	}
 

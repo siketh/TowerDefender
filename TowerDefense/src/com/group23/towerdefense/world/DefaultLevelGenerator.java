@@ -1,7 +1,7 @@
 package com.group23.towerdefense.world;
 
 import com.group23.towerdefense.Level;
-import com.group23.towerdefense.enemy.Enemy1;
+import com.group23.towerdefense.enemy.Goblin;
 import com.group23.towerdefense.enemy.Necromancer;
 import com.group23.towerdefense.enemy.Ogre;
 import com.group23.towerdefense.enemy.Slime;
@@ -48,13 +48,13 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Enemy1.class)
-						.addSpawn(300,  Enemy1.class)
-						.addSpawn(500,  Enemy1.class)
-						.addSpawn(700,  Enemy1.class)
-						.addSpawn(900,  Enemy1.class)
-						.addSpawn(1100, Enemy1.class)
-						.addSpawn(1300, Enemy1.class);
+					wave.addSpawn(100,  Goblin.class)
+						.addSpawn(300,  Goblin.class)
+						.addSpawn(500,  Goblin.class)
+						.addSpawn(700,  Goblin.class)
+						.addSpawn(900,  Goblin.class)
+						.addSpawn(1100, Goblin.class)
+						.addSpawn(1300, Goblin.class);
 				}
 			})
 			.addWave(new Wave.Generator()
@@ -62,12 +62,12 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Enemy1.class)
-						.addSpawn(300, Enemy1.class)
-						.addSpawn(340, Enemy1.class)
-						.addSpawn(420, Enemy1.class)
-						.addSpawn(500, Enemy1.class)
-						.addSpawn(550, Enemy1.class)
+						.addSpawn(200, Goblin.class)
+						.addSpawn(300, Goblin.class)
+						.addSpawn(340, Goblin.class)
+						.addSpawn(420, Goblin.class)
+						.addSpawn(500, Goblin.class)
+						.addSpawn(550, Goblin.class)
 						.addSpawn(650, Ogre.class);
 				}
 			})
@@ -75,7 +75,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class)
+					wave.addSpawn(100, Goblin.class)
 						.addSpawn(130, Ogre.class)
 						.addSpawn(160, Ogre.class)
 						.addSpawn(190, Ogre.class)
@@ -89,7 +89,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class);
+					wave.addSpawn(100, Goblin.class);
 				}
 			})
 			.build();
@@ -121,13 +121,8 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Enemy1.class)
-						.addSpawn(300,  Enemy1.class)
-						.addSpawn(500,  Enemy1.class)
-						.addSpawn(700,  Enemy1.class)
-						.addSpawn(900,  Enemy1.class)
-						.addSpawn(1100, Enemy1.class)
-						.addSpawn(1300, Enemy1.class);
+					wave.addSpawn(100,  Goblin.class);
+					//	.addSpawn(1000,  Goblin.class, 3.0);
 				}
 			})
 			.addWave(new Wave.Generator()
@@ -135,12 +130,12 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Enemy1.class)
-						.addSpawn(300, Enemy1.class)
-						.addSpawn(340, Enemy1.class)
-						.addSpawn(420, Enemy1.class)
-						.addSpawn(500, Enemy1.class)
-						.addSpawn(550, Enemy1.class)
+						.addSpawn(200, Goblin.class)
+						.addSpawn(300, Goblin.class)
+						.addSpawn(340, Goblin.class)
+						.addSpawn(420, Goblin.class)
+						.addSpawn(500, Goblin.class)
+						.addSpawn(550, Goblin.class)
 						.addSpawn(650, Ogre.class);
 				}
 			})
@@ -148,7 +143,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class)
+					wave.addSpawn(100, Goblin.class)
 						.addSpawn(130, Ogre.class)
 						.addSpawn(160, Ogre.class)
 						.addSpawn(190, Ogre.class)
@@ -162,7 +157,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class);
+					wave.addSpawn(100, Goblin.class);
 				}
 			})
 			.build();
@@ -186,11 +181,11 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(0,  Enemy1.class)
-						.addSpawn(800,  Enemy1.class)
+					wave.addSpawn(0,  Goblin.class)
+						.addSpawn(800,  Goblin.class)
 						.addSpawn(1700, Ogre.class)
-						.addSpawn(3500, Enemy1.class)
-						.addSpawn(5000, Enemy1.class)
+						.addSpawn(3500, Goblin.class)
+						.addSpawn(5000, Goblin.class)
 						.addSpawn(6000, Ogre.class);
 				}
 			})
@@ -198,13 +193,13 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Enemy1.class)
-						.addSpawn(300,  Enemy1.class)
-						.addSpawn(500,  Enemy1.class)
-						.addSpawn(700,  Enemy1.class)
-						.addSpawn(900,  Enemy1.class)
-						.addSpawn(1100, Enemy1.class)
-						.addSpawn(1300, Enemy1.class);
+					wave.addSpawn(100,  Goblin.class)
+						.addSpawn(300,  Goblin.class)
+						.addSpawn(500,  Goblin.class)
+						.addSpawn(700,  Goblin.class)
+						.addSpawn(900,  Goblin.class)
+						.addSpawn(1100, Goblin.class)
+						.addSpawn(1300, Goblin.class);
 				}
 			})
 			.addWave(new Wave.Generator()
@@ -212,12 +207,12 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Enemy1.class)
-						.addSpawn(300, Enemy1.class)
-						.addSpawn(340, Enemy1.class)
-						.addSpawn(420, Enemy1.class)
-						.addSpawn(500, Enemy1.class)
-						.addSpawn(550, Enemy1.class)
+						.addSpawn(200, Goblin.class)
+						.addSpawn(300, Goblin.class)
+						.addSpawn(340, Goblin.class)
+						.addSpawn(420, Goblin.class)
+						.addSpawn(500, Goblin.class)
+						.addSpawn(550, Goblin.class)
 						.addSpawn(650, Ogre.class);
 				}
 			})
@@ -225,7 +220,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class)
+					wave.addSpawn(100, Goblin.class)
 						.addSpawn(130, Ogre.class)
 						.addSpawn(160, Ogre.class)
 						.addSpawn(190, Ogre.class)
@@ -239,7 +234,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave)
 				{
-					wave.addSpawn(100, Enemy1.class);
+					wave.addSpawn(100, Goblin.class);
 				}
 			})
 			.build();
@@ -263,11 +258,11 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Enemy1.class)
-						.addSpawn(800,  Enemy1.class)
+					wave.addSpawn(100,  Goblin.class)
+						.addSpawn(800,  Goblin.class)
 						.addSpawn(1700, Ogre.class)
-						.addSpawn(3500, Enemy1.class)
-						.addSpawn(5000, Enemy1.class)
+						.addSpawn(3500, Goblin.class)
+						.addSpawn(5000, Goblin.class)
 						.addSpawn(6000, Ogre.class);
 				}
 			})
@@ -275,13 +270,13 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Enemy1.class)
-						.addSpawn(300,  Enemy1.class)
-						.addSpawn(500,  Enemy1.class)
-						.addSpawn(700,  Enemy1.class)
-						.addSpawn(900,  Enemy1.class)
-						.addSpawn(1100, Enemy1.class)
-						.addSpawn(1300, Enemy1.class);
+					wave.addSpawn(100,  Goblin.class)
+						.addSpawn(300,  Goblin.class)
+						.addSpawn(500,  Goblin.class)
+						.addSpawn(700,  Goblin.class)
+						.addSpawn(900,  Goblin.class)
+						.addSpawn(1100, Goblin.class)
+						.addSpawn(1300, Goblin.class);
 				}
 			})
 			.addWave(new Wave.Generator()
@@ -289,12 +284,12 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Enemy1.class)
-						.addSpawn(300, Enemy1.class)
-						.addSpawn(340, Enemy1.class)
-						.addSpawn(420, Enemy1.class)
-						.addSpawn(500, Enemy1.class)
-						.addSpawn(550, Enemy1.class)
+						.addSpawn(200, Goblin.class)
+						.addSpawn(300, Goblin.class)
+						.addSpawn(340, Goblin.class)
+						.addSpawn(420, Goblin.class)
+						.addSpawn(500, Goblin.class)
+						.addSpawn(550, Goblin.class)
 						.addSpawn(650, Ogre.class);
 				}
 			})
@@ -302,7 +297,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class)
+					wave.addSpawn(100, Goblin.class)
 						.addSpawn(130, Ogre.class)
 						.addSpawn(160, Ogre.class)
 						.addSpawn(190, Ogre.class)
@@ -316,7 +311,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Enemy1.class);
+					wave.addSpawn(100, Goblin.class);
 				}
 			})
 			.build();
