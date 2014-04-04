@@ -26,6 +26,7 @@ import com.group23.towerdefense.tower.Tower;
 
 public class GameplayScreen extends BaseScreen
 {
+	private int level = 0;
 	private Level curLevel;
 	private Level.Generator levelGenerator;
 	private TowerGenerator towerGenerator;
@@ -48,7 +49,7 @@ public class GameplayScreen extends BaseScreen
 	 */
 	public GameplayScreen(int level)
 	{
-		loadLevel(level);
+		this.level = level;
 	}
 
 	/**
@@ -70,6 +71,7 @@ public class GameplayScreen extends BaseScreen
 	public GameplayScreen(Level.Generator levelGenerator, int level)
 	{
 		this.levelGenerator = levelGenerator;
+		this.level = level;
 	}
 
 	@Override
@@ -80,8 +82,7 @@ public class GameplayScreen extends BaseScreen
 		if (levelGenerator == null)
 			levelGenerator = new DefaultLevelGenerator();
 
-		if (curLevel == null)
-			loadLevel(0);
+		loadLevel(level);
 
 		Actor startButton = new StartButtonActor();
 		Actor towerButton = new TowerButtonActor();
