@@ -1,13 +1,8 @@
 package com.group23.towerdefense.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -20,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.DefaultLevelGenerator;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
@@ -31,11 +24,10 @@ import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
 
-public class GameplayScreen implements Screen
+public class GameplayScreen extends BaseScreen
 {
-	private Stage stage;
 	private Level curLevel;
-	private Level.Generator levelGenerator = new DefaultLevelGenerator();
+	private Level.Generator levelGenerator;
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
 
@@ -45,7 +37,7 @@ public class GameplayScreen implements Screen
 	 */
 	public GameplayScreen()
 	{
-		initialize();
+
 	}
 
 	/**
@@ -57,7 +49,6 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(int level)
 	{
 		loadLevel(level);
-		initialize();
 	}
 
 	/**
@@ -68,7 +59,6 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(Level.Generator levelGenerator)
 	{
 		this.levelGenerator = levelGenerator;
-		initialize();
 	}
 
 	/**
@@ -80,25 +70,36 @@ public class GameplayScreen implements Screen
 	public GameplayScreen(Level.Generator levelGenerator, int level)
 	{
 		this.levelGenerator = levelGenerator;
-		loadLevel(level);
-		initialize();
 	}
 
-	/**
-	 * Sets the current level as the input level number from the Level.Generator
-	 * 
-	 * @param level
-	 */
-	public void loadLevel(int level)
+	@Override
+	public void show()
 	{
-		curLevel = levelGenerator.getLevel(level);
-	}
+		super.show();
 
-	public Level getLevel()
-	{
-		return curLevel;
-	}
+		if (levelGenerator == null)
+			levelGenerator = new DefaultLevelGenerator();
 
+		if (curLevel == null)
+			loadLevel(0);
+
+		Actor startButton = new StartButtonActor();
+		Actor towerButton = new TowerButtonActor();
+		Actor goldDisplay = new GoldDisplayActor();
+		Actor healthDisplay = new HealthDisplayActor();
+		Actor levelActor = new LevelActor();
+		towerSelector = new TowerSelector();
+
+		Stage stage = getStage();
+
+		stage.addActor(levelActor);
+		stage.addActor(startButton);
+		stage.addActor(towerButton);
+		stage.addActor(goldDisplay);
+		stage.addActor(healthDisplay);
+		stage.addActor(towerSelector);
+	}
+	
 	/**
 	 * Called when the Start button on the top bar is pressed. Starts a new wave
 	 * if no wave is playing and the current level has not finished all of its
@@ -142,80 +143,20 @@ public class GameplayScreen implements Screen
 			curLevel.placeTower(tower, tileX, tileY);
 		}
 	}
-
-	@Override
-	public void render(float delta)
+	
+	/**
+	 * Sets the current level as the input level number from the Level.Generator
+	 * 
+	 * @param level
+	 */
+	public void loadLevel(int level)
 	{
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
+		curLevel = levelGenerator.getLevel(level);
 	}
 
-	@Override
-	public void resize(int width, int height)
+	public Level getLevel()
 	{
-		stage.getViewport().update(width, height);
-	}
-
-	@Override
-	public void show()
-	{
-		Gdx.input.setInputProcessor(stage);
-	}
-
-	@Override
-	public void hide()
-	{
-
-	}
-
-	@Override
-	public void pause()
-	{
-
-	}
-
-	@Override
-	public void resume()
-	{
-
-	}
-
-	@Override
-	public void dispose()
-	{
-
-	}
-
-	private void initialize()
-	{
-		if (curLevel == null)
-			loadLevel(0);
-
-		int width = TowerDefense.SCREEN_WIDTH;
-		int height = TowerDefense.SCREEN_HEIGHT;
-		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
-
-		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(false, width, height);
-
-		Viewport viewport = new FillViewport(width, height, camera);
-
-		stage = new Stage(viewport, spriteBatch);
-
-		Actor startButton = new StartButtonActor();
-		Actor towerButton = new TowerButtonActor();
-		Actor goldDisplay = new GoldDisplayActor();
-		Actor healthDisplay = new HealthDisplayActor();
-		Actor levelActor = new LevelActor();
-		towerSelector = new TowerSelector();
-
-		stage.addActor(levelActor);
-		stage.addActor(startButton);
-		stage.addActor(towerButton);
-		stage.addActor(goldDisplay);
-		stage.addActor(healthDisplay);
-		stage.addActor(towerSelector);
+		return curLevel;
 	}
 
 	/**
@@ -312,22 +253,18 @@ public class GameplayScreen implements Screen
 	 * @author Robert
 	 * @see GameplayScreen.onStartButtonPressed
 	 */
-	private class StartButtonActor extends Image
+	private class StartButtonActor extends ImageButton
 	{
 		public StartButtonActor()
 		{
-			super(ResourceManager.loadTexture("start_b.png"));
+			super("start_b.png");
 			setBounds(0.0f, 1020.0f, 200.0f, 60.0f);
-			addListener(new InputListener()
-			{
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button)
-				{
-					onStartButtonPressed();
-					return true;
-				}
-			});
+		}
+
+		@Override
+		protected void onPressed()
+		{
+			onStartButtonPressed();
 		}
 	}
 
@@ -338,22 +275,18 @@ public class GameplayScreen implements Screen
 	 * @author Robert
 	 * @see GameplayScreen.onTowerButtonPressed
 	 */
-	private class TowerButtonActor extends Image
+	private class TowerButtonActor extends ImageButton
 	{
 		public TowerButtonActor()
 		{
-			super(ResourceManager.loadTexture("tower_b.png"));
+			super("tower_b.png");
 			setBounds(200.0f, 1020.0f, 200.0f, 60.0f);
-			addListener(new InputListener()
-			{
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button)
-				{
-					onTowerButtonPressed();
-					return true;
-				}
-			});
+		}
+
+		@Override
+		protected void onPressed()
+		{
+			onTowerButtonPressed();
 		}
 	}
 
