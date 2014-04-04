@@ -1,9 +1,12 @@
 package com.group23.towerdefense.enemy;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TextureObject;
@@ -15,23 +18,40 @@ public abstract class Enemy extends TextureObject
 	protected int texWidth, texHeight;
 	protected int hp, maxHP; // Stores current hp of enemy
 	protected int moveSpeed; // Stores movement speed of enemy
+	protected int baseMoveSpeed; //Stores base move speed of the enemy
 	protected Dir direction; // Stores direction of enemy
 	protected Vector2 pos; // Store pixel coordinates of enemy
 	protected Level path; // Points to level
 	protected int curTile; // Stores current tile index of enemy
 	protected float distTraveled; // Stores distance traveled since last new
 									// tile
+	protected double scaling; // Stores how much scaling the enemy needs from
+								// the default
 	protected int goldValue; // Stores the enemies value in gold
 	protected int livesValue; // The amount of lives the enemy is worth
 	protected int armor;
-
+	protected int healthRegen; // Health Regen, defaults to 0
+	protected float timeToRegen;
+	protected float healReduction;
+	
+	protected ArrayList<Debuff>  debuffs;	//Stores all the effects on the enemy
+	protected boolean isBurning;	//Stores whether the enemy is on fire
+	
 	private boolean isAlive = true;
 	private Color color;
 
 	// Constructor for enemy
-	public Enemy(Level map)
+	public Enemy(Level map, double scale)
 	{
+		debuffs = new ArrayList<Debuff>();
+		healthRegen = 0;
+		timeToRegen = 1;
 		setBaseStats();
+		baseMoveSpeed = moveSpeed;
+		scaling = scale;
+		maxHP *= scale;
+		hp *= scale;
+		isBurning = false;
 		distTraveled = 0;
 		path = map;
 		direction = path.getStartDir(); // Pulls starting direction from map
@@ -52,9 +72,76 @@ public abstract class Enemy extends TextureObject
 	// Put base stats of the monster here
 	abstract protected void setBaseStats();
 
+	//Spreads the burn if it can find an enemy not on fire in range
+	protected void burnSpread(Debuff d)
+	{
+		Array<Enemy> e = path.getEnemies();
+		for(int i = 0; i < e.size; i++)
+		{
+			if(e.get(i).isBurning == false && getPosition().dst(e.get(i).getPosition()) <= d.getRange())
+			{
+				e.get(i).addDebuff(new Debuff(d.getStrength(), d.getBaseDuration() * .66f, d.getType(), d.getCooldown(), d.getRange()));
+				return;
+			}
+		}
+	}
+	
+	//Calculates the movespeed of the enemy for the segment
+	protected void calcMoveSpeed(float dt)
+	{
+		isBurning = false;
+		float speedModifier = 1;
+		healReduction = 1;
+		for(Debuff e: debuffs)
+		{
+			 e.decreaseDuration(dt); 
+			 switch(e.getType())
+			 {
+				case Burn:
+					if(e.tick(dt))
+					{
+						isBurning = true;
+						burnSpread(e);
+						if(dealDamage((int)(e.getStrength())) <= 1)
+							hp = 1;
+					}
+					break;
+				case HealRed:
+					if(e.getStrength() < healReduction)
+						healReduction = e.getStrength();
+					break;
+				case Poison:
+					if(e.tick(dt))
+					{
+						if(dealDamage((int)(e.getStrength())) <= 1)
+							hp = 1;
+					}
+					break;
+				case Slow: 
+					if(e.getStrength() < speedModifier)
+						speedModifier = e.getStrength();
+					break;
+				default:
+					break;
+			 }
+		}
+		
+		moveSpeed = (int)(baseMoveSpeed * speedModifier);
+	}
+	
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
+		calcMoveSpeed(dt);
+		timeToRegen -= dt;
+		// Handles Health Regeneration
+		if (timeToRegen <= 0)
+		{
+			hp += healthRegen * scaling * healReduction;
+			if (hp > maxHP)
+				hp = maxHP;
+			timeToRegen = 1;
+		}
 		// Updates units position based on change in time and unit's movement
 		// speed
 		// 0.71 is for diagonal cases to match movement speed to horizontal and
@@ -162,6 +249,8 @@ public abstract class Enemy extends TextureObject
 
 		// draw health
 		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
+		if(percent > 100f)
+			percent = 100f;
 		font.setScale(2.0f);
 		font.setColor(transitionColor(Color.GREEN, Color.RED, (float) hp
 				/ maxHP, color));
@@ -233,5 +322,73 @@ public abstract class Enemy extends TextureObject
 	public void setAlive(boolean alive)
 	{
 		isAlive = alive;
+	}
+
+	public double getModifier()
+	{
+		return scaling;
+	}
+
+	public void setModifier(float modifier)
+	{
+		scaling = (float)modifier;
+		hp *= scaling;
+		maxHP += scaling;
+		
+	}
+	
+	public void addDebuff(Debuff d)
+	{
+		boolean added = false;
+		for(int i = debuffs.size() - 1; i >= 0; i--)
+		{
+			if(debuffs.get(i).getType() == d.getType())
+			{
+				switch(d.getType())
+				{
+				case Burn:
+					added = true;
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case HealRed:
+					added = true;
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case Poison:
+					added = true;
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case Slow:
+					if(debuffs.get(i).getStrength() < d.getStrength() && debuffs.get(i).getDuration() < d.getDuration())
+						debuffs.remove(i);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		if(added == false)
+			debuffs.add(d);
 	}
 }

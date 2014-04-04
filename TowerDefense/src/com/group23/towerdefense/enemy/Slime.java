@@ -6,7 +6,13 @@ public class Slime extends Enemy
 {
 	public Slime(Level map) 
 	{
-		super(map);
+		super(map, 1.0);
+		setTexture("enemy03.png");
+	}
+	
+	public Slime(Level map, double scale) 
+	{
+		super(map, scale);
 		setTexture("enemy03.png");
 	}
 
@@ -14,7 +20,7 @@ public class Slime extends Enemy
 	{
 		hp = maxHP = 150;
 		armor = 0;
-		moveSpeed = 64;
+		moveSpeed = 90;
 		texWidth = 64;
 		texHeight = 64;
 		goldValue = 10;

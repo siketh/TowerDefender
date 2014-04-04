@@ -3,10 +3,10 @@ package com.group23.towerdefense;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.screen.LevelSelectScreen;
 import com.group23.towerdefense.tower.Tower;
 
 public class TowerDefense extends Game
@@ -38,23 +38,12 @@ public class TowerDefense extends Game
 		// initialize textures and fonts
 		Enemy.font = ResourceManager.loadDefaultFont();
 
-		Level.background = ResourceManager.loadTexture("background.png");
-		Level.textures = new Texture[8];
-		Level.textures[0] = ResourceManager.loadTexture("tile00.png");
-		Level.textures[1] = ResourceManager.loadTexture("tile01.png");
-		Level.textures[2] = ResourceManager.loadTexture("tile02.png");
-		Level.textures[3] = ResourceManager.loadTexture("tile03.png");
-		Level.textures[4] = ResourceManager.loadTexture("tile04.png");
-		Level.textures[5] = ResourceManager.loadTexture("tile05.png");
-		Level.textures[6] = ResourceManager.loadTexture("tile06.png");
-		Level.textures[7] = ResourceManager.loadTexture("tile07.png");
-
 		// initialize static batches
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 
 		// set the screen to its initial state
-		setScreen(new GameplayScreen(1));
+		setScreen(new LevelSelectScreen());
 	}
 
 	@Override

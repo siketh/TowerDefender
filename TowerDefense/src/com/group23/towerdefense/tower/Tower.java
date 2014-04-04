@@ -2,18 +2,58 @@ package com.group23.towerdefense.tower;
 
 import java.util.Iterator;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TextureObject;
-import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 
 public abstract class Tower extends TextureObject
 {
+	public static class Upgrade
+	{
+		private String name;
+		private int cost;
+		private UpgradeEffect effect;
+
+		public String getName()
+		{
+			return name;
+		}
+
+		public void setName(String name)
+		{
+			this.name = name;
+		}
+
+		public int getCost()
+		{
+			return cost;
+		}
+
+		public void setCost(int cost)
+		{
+			this.cost = cost;
+		}
+
+		public UpgradeEffect getEffect()
+		{
+			return effect;
+		}
+
+		public void setEffect(UpgradeEffect effect)
+		{
+			this.effect = effect;
+		}
+	}
+	
+	public static interface UpgradeEffect
+	{
+		public abstract void upgrade(Tower tower);
+	}
+	
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
 
@@ -28,11 +68,11 @@ public abstract class Tower extends TextureObject
 
 	private Level level;
 	private Array<Enemy> targets = new Array<Enemy>();
+	private Array<Upgrade> appliedUpgrades = new Array<Upgrade>();
 
 	private int damage = 0;
 	private long cooldownTime = 0L;
 	private int goldCost = 0;
-	private boolean isSelected = false;
 
 	/**
 	 * Finds targets to attack and adds them to the input <code>Array</code>.
@@ -76,6 +116,7 @@ public abstract class Tower extends TextureObject
 			{
 				Enemy e = iter.next();
 				e.dealDamage(getDamage());
+				causeEffect(e);
 				if (!e.isAlive())
 				{
 					e.rewardGold();
@@ -85,12 +126,15 @@ public abstract class Tower extends TextureObject
 			}
 		}
 	}
-
-	public void draw(SpriteBatch batch)
+	
+	//A class that causes the effect to the enemy
+	protected void causeEffect(Enemy e)
 	{
-		super.draw(batch);
-
-		ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+		
+	}
+	
+	public void drawShapes(ShapeRenderer shapeRenderer)
+	{
 		// draw the line(s) to the target(s) (if applicable)
 		if (DEBUG_DRAWTARGET)
 			for (Enemy e : targets)
@@ -140,16 +184,6 @@ public abstract class Tower extends TextureObject
 		this.goldCost = goldCost;
 	}
 
-	public boolean isSelected()
-	{
-		return isSelected;
-	}
-
-	public void setSelected(boolean isSelected)
-	{
-		this.isSelected = isSelected;
-	}
-
 	@Override
 	public void setTexture(String filename)
 	{
@@ -160,5 +194,20 @@ public abstract class Tower extends TextureObject
 	public Vector2 getPosition()
 	{
 		return pos;
+	}
+	
+	public void applyUpgrade(Upgrade upgrade)
+	{
+		UpgradeEffect effect = upgrade.getEffect();
+		effect.upgrade(this);
+		appliedUpgrades.add(upgrade);
+	}
+	
+	public boolean hasAppliedUpgrade(Upgrade upgrade)
+	{
+		for (Upgrade u : appliedUpgrades)
+			if (u.equals(upgrade))
+				return true;
+		return false;
 	}
 }

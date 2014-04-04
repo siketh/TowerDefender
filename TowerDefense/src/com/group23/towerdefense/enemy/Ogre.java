@@ -2,11 +2,19 @@ package com.group23.towerdefense.enemy;
 
 import com.group23.towerdefense.Level;
 
-public class Enemy2 extends Enemy
+public class Ogre extends Enemy
 {
-	public Enemy2(Level map)
+	public Ogre(Level map)
 	{
-		super(map);
+		super(map, 1.0);
+		setTexture("enemy02.png");
+		System.out.println("1");
+	}
+	
+	public Ogre(Level map, double scale)
+	{
+		super(map, scale);
+		System.out.println(scale);
 		setTexture("enemy02.png");
 	}
 
@@ -19,5 +27,6 @@ public class Enemy2 extends Enemy
 		texHeight = 64;
 		goldValue = 30;
 		livesValue = 2;
+		healthRegen = 2;
 	}
 }

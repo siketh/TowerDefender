@@ -2,11 +2,17 @@ package com.group23.towerdefense.enemy;
 
 import com.group23.towerdefense.Level;
 
-public class Enemy1 extends Enemy
+public class Goblin extends Enemy
 {
-	public Enemy1(Level map) 
+	public Goblin(Level map) 
 	{
-		super(map);
+		super(map, 1.0);
+		setTexture("enemy01.png");
+	}
+	
+	public Goblin(Level map, double scale) 
+	{
+		super(map, scale);
 		setTexture("enemy01.png");
 	}
 
