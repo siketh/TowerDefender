@@ -199,10 +199,10 @@ public class GameplayScreen implements Screen
 
 		stage = new Stage(viewport, spriteBatch);
 
-		Actor startButton = getStartButtonActor();
-		Actor towerButton = getTowerButtonActor();
-		Actor goldDisplay = getGoldDisplayActor();
-		Actor healthDisplay = getHealthDisplayActor();
+		Actor startButton = new StartButtonActor();
+		Actor towerButton = new TowerButtonActor();
+		Actor goldDisplay = new GoldDisplayActor();
+		Actor healthDisplay = new HealthDisplayActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 
@@ -274,7 +274,8 @@ public class GameplayScreen implements Screen
 			for (int y = 0; y < Level.NUM_TILES_HEIGHT; y++)
 				for (int x = 0; x < Level.NUM_TILES_WIDTH; x++)
 					if (curLevel.getTile(x, y) != 0)
-						batch.draw(textures[curLevel.getTile(x, y)], x * 128, y * 128);
+						batch.draw(textures[curLevel.getTile(x, y)], x * 128,
+								y * 128);
 
 			// Draw enemies
 			for (Enemy e : curLevel.getEnemies())
@@ -283,143 +284,144 @@ public class GameplayScreen implements Screen
 			// Draw towers
 			for (Tower t : curLevel.getTowers())
 				t.draw(batch);
-			
+
 			batch.end();
-			
+
 			ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 			shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 			shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
 			shapeRenderer.translate(getX(), getY(), 0);
-			
+
 			shapeRenderer.begin(ShapeType.Line);
-			for (Tower t: curLevel.getTowers())
+			for (Tower t : curLevel.getTowers())
 				t.drawShapes(shapeRenderer);
 			shapeRenderer.end();
-			
+
 			batch.begin();
 		}
 	}
 
 	/**
-	 * Helper function to generate the Actor for the Start button. When pressed,
-	 * the next wave in the level is started.
+	 * Actor representing the Start button on the top bar. Pressing it will
+	 * start the next wave if the conditions are met.
 	 * 
-	 * @return Actor for the Start button
+	 * @author Robert
 	 * @see GameplayScreen.onStartButtonPressed
 	 */
-	private Actor getStartButtonActor()
+	private class StartButtonActor extends Image
 	{
-		Image buttonStart = new Image(
-				ResourceManager.loadTexture("start_b.png"));
-
-		buttonStart.setBounds(0.0f, 1020.0f, 200.0f, 60.0f);
-		buttonStart.addListener(new InputListener()
+		public StartButtonActor()
 		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
+			super(ResourceManager.loadTexture("start_b.png"));
+			setBounds(0.0f, 1020.0f, 200.0f, 60.0f);
+			addListener(new InputListener()
 			{
-				onStartButtonPressed();
-				return true;
-			}
-		});
-
-		return buttonStart;
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button)
+				{
+					onStartButtonPressed();
+					return true;
+				}
+			});
+		}
 	}
 
 	/**
-	 * Helper function to generate the Actor for the Tower button. When pressed,
-	 * show/hide the TowerSelector.
+	 * Actor representing the Tower button on the top bar. Pressing it will show
+	 * the towers that the user can place at the bottom of the screen.
 	 * 
-	 * @return Actor for the Tower button
+	 * @author Robert
 	 * @see GameplayScreen.onTowerButtonPressed
 	 */
-	private Actor getTowerButtonActor()
+	private class TowerButtonActor extends Image
 	{
-		Image buttonTower = new Image(
-				ResourceManager.loadTexture("tower_b.png"));
-
-		buttonTower.setBounds(200.0f, 1020.0f, 200.0f, 60.0f);
-		buttonTower.addListener(new InputListener()
+		public TowerButtonActor()
 		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
+			super(ResourceManager.loadTexture("tower_b.png"));
+			setBounds(200.0f, 1020.0f, 200.0f, 60.0f);
+			addListener(new InputListener()
 			{
-				onTowerButtonPressed();
-				return true;
-			}
-		});
-
-		return buttonTower;
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button)
+				{
+					onTowerButtonPressed();
+					return true;
+				}
+			});
+		}
 	}
 
 	/**
-	 * Helper function to generate the Actor to display the player's health.
+	 * Actor to display the player's current health.
 	 * 
-	 * @return Actor to display the player's health
+	 * @author Robert
+	 * 
 	 */
-	private Actor getHealthDisplayActor()
+	private class HealthDisplayActor extends HorizontalGroup
 	{
-		Label.LabelStyle healthStyle = new Label.LabelStyle();
-		healthStyle.fontColor = Color.WHITE;
-		healthStyle.font = ResourceManager.loadDefaultFont();
-
-		Image healthImage = new Image(ResourceManager.loadTexture("health.png"));
-		Label healthLabel = new Label("", healthStyle)
+		public HealthDisplayActor()
 		{
-			@Override
-			public void act(float delta)
+			Label.LabelStyle healthStyle = new Label.LabelStyle();
+			healthStyle.fontColor = Color.WHITE;
+			healthStyle.font = ResourceManager.loadDefaultFont();
+
+			Image healthImage = new Image(
+					ResourceManager.loadTexture("health.png"));
+			Label healthLabel = new Label("", healthStyle)
 			{
-				setText(Integer.toString(curLevel.getLives()));
-			}
-		};
-		healthLabel.setFontScale(2.5f);
+				@Override
+				public void act(float delta)
+				{
+					setText(Integer.toString(curLevel.getLives()));
+				}
+			};
+			healthLabel.setFontScale(2.5f);
 
-		Container healthLabelContainer = new Container(healthLabel);
-		healthLabelContainer.padLeft(15.0f);
+			Container healthLabelContainer = new Container(healthLabel);
+			healthLabelContainer.padLeft(15.0f);
 
-		HorizontalGroup healthGroup = new HorizontalGroup();
-		healthGroup.addActor(healthImage);
-		healthGroup.addActor(healthLabelContainer);
-		healthGroup.setPosition(1500.0f, 1020.0f);
-		healthGroup.pack();
-
-		return healthGroup;
+			addActor(healthImage);
+			addActor(healthLabelContainer);
+			setPosition(1500.0f, 1020.0f);
+			pack();
+		}
 	}
 
 	/**
-	 * Helper function to generate the Actor to display's the player's gold.
+	 * Actor to display the player's current gold amount.
 	 * 
-	 * @return Actor to display the player's gold
+	 * @author Robert
+	 * 
 	 */
-	private Actor getGoldDisplayActor()
+	private class GoldDisplayActor extends HorizontalGroup
 	{
-		Label.LabelStyle goldStyle = new Label.LabelStyle();
-		goldStyle.fontColor = Color.YELLOW;
-		goldStyle.font = ResourceManager.loadDefaultFont();
-
-		Image goldImage = new Image(ResourceManager.loadTexture("gold.png"));
-		Label goldLabel = new Label("", goldStyle)
+		public GoldDisplayActor()
 		{
-			@Override
-			public void act(float delta)
+			Label.LabelStyle goldStyle = new Label.LabelStyle();
+			goldStyle.fontColor = Color.YELLOW;
+			goldStyle.font = ResourceManager.loadDefaultFont();
+
+			Image goldImage = new Image(ResourceManager.loadTexture("gold.png"));
+			Label goldLabel = new Label("", goldStyle)
 			{
-				setText(Integer.toString(curLevel.getGold()));
-			}
-		};
-		goldLabel.setFontScale(2.5f);
+				@Override
+				public void act(float delta)
+				{
+					setText(Integer.toString(curLevel.getGold()));
+				}
+			};
+			goldLabel.setFontScale(2.5f);
 
-		Container goldLabelContainer = new Container(goldLabel);
-		goldLabelContainer.padLeft(15.0f);
+			Container goldLabelContainer = new Container(goldLabel);
+			goldLabelContainer.padLeft(15.0f);
 
-		HorizontalGroup goldGroup = new HorizontalGroup();
-		goldGroup.addActor(goldImage);
-		goldGroup.addActor(goldLabelContainer);
-		goldGroup.setPosition(1300.0f, 1020.0f);
-		goldGroup.pack();
-
-		return goldGroup;
+			addActor(goldImage);
+			addActor(goldLabelContainer);
+			setPosition(1300.0f, 1020.0f);
+			pack();
+		}
 	}
 
 	/**
