@@ -319,6 +319,50 @@ public abstract class Enemy extends TextureObject
 	
 	public void addDebuff(Debuff d)
 	{
-		debuffs.add(d);
+		for(int i = debuffs.size(); i >= 0; i--)
+		{
+			if(debuffs.get(i).getType() == d.getType())
+			{
+				switch(d.getType())
+				{
+				case Burn:
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case HealRed:
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case Poison:
+					if(debuffs.get(i).getStrength() < d.getStrength())
+					{
+						debuffs.get(i).setStrength(d.getStrength());
+					}
+					if(debuffs.get(i).getDuration() < d.getDuration())
+					{
+						debuffs.get(i).setStrength(d.getDuration());
+					}
+					break;
+				case Slow:
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		if(d.getType() == DebuffType.Slow)
+			debuffs.add(d);
 	}
 }
