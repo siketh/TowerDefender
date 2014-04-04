@@ -97,7 +97,6 @@ public class Necromancer extends Enemy
 		{
 			timeTillSummon -= dt;
 		}
-		System.out.println(timeTillSummon);
 		
 		// Updates units position based on change in time and unit's movement
 		// speed

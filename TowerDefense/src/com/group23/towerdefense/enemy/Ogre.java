@@ -8,11 +8,13 @@ public class Ogre extends Enemy
 	{
 		super(map, 1.0);
 		setTexture("enemy02.png");
+		System.out.println("1");
 	}
 	
 	public Ogre(Level map, double scale)
 	{
 		super(map, scale);
+		System.out.println(scale);
 		setTexture("enemy02.png");
 	}
 

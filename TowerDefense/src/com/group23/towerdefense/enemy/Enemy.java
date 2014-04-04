@@ -28,7 +28,6 @@ public abstract class Enemy extends TextureObject
 	protected int armor;
 	protected int healthRegen; // Health Regen, defaults to 0
 	protected float timeToRegen;
-	protected float modifier; // TODO apply this modifier to variables
 
 	private boolean isAlive = true;
 	private Color color;
@@ -181,6 +180,8 @@ public abstract class Enemy extends TextureObject
 
 		// draw health
 		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
+		if(percent > 100f)
+			percent = 100f;
 		font.setScale(2.0f);
 		font.setColor(transitionColor(Color.GREEN, Color.RED, (float) hp
 				/ maxHP, color));
@@ -254,13 +255,16 @@ public abstract class Enemy extends TextureObject
 		isAlive = alive;
 	}
 
-	public float getModifier()
+	public double getModifier()
 	{
-		return modifier;
+		return scaling;
 	}
 
 	public void setModifier(float modifier)
 	{
-		this.modifier = modifier;
+		scaling = (float)modifier;
+		hp *= scaling;
+		maxHP += scaling;
+		
 	}
 }
