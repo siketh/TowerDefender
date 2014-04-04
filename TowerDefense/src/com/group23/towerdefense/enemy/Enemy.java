@@ -31,8 +31,9 @@ public abstract class Enemy extends TextureObject
 	protected int armor;
 	protected int healthRegen; // Health Regen, defaults to 0
 	protected float timeToRegen;
+	protected float healReduction;
 	
-	protected ArrayList<Effect>  effects;	//Stores all the effects on the enemy
+	protected ArrayList<Debuff>  debuffs;	//Stores all the effects on the enemy
 	
 	private boolean isAlive = true;
 	private Color color;
@@ -40,7 +41,7 @@ public abstract class Enemy extends TextureObject
 	// Constructor for enemy
 	public Enemy(Level map, double scale)
 	{
-		effects = new ArrayList<Effect>();
+		debuffs = new ArrayList<Debuff>();
 		healthRegen = 0;
 		timeToRegen = 1;
 		setBaseStats();
@@ -69,20 +70,54 @@ public abstract class Enemy extends TextureObject
 	abstract protected void setBaseStats();
 
 	//Calculates the movespeed of the enemy for the segment
-	protected void calcMoveSpeed()
+	protected void calcMoveSpeed(float dt)
 	{
-		float speedModifier;
+		float speedModifier = 1;
+		healReduction = 1;
+		for(Debuff e: debuffs)
+		{
+			 e.decreaseDuration(dt); 
+			 switch(e.getType())
+			 {
+				case Burn:
+					if(e.tick(dt))
+					{
+						if(dealDamage((int)(e.getStrength())) <= 1)
+							hp = 1;
+					}
+					break;
+				case HealRed:
+					if(e.getStrength() < healReduction)
+						healReduction = e.getStrength();
+					break;
+				case Poison:
+					if(e.tick(dt))
+					{
+						if(dealDamage((int)(e.getStrength())) <= 1)
+							hp = 1;
+					}
+					break;
+				case Slow: 
+					if(e.getStrength() < speedModifier)
+						speedModifier = e.getStrength();
+					break;
+				default:
+					break;
+			 }
+		}
+		
+		moveSpeed = (int)(baseMoveSpeed * speedModifier);
 	}
 	
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
-		calcMoveSpeed();
+		calcMoveSpeed(dt);
 		timeToRegen -= dt;
 		// Handles Health Regeneration
 		if (timeToRegen <= 0)
 		{
-			hp += healthRegen * scaling;
+			hp += healthRegen * scaling * healReduction;
 			if (hp > maxHP)
 				hp = maxHP;
 			timeToRegen = 1;
@@ -280,5 +315,10 @@ public abstract class Enemy extends TextureObject
 		hp *= scaling;
 		maxHP += scaling;
 		
+	}
+	
+	public void addDebuff(Debuff d)
+	{
+		debuffs.add(d);
 	}
 }
