@@ -1,7 +1,6 @@
 package com.group23.towerdefense;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.enemy.Enemy;
@@ -73,7 +72,6 @@ public class Level
 	int playerLives;
 
 	private Array<Tower> towers;
-	private Tower selectedTower;
 
 	private Array<Enemy> enemies;
 	private LevelWave wave;
@@ -100,7 +98,6 @@ public class Level
 		enemies = new Array<Enemy>();
 		towers = new Array<Tower>();
 		directions = new Dir[tiles.length];
-		selectedTower = null;
 
 		/**
 		 * Create the direction map based on the tiles
@@ -262,7 +259,7 @@ public class Level
 				towers.add(tower);
 				tower.registerToLevel(this, x, y);
 				playerGold -= tower.getGoldCost();
-				selectTower(x, y);
+				getTower(x, y);
 			}
 		}
 	}
@@ -270,31 +267,12 @@ public class Level
 	/**
 	 * Removes a tower on a tile-coordinate position
 	 * 
-	 * @param x
-	 *            Tile x-coordinate to remove tower
-	 * @param y
-	 *            Tile y-coordinate to remove tower
+	 * @param tower
 	 * @return true if tower removed
 	 */
-	public boolean removeTower(int x, int y)
+	public boolean removeTower(Tower tower)
 	{
-		final int index = convertTileToIndex(x, y);
-		boolean removed = false;
-
-		Iterator<Tower> iter = towers.iterator();
-		while (iter.hasNext())
-		{
-			Tower t = iter.next();
-			removed = t.getTile() == index;
-
-			if (removed)
-			{
-				iter.remove();
-				break;
-			}
-		}
-
-		return removed;
+		return towers.removeValue(tower, false);
 	}
 
 	/**
@@ -305,26 +283,13 @@ public class Level
 	 * @param y
 	 *            Tile y-coordinate to select tower
 	 */
-	public void selectTower(int x, int y)
+	public Tower getTower(int x, int y)
 	{
 		final int index = convertTileToIndex(x, y);
 		for (Tower t : towers)
 			if (t.getTile() == index)
-			{
-				if (selectedTower != null)
-				{
-					selectedTower.setSelected(false);
-					if (selectedTower.equals(t))
-					{
-						selectedTower = null;
-						break;
-					}
-				}
-
-				t.setSelected(true);
-				selectedTower = t;
-				break;
-			}
+				return t;
+		return null;
 	}
 
 	/**

@@ -62,7 +62,7 @@ public abstract class CircularRangeTower extends Tower
 		super.drawShapes(shapeRenderer);
 		
 		// draw the radius of the range
-		if (isSelected() && DEBUG_DRAWRANGE)
+		if (DEBUG_DRAWRANGE)
 		{
 			Vector2 pos = getPosition();
 			
