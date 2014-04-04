@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.towerdefense.enemy.Enemy;
+import com.group23.towerdefense.screen.LevelSelectScreen;
 import com.group23.towerdefense.tower.Tower;
 
 public class TowerDefense extends Game
@@ -42,7 +43,7 @@ public class TowerDefense extends Game
 		shapeRenderer = new ShapeRenderer();
 
 		// set the screen to its initial state
-		setScreen(new GameplayScreen(0));
+		setScreen(new LevelSelectScreen());
 	}
 
 	@Override
