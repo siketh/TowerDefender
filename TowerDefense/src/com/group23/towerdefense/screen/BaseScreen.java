@@ -22,8 +22,8 @@ public abstract class BaseScreen implements Screen
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
+		act(delta);
+		draw();
 	}
 
 	@Override
@@ -75,6 +75,16 @@ public abstract class BaseScreen implements Screen
 	public Stage getStage()
 	{
 		return stage;
+	}
+	
+	public void act(float delta)
+	{
+		stage.act(delta);
+	}
+	
+	public void draw()
+	{
+		stage.draw();
 	}
 	
 	public static abstract class ImageButton extends Image

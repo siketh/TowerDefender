@@ -26,41 +26,19 @@ import com.group23.towerdefense.tower.Tower;
 
 public class GameplayScreen extends BaseScreen
 {
+	private enum State
+	{
+		Win,
+		Lose,
+		Playing
+	}
+	
+	private State state = State.Playing;
 	private int level = 0;
 	private Level curLevel;
 	private Level.Generator levelGenerator;
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
-
-	/**
-	 * Uses DefaultLevelGenerator for its Level.Generator, and starts at level
-	 * 0.
-	 */
-	public GameplayScreen()
-	{
-
-	}
-
-	/**
-	 * Uses DefaultLevelGenerator for its Level.Generator, and starts at level
-	 * at the inputed level.
-	 * 
-	 * @param level
-	 */
-	public GameplayScreen(int level)
-	{
-		this.level = level;
-	}
-
-	/**
-	 * Uses an inputed Level.Generator, starting at level 0
-	 * 
-	 * @param levelGenerator
-	 */
-	public GameplayScreen(Level.Generator levelGenerator)
-	{
-		this.levelGenerator = levelGenerator;
-	}
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -72,6 +50,29 @@ public class GameplayScreen extends BaseScreen
 	{
 		this.levelGenerator = levelGenerator;
 		this.level = level;
+	}
+
+	@Override
+	public void act(float delta)
+	{
+		switch (state)
+		{
+		case Playing:
+			super.act(delta);
+			
+			if (isDefeated())
+				setEndState(State.Lose, new LoseImage());
+			else if (hasWon())
+				setEndState(State.Win, new WinImage());
+
+			break;
+			
+		case Win:
+			break;
+			
+		case Lose:
+			break;
+		}
 	}
 
 	@Override
@@ -120,6 +121,22 @@ public class GameplayScreen extends BaseScreen
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
+	
+	private void setEndState(State state, Actor actor)
+	{
+		getStage().addActor(actor);
+		getStage().addListener(new InputListener()
+		{
+			@Override
+			public boolean touchDown(InputEvent event, float x,
+					float y, int pointer, int button)
+			{
+				TowerDefense.changeScreen(new LevelSelectScreen());
+				return true;
+			}
+		});
+		this.state = state;
+	}
 
 	/**
 	 * Called when the game's current Level is pressed
@@ -158,6 +175,16 @@ public class GameplayScreen extends BaseScreen
 	public Level getLevel()
 	{
 		return curLevel;
+	}
+	
+	public boolean hasWon()
+	{
+		return curLevel.hasFinishedAllWaves();
+	}
+	
+	public boolean isDefeated()
+	{
+		return curLevel.getLives() <= 0;
 	}
 
 	/**
@@ -477,6 +504,32 @@ public class GameplayScreen extends BaseScreen
 				}
 			});
 			return tower;
+		}
+	}
+	
+	private class WinImage extends Image
+	{
+		public WinImage()
+		{
+			super(ResourceManager.loadTexture("win.png"));
+			
+			int width = TowerDefense.SCREEN_WIDTH;
+			int height = TowerDefense.SCREEN_HEIGHT;
+			
+			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f - getHeight() / 2.0f);
+		}
+	}
+	
+	private class LoseImage extends Image
+	{
+		public LoseImage()
+		{
+			super(ResourceManager.loadTexture("lose.png"));
+			
+			int width = TowerDefense.SCREEN_WIDTH;
+			int height = TowerDefense.SCREEN_HEIGHT;
+			
+			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f - getHeight() / 2.0f);
 		}
 	}
 }
