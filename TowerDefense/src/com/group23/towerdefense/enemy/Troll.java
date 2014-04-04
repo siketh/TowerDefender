@@ -63,7 +63,7 @@ public class Troll extends Enemy
 		//Handles Health Regeneration
 		if(timeToRegen <= 0)
 		{
-			hp+= healthRegen * scaling;
+			hp+= healthRegen * scaling * healReduction;
 			if(hp > maxHP)
 				hp = maxHP;
 			timeToRegen = 1;
