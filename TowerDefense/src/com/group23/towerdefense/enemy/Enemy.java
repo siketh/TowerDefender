@@ -302,4 +302,9 @@ public abstract class Enemy extends TextureObject
 		maxHP += scaling;
 		
 	}
+	
+	public void addDebuff(Debuff d)
+	{
+		debuffs.add(d);
+	}
 }

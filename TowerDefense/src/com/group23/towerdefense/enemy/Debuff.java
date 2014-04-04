@@ -6,9 +6,9 @@ public class Debuff
 	private float duration;
 	private DebuffType type;
 	
-	public Debuff(float length, float duration, DebuffType type)
+	public Debuff(float Strength, float duration, DebuffType type)
 	{
-		this.setStrength(length);
+		this.setStrength(Strength);
 		this.setDuration(duration);
 		this.setType(type);
 	}
