@@ -20,7 +20,7 @@ import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.ArrowTower;
-import com.group23.towerdefense.tower.DirectMultiAttackTower;
+import com.group23.towerdefense.tower.MultiArrowTower;
 import com.group23.towerdefense.tower.Tower;
 
 public class GameplayScreen extends BaseScreen
@@ -416,7 +416,7 @@ public class GameplayScreen extends BaseScreen
 				@Override
 				public Tower newTower()
 				{
-					return new DirectMultiAttackTower();
+					return new MultiArrowTower();
 				}
 			}));
 
