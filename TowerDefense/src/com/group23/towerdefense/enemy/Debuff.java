@@ -7,6 +7,7 @@ public class Debuff
 	private DebuffType type;
 	private float cooldown;
 	private float timeToTick;
+	private float range;
 	
 	public Debuff(float Strength, float duration, DebuffType type)
 	{
@@ -16,16 +17,29 @@ public class Debuff
 		baseDuration = duration;
 		cooldown = 0;
 		timeToTick = 0;
+		setRange(0);
 	}
 
-	public Debuff(float Strength, float duration, DebuffType type, float cooldown, float timeToTick)
+	public Debuff(float Strength, float duration, DebuffType type, float cooldown)
 	{
 		this.setStrength(Strength);
 		this.setDuration(duration);
 		this.setType(type);
 		baseDuration = duration;
 		this.cooldown = cooldown;
-		this.timeToTick = timeToTick;
+		timeToTick = cooldown;
+		setRange(0);
+	}
+	
+	public Debuff(float Strength, float duration, DebuffType type, float cooldown, float range)
+	{
+		this.setStrength(Strength);
+		this.setDuration(duration);
+		this.setType(type);
+		baseDuration = duration;
+		this.cooldown = cooldown;
+		timeToTick = cooldown;
+		this.setRange(range);
 	}
 	
 	public float getStrength() {
@@ -74,6 +88,19 @@ public class Debuff
 		}
 			
 		return false;
+	}
+
+	public float getRange() {
+		return range;
+	}
+
+	public void setRange(float range) {
+		this.range = range;
+	}
+	
+	public float getCooldown()
+	{
+		return cooldown;
 	}
 	
 	
