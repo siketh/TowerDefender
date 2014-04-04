@@ -99,8 +99,6 @@ public class GameplayScreen implements Screen
 	 */
 	private void onStartButtonPressed()
 	{
-		System.out.println("onStartButtonPressed() called");
-		
 		if (!(curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
 			curLevel.startNextWave();
 	}
@@ -110,8 +108,6 @@ public class GameplayScreen implements Screen
 	 */
 	private void onTowerButtonPressed()
 	{
-		System.out.println("onTowerButtonPressed() called");
-		
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
@@ -494,7 +490,7 @@ public class GameplayScreen implements Screen
 						int pointer, int button)
 				{
 					towerGenerator = gen;
-					towerSelector.setVisible(false);
+					//towerSelector.setVisible(false);
 					return true;
 				}
 			});
