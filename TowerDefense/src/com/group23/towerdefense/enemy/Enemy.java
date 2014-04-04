@@ -21,12 +21,14 @@ public abstract class Enemy extends TextureObject
 	protected int curTile; // Stores current tile index of enemy
 	protected float distTraveled; // Stores distance traveled since last new
 									// tile
-	protected double scaling; //Stores how much scaling the enemy needs from the default
+	protected double scaling; // Stores how much scaling the enemy needs from
+								// the default
 	protected int goldValue; // Stores the enemies value in gold
 	protected int livesValue; // The amount of lives the enemy is worth
 	protected int armor;
-	protected int healthRegen; //Health Regen, defaults to 0
+	protected int healthRegen; // Health Regen, defaults to 0
 	protected float timeToRegen;
+	protected float modifier; // TODO apply this modifier to variables
 
 	private boolean isAlive = true;
 	private Color color;
@@ -64,11 +66,11 @@ public abstract class Enemy extends TextureObject
 	public boolean act(float dt)
 	{
 		timeToRegen -= dt;
-		//Handles Health Regeneration
-		if(timeToRegen <= 0)
+		// Handles Health Regeneration
+		if (timeToRegen <= 0)
 		{
-			hp+= healthRegen * scaling;
-			if(hp > maxHP)
+			hp += healthRegen * scaling;
+			if (hp > maxHP)
 				hp = maxHP;
 			timeToRegen = 1;
 		}
@@ -250,5 +252,15 @@ public abstract class Enemy extends TextureObject
 	public void setAlive(boolean alive)
 	{
 		isAlive = alive;
+	}
+
+	public float getModifier()
+	{
+		return modifier;
+	}
+
+	public void setModifier(float modifier)
+	{
+		this.modifier = modifier;
 	}
 }
