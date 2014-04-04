@@ -15,15 +15,15 @@ public class LevelSelectScreen extends BaseScreen
 	{
 		super.show();
 
-		int width = TowerDefense.SCREEN_WIDTH;
-
 		Stage stage = getStage();
-
-		Actor level1Actor = new LevelSelectButton("level1_b.png", 1);
-		level1Actor.setBounds(width / 2.0f - level1Actor.getWidth() / 2.0f,
-				0.0f, 300.0f, 300.0f);
-
-		stage.addActor(level1Actor);
+		for (int i = 0; i < 5; i++)
+		{
+			String imageFilename = String.format("level%d_b.png", i+1);
+			Actor levelSelectButton = new LevelSelectButton(imageFilename, i);
+			levelSelectButton.setBounds(i * 256.0f, 0.0f, 256.0f, 256.0f);
+			
+			stage.addActor(levelSelectButton);
+		}
 	}
 
 	private class LevelSelectButton extends ImageButton
