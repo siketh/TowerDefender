@@ -1,5 +1,7 @@
 package com.group23.towerdefense.enemy;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +17,7 @@ public abstract class Enemy extends TextureObject
 	protected int texWidth, texHeight;
 	protected int hp, maxHP; // Stores current hp of enemy
 	protected int moveSpeed; // Stores movement speed of enemy
+	protected int baseMoveSpeed; //Stores base move speed of the enemy
 	protected Dir direction; // Stores direction of enemy
 	protected Vector2 pos; // Store pixel coordinates of enemy
 	protected Level path; // Points to level
@@ -28,16 +31,20 @@ public abstract class Enemy extends TextureObject
 	protected int armor;
 	protected int healthRegen; // Health Regen, defaults to 0
 	protected float timeToRegen;
-
+	
+	protected ArrayList<Effect>  effects;	//Stores all the effects on the enemy
+	
 	private boolean isAlive = true;
 	private Color color;
 
 	// Constructor for enemy
 	public Enemy(Level map, double scale)
 	{
+		effects = new ArrayList<Effect>();
 		healthRegen = 0;
 		timeToRegen = 1;
 		setBaseStats();
+		baseMoveSpeed = moveSpeed;
 		scaling = scale;
 		maxHP *= scale;
 		hp *= scale;
@@ -61,9 +68,16 @@ public abstract class Enemy extends TextureObject
 	// Put base stats of the monster here
 	abstract protected void setBaseStats();
 
+	//Calculates the movespeed of the enemy for the segment
+	protected void calcMoveSpeed()
+	{
+		float speedModifier;
+	}
+	
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
+		calcMoveSpeed();
 		timeToRegen -= dt;
 		// Handles Health Regeneration
 		if (timeToRegen <= 0)

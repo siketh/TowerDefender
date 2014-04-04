@@ -47,6 +47,7 @@ public class Troll extends Enemy
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
+		calcMoveSpeed();
 		double speedModifier = 1;
 		//Sets up movespeedBoost
 		if(cooldown > 0)
