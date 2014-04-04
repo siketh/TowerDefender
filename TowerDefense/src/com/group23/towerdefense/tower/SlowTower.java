@@ -1,5 +1,7 @@
 package com.group23.towerdefense.tower;
 
+import com.group23.towerdefense.enemy.Debuff;
+import com.group23.towerdefense.enemy.DebuffType;
 import com.group23.towerdefense.enemy.Enemy;
 
 public class SlowTower extends  SingleTargetCircularRangeTower
@@ -15,7 +17,7 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 	
 	protected void causeEffect(Enemy e)
 	{
-		
+		e.addDebuff(new Debuff(0.8f, 1, DebuffType.Slow));
 	}
 
 }
