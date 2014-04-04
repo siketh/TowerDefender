@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TextureObject;
@@ -34,6 +35,7 @@ public abstract class Enemy extends TextureObject
 	protected float healReduction;
 	
 	protected ArrayList<Debuff>  debuffs;	//Stores all the effects on the enemy
+	protected boolean isBurning;	//Stores whether the enemy is on fire
 	
 	private boolean isAlive = true;
 	private Color color;
@@ -49,6 +51,7 @@ public abstract class Enemy extends TextureObject
 		scaling = scale;
 		maxHP *= scale;
 		hp *= scale;
+		isBurning = false;
 		distTraveled = 0;
 		path = map;
 		direction = path.getStartDir(); // Pulls starting direction from map
@@ -69,9 +72,24 @@ public abstract class Enemy extends TextureObject
 	// Put base stats of the monster here
 	abstract protected void setBaseStats();
 
+	//Spreads the burn if it can find an enemy not on fire in range
+	protected void burnSpread(Debuff d)
+	{
+		Array<Enemy> e = path.getEnemies();
+		for(int i = 0; i < e.size; i++)
+		{
+			if(e.get(i).isBurning == false && getPosition().dst(e.get(i).getPosition()) <= d.getRange())
+			{
+				e.get(i).addDebuff(new Debuff(d.getStrength(), d.getBaseDuration() * .66f, d.getType(), d.getCooldown(), d.getRange()));
+				return;
+			}
+		}
+	}
+	
 	//Calculates the movespeed of the enemy for the segment
 	protected void calcMoveSpeed(float dt)
 	{
+		isBurning = false;
 		float speedModifier = 1;
 		healReduction = 1;
 		for(Debuff e: debuffs)
@@ -82,6 +100,8 @@ public abstract class Enemy extends TextureObject
 				case Burn:
 					if(e.tick(dt))
 					{
+						isBurning = true;
+						burnSpread(e);
 						if(dealDamage((int)(e.getStrength())) <= 1)
 							hp = 1;
 					}
@@ -319,13 +339,15 @@ public abstract class Enemy extends TextureObject
 	
 	public void addDebuff(Debuff d)
 	{
-		for(int i = debuffs.size(); i >= 0; i--)
+		boolean added = false;
+		for(int i = debuffs.size() - 1; i >= 0; i--)
 		{
 			if(debuffs.get(i).getType() == d.getType())
 			{
 				switch(d.getType())
 				{
 				case Burn:
+					added = true;
 					if(debuffs.get(i).getStrength() < d.getStrength())
 					{
 						debuffs.get(i).setStrength(d.getStrength());
@@ -336,6 +358,7 @@ public abstract class Enemy extends TextureObject
 					}
 					break;
 				case HealRed:
+					added = true;
 					if(debuffs.get(i).getStrength() < d.getStrength())
 					{
 						debuffs.get(i).setStrength(d.getStrength());
@@ -346,6 +369,7 @@ public abstract class Enemy extends TextureObject
 					}
 					break;
 				case Poison:
+					added = true;
 					if(debuffs.get(i).getStrength() < d.getStrength())
 					{
 						debuffs.get(i).setStrength(d.getStrength());
@@ -356,13 +380,15 @@ public abstract class Enemy extends TextureObject
 					}
 					break;
 				case Slow:
+					if(debuffs.get(i).getStrength() < d.getStrength() && debuffs.get(i).getDuration() < d.getDuration())
+						debuffs.remove(i);
 					break;
 				default:
 					break;
 				}
 			}
 		}
-		if(d.getType() == DebuffType.Slow)
+		if(added == false)
 			debuffs.add(d);
 	}
 }
