@@ -8,7 +8,7 @@ import com.group23.towerdefense.enemy.Enemy;
 public abstract class CircularRangeTower extends Tower
 {
 	private float range;
-	private int maxTargets;
+	protected int maxTargets;
 	
 	public float getRange()
 	{

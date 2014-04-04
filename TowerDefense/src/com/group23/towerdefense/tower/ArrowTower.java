@@ -1,13 +1,14 @@
 package com.group23.towerdefense.tower;
 
-public class DirectAttackTower extends SingleTargetCircularRangeTower
+public class ArrowTower extends SingleTargetCircularRangeTower
 {
-	public DirectAttackTower()
+	public ArrowTower()
 	{
 		setCooldownTime(100L);
 		setRange(250.0f);
 		setDamage(4);
 		setGoldCost(100);
 		setTexture("tower00.png");
+		maxTargets = 1;
 	}
 }

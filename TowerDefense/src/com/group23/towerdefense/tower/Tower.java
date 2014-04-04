@@ -74,6 +74,7 @@ public abstract class Tower extends TextureObject
 			{
 				Enemy e = iter.next();
 				e.dealDamage(getDamage());
+				causeEffect(e);
 				if (!e.isAlive())
 				{
 					e.rewardGold();
@@ -82,6 +83,12 @@ public abstract class Tower extends TextureObject
 				}
 			}
 		}
+	}
+	
+	//A class that causes the effect to the enemy
+	protected void causeEffect(Enemy e)
+	{
+		
 	}
 	
 	public void drawShapes(ShapeRenderer shapeRenderer)

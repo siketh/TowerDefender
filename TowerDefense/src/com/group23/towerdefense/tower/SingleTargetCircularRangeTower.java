@@ -11,6 +11,7 @@ public abstract class SingleTargetCircularRangeTower extends CircularRangeTower
 	@Override
 	protected void findTargets(Array<Enemy> targets)
 	{
+		
 		/** Already has a target, do nothing */
 		if (targets.size == 1)
 		{
@@ -21,7 +22,7 @@ public abstract class SingleTargetCircularRangeTower extends CircularRangeTower
 		}
 
 		super.findTargets(targets);
-
+		
 		if (targets.size > 0)
 		{
 			final Vector2 pos = getPosition();
