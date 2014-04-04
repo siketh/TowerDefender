@@ -1,4 +1,4 @@
-package com.group23.towerdefense;
+package com.group23.towerdefense.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -22,6 +22,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.group23.towerdefense.DefaultLevelGenerator;
+import com.group23.towerdefense.Level;
+import com.group23.towerdefense.ResourceManager;
+import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;

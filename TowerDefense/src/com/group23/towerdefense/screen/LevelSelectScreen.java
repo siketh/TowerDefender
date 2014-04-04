@@ -1,4 +1,4 @@
-package com.group23.towerdefense;
+package com.group23.towerdefense.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.group23.towerdefense.TowerDefense;
 
 public class LevelSelectScreen implements Screen, InputProcessor {
 	

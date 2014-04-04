@@ -42,8 +42,11 @@ public class Wave
 	 * @param enemyType
 	 *            The <code>Enemy</code> class to spawn
 	 * @return This to allow chain method calls
+	 * @throws IllegalStateException
+	 *             If start() has been called before a call to addSpawn(...)
 	 */
 	public Wave addSpawn(long ms, Class<? extends Enemy> enemyType)
+			throws IllegalStateException
 	{
 		addSpawn(ms, enemyType, 1.0f);
 		return this;
@@ -61,10 +64,15 @@ public class Wave
 	 * @param modifier
 	 *            The modifier to multiply the enemy stats by
 	 * @return This to allow chain method calls
+	 * @throws IllegalStateException
+	 *             If start() has been called before a call to addSpawn(...)
 	 */
 	public Wave addSpawn(long ms, Class<? extends Enemy> enemyType,
-			float modifier)
+			float modifier) throws IllegalStateException
 	{
+		if (hasStarted())
+			throw new IllegalStateException("addSpawn(...) cannot be called after the Wave has been started");
+
 		SpawnInfo info = new SpawnInfo();
 		info.enemyType = enemyType;
 		info.modifier = modifier;
@@ -123,7 +131,7 @@ public class Wave
 			}
 			catch (InstantiationException e)
 			{
-				
+
 			}
 			catch (IllegalAccessException e)
 			{
@@ -136,6 +144,11 @@ public class Wave
 
 			curSpawnIndex++;
 		}
+	}
+
+	public boolean hasStarted()
+	{
+		return curSpawnIndex != -1;
 	}
 
 	/**
