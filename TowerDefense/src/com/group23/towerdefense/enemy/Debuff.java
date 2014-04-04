@@ -1,24 +1,24 @@
 package com.group23.towerdefense.enemy;
 
-public class Effect 
+public class Debuff 
 {
-	private float length;
+	private float strength;
 	private float duration;
-	private String type;
+	private DebuffType type;
 	
-	public Effect(float length, float duration, String type)
+	public Debuff(float length, float duration, DebuffType type)
 	{
-		this.setLength(length);
+		this.setStrength(length);
 		this.setDuration(duration);
 		this.setType(type);
 	}
 
-	public float getLength() {
-		return length;
+	public float getStrength() {
+		return strength;
 	}
 
-	public void setLength(float length) {
-		this.length = length;
+	public void setStrength(float length) {
+		this.strength = length;
 	}
 
 	public float getDuration() {
@@ -34,11 +34,11 @@ public class Effect
 		this.duration -= duration;
 	}
 
-	public String getType() {
+	public DebuffType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(DebuffType type) {
 		this.type = type;
 	}
 }

@@ -70,7 +70,7 @@ public class Necromancer extends Enemy
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
-		calcMoveSpeed();
+		calcMoveSpeed(dt);
 		//Takes care of the summoning
 		if(timeTillSummon == 0)
 		{
