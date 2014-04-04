@@ -40,6 +40,7 @@ public class Necromancer extends Enemy
 		{
 			case N:
 				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth()));
+				break;
 			case NE:
 				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth() + 1));
 				break;
