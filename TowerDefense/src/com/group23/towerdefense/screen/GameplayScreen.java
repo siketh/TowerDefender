@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.group23.towerdefense.DefaultLevelGenerator;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
@@ -34,9 +33,7 @@ public class GameplayScreen extends BaseScreen
 	}
 	
 	private State state = State.Playing;
-	private int level = 0;
 	private Level curLevel;
-	private Level.Generator levelGenerator;
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
 
@@ -46,10 +43,9 @@ public class GameplayScreen extends BaseScreen
 	 * @param levelGenerator
 	 * @param level
 	 */
-	public GameplayScreen(Level.Generator levelGenerator, int level)
+	public GameplayScreen(Level curLevel)
 	{
-		this.levelGenerator = levelGenerator;
-		this.level = level;
+		this.curLevel = curLevel;
 	}
 
 	@Override
@@ -79,11 +75,6 @@ public class GameplayScreen extends BaseScreen
 	public void show()
 	{
 		super.show();
-
-		if (levelGenerator == null)
-			levelGenerator = new DefaultLevelGenerator();
-
-		loadLevel(level);
 
 		Actor startButton = new StartButtonActor();
 		Actor towerButton = new TowerButtonActor();
@@ -160,16 +151,6 @@ public class GameplayScreen extends BaseScreen
 			towerGenerator = null;
 			curLevel.placeTower(tower, tileX, tileY);
 		}
-	}
-	
-	/**
-	 * Sets the current level as the input level number from the Level.Generator
-	 * 
-	 * @param level
-	 */
-	public void loadLevel(int level)
-	{
-		curLevel = levelGenerator.getLevel(level);
 	}
 
 	public Level getLevel()
