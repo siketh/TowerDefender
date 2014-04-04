@@ -1,10 +1,8 @@
 package com.group23.towerdefense.tower;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 
 public abstract class CircularRangeTower extends Tower
@@ -59,14 +57,13 @@ public abstract class CircularRangeTower extends Tower
 	}
 	
 	@Override
-	public void draw(SpriteBatch batch)
+	public void drawShapes(ShapeRenderer shapeRenderer)
 	{
-		super.draw(batch);
+		super.drawShapes(shapeRenderer);
 		
 		// draw the radius of the range
 		if (isSelected() && DEBUG_DRAWRANGE)
 		{
-			ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 			Vector2 pos = getPosition();
 			
 			shapeRenderer.setColor(1.0f, 0.0f, 0.0f, 0.5f);

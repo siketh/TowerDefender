@@ -5,8 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
@@ -122,8 +125,6 @@ public class GameplayScreen implements Screen
 	 */
 	private void onLevelPressed(float x, float y)
 	{
-		System.out.println("onLevelPressed(...) called");
-		
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
@@ -143,9 +144,7 @@ public class GameplayScreen implements Screen
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
-		TowerDefense.shapeRenderer.begin(ShapeType.Line);
 		stage.draw();
-		TowerDefense.shapeRenderer.end();
 	}
 
 	@Override
@@ -183,7 +182,7 @@ public class GameplayScreen implements Screen
 	{
 
 	}
-	
+
 	private void initialize()
 	{
 		if (curLevel == null)
@@ -192,10 +191,10 @@ public class GameplayScreen implements Screen
 		int width = TowerDefense.SCREEN_WIDTH;
 		int height = TowerDefense.SCREEN_HEIGHT;
 		SpriteBatch spriteBatch = TowerDefense.spriteBatch;
-		
+
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false, width, height);
-		
+
 		Viewport viewport = new FillViewport(width, height, camera);
 
 		stage = new Stage(viewport, spriteBatch);
@@ -204,7 +203,7 @@ public class GameplayScreen implements Screen
 		Actor towerButton = getTowerButtonActor();
 		Actor goldDisplay = getGoldDisplayActor();
 		Actor healthDisplay = getHealthDisplayActor();
-		Actor levelActor = getLevelActor();
+		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 
 		stage.addActor(levelActor);
@@ -216,46 +215,89 @@ public class GameplayScreen implements Screen
 	}
 
 	/**
-	 * Helper function to generate the Actor that represents the current Level.
+	 * Internal utility class to be the Actor representation of a Level. This
+	 * actor handles the drawing of the Level.
 	 * 
-	 * @return Actor representing the current Level
+	 * @author Robert
 	 * @see GameplayScreen.onLevelPressed
 	 */
-	private Actor getLevelActor()
+	private class LevelActor extends Actor
 	{
-		int width = TowerDefense.SCREEN_WIDTH;
-		int height = TowerDefense.SCREEN_HEIGHT;
-		int tsize = TowerDefense.TILE_SIZE;
+		private Texture background;
+		private Texture[] textures;
 
-		Actor levelActor = new Actor()
+		public LevelActor()
 		{
-			@Override
-			public void act(float delta)
-			{
-				curLevel.act(delta);
-			}
+			int width = TowerDefense.SCREEN_WIDTH;
+			int height = TowerDefense.SCREEN_HEIGHT;
+			int tsize = TowerDefense.TILE_SIZE;
 
-			@Override
-			public void draw(Batch batch, float parentAlpha)
+			background = ResourceManager.loadTexture("background.png");
+			textures = new Texture[8];
+			textures[0] = ResourceManager.loadTexture("tile00.png");
+			textures[1] = ResourceManager.loadTexture("tile01.png");
+			textures[2] = ResourceManager.loadTexture("tile02.png");
+			textures[3] = ResourceManager.loadTexture("tile03.png");
+			textures[4] = ResourceManager.loadTexture("tile04.png");
+			textures[5] = ResourceManager.loadTexture("tile05.png");
+			textures[6] = ResourceManager.loadTexture("tile06.png");
+			textures[7] = ResourceManager.loadTexture("tile07.png");
+
+			setPosition(0.0f, 0.0f);
+			setWidth(width);
+			setHeight(height - (height % tsize));
+			addListener(new InputListener()
 			{
-				curLevel.draw(batch);
-			}
-		};
-		levelActor.setPosition(0.0f, 0.0f);
-		levelActor.setWidth(width);
-		levelActor.setHeight(height - (height % tsize));
-		levelActor.addListener(new InputListener()
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button)
+				{
+					onLevelPressed(x, y);
+					return true;
+				}
+			});
+		}
+
+		@Override
+		public void act(float delta)
 		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
-			{
-				onLevelPressed(x, y);
-				return true;
-			}
-		});
+			curLevel.act(delta);
+		}
 
-		return levelActor;
+		@Override
+		public void draw(Batch batch, float parentAlpha)
+		{
+			// Draw background
+			batch.draw(background, 0, 0);
+
+			// Draws level tiles
+			for (int y = 0; y < Level.NUM_TILES_HEIGHT; y++)
+				for (int x = 0; x < Level.NUM_TILES_WIDTH; x++)
+					if (curLevel.getTile(x, y) != 0)
+						batch.draw(textures[curLevel.getTile(x, y)], x * 128, y * 128);
+
+			// Draw enemies
+			for (Enemy e : curLevel.getEnemies())
+				e.draw(batch);
+
+			// Draw towers
+			for (Tower t : curLevel.getTowers())
+				t.draw(batch);
+			
+			batch.end();
+			
+			ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+			shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+			shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+			shapeRenderer.translate(getX(), getY(), 0);
+			
+			shapeRenderer.begin(ShapeType.Line);
+			for (Tower t: curLevel.getTowers())
+				t.drawShapes(shapeRenderer);
+			shapeRenderer.end();
+			
+			batch.begin();
+		}
 	}
 
 	/**
@@ -490,7 +532,7 @@ public class GameplayScreen implements Screen
 						int pointer, int button)
 				{
 					towerGenerator = gen;
-					//towerSelector.setVisible(false);
+					// towerSelector.setVisible(false);
 					return true;
 				}
 			});

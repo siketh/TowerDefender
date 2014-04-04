@@ -3,8 +3,6 @@ package com.group23.towerdefense;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.spawn.LevelWave;
@@ -16,61 +14,52 @@ public class Level
 	/**
 	 * 
 	 * @author Robert
-	 *
+	 * 
 	 */
 	public static class Builder
 	{
 		private int[] tiles;
 		private LevelWave waves = new LevelWave();
 		private int startGold = 500, startLives = 10;
-		
+
 		public Level build()
 		{
 			return new Level(this);
 		}
-		
+
 		public Builder setTiles(int[] tiles)
 		{
 			this.tiles = tiles;
 			return this;
 		}
-		
+
 		public Builder addWave(Wave.Generator generator)
 		{
 			waves.addWave(generator);
 			return this;
 		}
-		
+
 		public Builder setStartGold(int gold)
 		{
 			this.startGold = gold;
 			return this;
 		}
-		
+
 		public Builder setStartLives(int lives)
 		{
 			this.startLives = lives;
 			return this;
 		}
 	}
-	
-	/**
-	 * 
-	 * @author Robert
-	 *
-	 */
+
 	public static abstract class Generator
 	{
 		public abstract Level getLevel(int levelNum);
 	}
-	
-	// Tile textures array
-	public static Texture background;
 
-	public static Texture[] textures;
 	// Level constants
-	private final static int NUM_TILES_WIDTH = 15;
-	private final static int NUM_TILES_HEIGHT = 8;
+	public final static int NUM_TILES_WIDTH = 15;
+	public final static int NUM_TILES_HEIGHT = 8;
 	private final static int MAX_TOWERS = 10;
 	public final static int TILE_WIDTH = 128;
 	public final static int TILE_HEIGHT = 128;
@@ -94,20 +83,20 @@ public class Level
 	 * array and direction array
 	 */
 	private Level(Builder builder)
-	{	
+	{
 		/**
 		 * Retrieve variables from builder
 		 */
-		
+
 		tiles = builder.tiles;
 		wave = builder.waves;
 		playerGold = builder.startGold;
 		playerLives = builder.startLives;
-		
+
 		/**
-		 * Initialize internal classes 
+		 * Initialize internal classes
 		 */
-		
+
 		enemies = new Array<Enemy>();
 		towers = new Array<Tower>();
 		directions = new Dir[tiles.length];
@@ -160,7 +149,8 @@ public class Level
 			// tile's direction
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
-			if (topEdge == false && (tiles[i - 15] == 1 || tiles[i - 15] == 2 || tiles[i - 15] == 3)
+			if (topEdge == false
+					&& (tiles[i - 15] == 1 || tiles[i - 15] == 2 || tiles[i - 15] == 3)
 					&& directions[i - 15] == Dir.I)
 			{
 				directions[i] = Dir.N;
@@ -191,7 +181,8 @@ public class Level
 				i = i - 1;
 			}
 			// NE is 14 tiles backwards
-			else if (topEdge == false && rightEdge == false
+			else if (topEdge == false
+					&& rightEdge == false
 					&& (tiles[i - 14] == 1 || tiles[i - 14] == 2 || tiles[i - 14] == 3)
 					&& directions[i - 14] == Dir.I)
 			{
@@ -199,7 +190,8 @@ public class Level
 				i = i - 14;
 			}
 			// SE is 16 tiles forwards
-			else if (bottomEdge == false && rightEdge == false
+			else if (bottomEdge == false
+					&& rightEdge == false
 					&& (tiles[i + 16] == 1 || tiles[i + 16] == 2 || tiles[i + 16] == 3)
 					&& directions[i + 16] == Dir.I)
 			{
@@ -207,7 +199,8 @@ public class Level
 				i = i + 16;
 			}
 			// SW is 14 tiles forwards
-			else if (bottomEdge == false && leftEdge == false
+			else if (bottomEdge == false
+					&& leftEdge == false
 					&& (tiles[i + 14] == 1 || tiles[i + 14] == 2 || tiles[i + 14] == 3)
 					&& directions[i + 14] == Dir.I)
 			{
@@ -215,7 +208,8 @@ public class Level
 				i = i + 14;
 			}
 			// NW is 16 tiles backwards
-			else if (topEdge == false && leftEdge == false
+			else if (topEdge == false
+					&& leftEdge == false
 					&& (tiles[i - 16] == 1 || tiles[i - 16] == 2 || tiles[i - 16] == 3)
 					&& directions[i - 16] == Dir.I)
 			{
@@ -247,31 +241,6 @@ public class Level
 		// Update towers
 		for (Tower t : towers)
 			t.act();
-	}
-
-	/**
-	 * Draws the level, including the enemies and towers
-	 * 
-	 * @param batch
-	 */
-	public void draw(Batch batch)
-	{
-		// Draw background
-		batch.draw(background, 0, 0);
-
-		// Draws level tiles
-		for (int y = 0; y < NUM_TILES_HEIGHT; y++)
-			for (int x = 0; x < NUM_TILES_WIDTH; x++)
-				if (getTile(x, y) != 0)
-					batch.draw(textures[getTile(x, y)], x * 128, y * 128);
-
-		// Draw enemies
-		for (Enemy e : enemies)
-			e.draw(batch);
-
-		// Draw towers
-		for (Tower t : towers)
-			t.draw(batch);
 	}
 
 	/**
@@ -351,7 +320,7 @@ public class Level
 						break;
 					}
 				}
-				
+
 				t.setSelected(true);
 				selectedTower = t;
 				break;
@@ -383,17 +352,17 @@ public class Level
 
 		return towers.size < MAX_TOWERS;
 	}
-	
+
 	/**
 	 * Return the direction of the start of the path
 	 * 
 	 * @return The direction of the start of the path
 	 */
-	public Dir getStartDir() 
+	public Dir getStartDir()
 	{
 		return directions[getStart()];
 	}
-	
+
 	/**
 	 * Return the tile index of the start of the path
 	 * 
@@ -406,7 +375,7 @@ public class Level
 			i++;
 		return i;
 	}
-	
+
 	/**
 	 * Return the tile index of the end of the path
 	 * 
@@ -588,17 +557,22 @@ public class Level
 	{
 		return playerLives;
 	}
-	
+
+	public Array<Tower> getTowers()
+	{
+		return towers;
+	}
+
 	public boolean isWavePlaying()
 	{
 		return wave.isPlaying();
 	}
-	
+
 	public boolean hasFinishedAllWaves()
 	{
 		return wave.isFinished();
 	}
-	
+
 	public void startNextWave()
 	{
 		wave.next(enemies);
