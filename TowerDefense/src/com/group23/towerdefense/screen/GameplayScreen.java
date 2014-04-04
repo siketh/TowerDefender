@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,6 +38,7 @@ public class GameplayScreen extends BaseScreen
 	private Level curLevel;
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
+	private SelectedTower selectedTower;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -51,24 +54,15 @@ public class GameplayScreen extends BaseScreen
 	@Override
 	public void act(float delta)
 	{
-		switch (state)
-		{
-		case Playing:
-			super.act(delta);
-			
-			if (isDefeated())
-				setEndState(State.Lose, new LoseImage());
-			else if (hasWon())
-				setEndState(State.Win, new WinImage());
-
-			break;
-			
-		case Win:
-			break;
-			
-		case Lose:
-			break;
-		}
+		if (state != State.Playing)
+			return;
+		
+		super.act(delta);
+		
+		if (isDefeated())
+			setEndState(State.Lose, new LoseImage());
+		else if (hasWon())
+			setEndState(State.Win, new WinImage());
 	}
 
 	@Override
@@ -82,6 +76,7 @@ public class GameplayScreen extends BaseScreen
 		Actor healthDisplay = new HealthDisplayActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
+		selectedTower = new SelectedTower();
 
 		Stage stage = getStage();
 
@@ -91,6 +86,7 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
 		stage.addActor(towerSelector);
+		stage.addActor(selectedTower);
 	}
 	
 	/**
@@ -144,7 +140,7 @@ public class GameplayScreen extends BaseScreen
 		int tileY = (int) (y / tsize);
 
 		if (towerGenerator == null)
-			curLevel.selectTower(tileX, tileY);
+			selectedTower.setTower(curLevel.getTower(tileX, tileY));
 		else
 		{
 			Tower tower = towerGenerator.newTower();
@@ -238,20 +234,6 @@ public class GameplayScreen extends BaseScreen
 			// Draw towers
 			for (Tower t : curLevel.getTowers())
 				t.draw(batch);
-
-			batch.end();
-
-			ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
-			shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-			shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-			shapeRenderer.translate(getX(), getY(), 0);
-
-			shapeRenderer.begin(ShapeType.Line);
-			for (Tower t : curLevel.getTowers())
-				t.drawShapes(shapeRenderer);
-			shapeRenderer.end();
-
-			batch.begin();
 		}
 	}
 
@@ -485,6 +467,69 @@ public class GameplayScreen extends BaseScreen
 				}
 			});
 			return tower;
+		}
+	}
+	
+	private class SelectedTower extends Group
+	{
+		private Tower tower;
+		
+		public SelectedTower()
+		{
+			// Sell Button
+			Actor sellButton = new ImageButton("sell_button.png")
+			{
+				@Override
+				protected void onPressed()
+				{
+					onSellPressed();
+				}
+			};
+			sellButton.setPosition(-32.0f, -128.0f);
+			
+			addActor(sellButton);
+			
+			setTower(null);
+		}
+		
+		public void setTower(Tower tower)
+		{
+			this.tower = tower;
+			boolean visible = tower != null;
+			setVisible(visible);
+			if (tower != null)
+			{
+				Vector2 pos = tower.getPosition();
+				setPosition(pos.x, pos.y);
+			}
+		}
+
+		@Override
+		public void draw(Batch batch, float parentAlpha)
+		{
+			super.draw(batch, parentAlpha);
+			
+			if (tower != null)
+			{
+				batch.end();
+	
+				ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
+				shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+				shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+	
+				shapeRenderer.begin(ShapeType.Line);
+				tower.drawShapes(shapeRenderer);
+				shapeRenderer.end();
+	
+				batch.begin();
+			}
+		}
+		
+		private void onSellPressed()
+		{
+			curLevel.removeTower(tower);
+			curLevel.giveGold(tower.getGoldCost());
+			setTower(null);
 		}
 	}
 	
