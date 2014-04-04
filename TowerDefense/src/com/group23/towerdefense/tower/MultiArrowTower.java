@@ -1,8 +1,8 @@
 package com.group23.towerdefense.tower;
 
-public class DirectMultiAttackTower extends CircularRangeTower
+public class MultiArrowTower extends CircularRangeTower
 {
-	public DirectMultiAttackTower()
+	public MultiArrowTower()
 	{
 		setCooldownTime(150L);
 		setDamage(2);
