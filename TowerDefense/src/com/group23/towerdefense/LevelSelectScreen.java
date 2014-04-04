@@ -99,6 +99,7 @@ public class LevelSelectScreen implements Screen, InputProcessor {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		touchPos.x = screenX;

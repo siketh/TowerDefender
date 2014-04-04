@@ -1,6 +1,5 @@
-package com.group23.towerdefense.world;
+package com.group23.towerdefense;
 
-import com.group23.towerdefense.Level;
 import com.group23.towerdefense.enemy.Goblin;
 import com.group23.towerdefense.enemy.Necromancer;
 import com.group23.towerdefense.enemy.Ogre;

@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.tower.DirectAttackTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
-import com.group23.towerdefense.world.DefaultLevelGenerator;
 
 public class GameplayScreen implements Screen
 {
