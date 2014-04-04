@@ -47,7 +47,7 @@ public class Troll extends Enemy
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
-		calcMoveSpeed();
+		calcMoveSpeed(dt);
 		double speedModifier = 1;
 		//Sets up movespeedBoost
 		if(cooldown > 0)
@@ -63,7 +63,7 @@ public class Troll extends Enemy
 		//Handles Health Regeneration
 		if(timeToRegen <= 0)
 		{
-			hp+= healthRegen * scaling;
+			hp+= healthRegen * scaling * healReduction;
 			if(hp > maxHP)
 				hp = maxHP;
 			timeToRegen = 1;

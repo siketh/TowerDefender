@@ -40,6 +40,7 @@ public class Necromancer extends Enemy
 		{
 			case N:
 				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth()));
+				break;
 			case NE:
 				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth() + 1));
 				break;
@@ -69,7 +70,7 @@ public class Necromancer extends Enemy
 	// Returns true if reached the end
 	public boolean act(float dt)
 	{
-		calcMoveSpeed();
+		calcMoveSpeed(dt);
 		//Takes care of the summoning
 		if(timeTillSummon == 0)
 		{
