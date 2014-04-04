@@ -23,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.enemy.Enemy;
-import com.group23.towerdefense.tower.DirectAttackTower;
+import com.group23.towerdefense.tower.ArrowTower;
 import com.group23.towerdefense.tower.DirectMultiAttackTower;
 import com.group23.towerdefense.tower.Tower;
 
@@ -461,7 +461,7 @@ public class GameplayScreen implements Screen
 				@Override
 				public Tower newTower()
 				{
-					return new DirectAttackTower();
+					return new ArrowTower();
 				}
 			}));
 
