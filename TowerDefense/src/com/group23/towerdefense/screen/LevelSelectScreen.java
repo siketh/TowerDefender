@@ -1,14 +1,18 @@
 package com.group23.towerdefense.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.group23.towerdefense.DefaultLevelGenerator;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TowerDefense;
+import com.badlogic.gdx.files.FileHandle;
+
 
 public class LevelSelectScreen extends BaseScreen
 {
 	private Level.Generator generator = new DefaultLevelGenerator();
+	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 
 	@Override
 	public void show()
