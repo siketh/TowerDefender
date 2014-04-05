@@ -28,6 +28,9 @@ public class LevelSelectScreen extends BaseScreen
 			
 			stage.addActor(levelSelectButton);
 		}
+		
+		Actor loadButton = new LoadButton();
+		stage.addActor(loadButton);
 	}
 
 	private class LevelSelectButton extends ImageButton
@@ -45,6 +48,44 @@ public class LevelSelectScreen extends BaseScreen
 		{
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
+		}
+	}
+	
+	private class LoadButton extends ImageButton
+	{
+		private int levelNum;
+		
+		public LoadButton()
+		{
+			super("load_b.png");
+			setBounds(0.0f, 512.0f, 200.0f, 60.0f);
+		}
+		
+		protected void onPressed()
+		{
+			if(handle.readString().equals("1")){
+				Level level = generator.getLevel(1);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("2")){
+				Level level = generator.getLevel(2);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("3")){
+				Level level = generator.getLevel(3);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("4")){
+				Level level = generator.getLevel(4);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("5")){
+				Level level = generator.getLevel(5);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals(null)){
+				
+			}
 		}
 	}
 }

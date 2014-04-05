@@ -42,8 +42,6 @@ public class GameplayScreen extends BaseScreen
 	private TowerSelector towerSelector;
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
-	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
-
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
 	 * 
