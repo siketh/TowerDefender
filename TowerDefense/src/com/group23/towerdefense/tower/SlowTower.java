@@ -12,7 +12,6 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 		setRange(250.0f);
 		setDamage(3);
 		setGoldCost(150);
-		setTexture("tower00.png");
 	}
 	
 	protected void causeEffect(Enemy e)
