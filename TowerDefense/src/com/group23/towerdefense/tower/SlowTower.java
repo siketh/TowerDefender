@@ -15,6 +15,7 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 		setProjectileType("arrow.png");
 		setProjectileSpeed(100);
 		maxTargets = 1;
+		addUpgrades();
 	}
 	
 	protected void causeEffect(Enemy e)
@@ -22,4 +23,13 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 		e.addDebuff(new Debuff(0.8f, 1, DebuffType.Slow));
 	}
 
+	void addUpgrades() 
+	{
+		
+	}
+
+	void performUpgrades(Upgrade caller) 
+	{
+		
+	}
 }

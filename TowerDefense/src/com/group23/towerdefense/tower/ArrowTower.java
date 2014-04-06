@@ -11,5 +11,31 @@ public class ArrowTower extends CircularRangeTower
 		setGoldCost(100);
 		setProjectileType("arrow.png");
 		setProjectileSpeed(500);
+		addUpgrades();
+	}
+
+	
+	void addUpgrades() 
+	{
+		Upgrade damage = new Upgrade(this);
+		damage.setName("Damage");
+		damage.setTexName("sell_button.png");
+		damage.setCost(50);
+		damage.setLevels(5);
+		damage.setId(0);
+		upgrades.add(damage);
+	}
+
+	void performUpgrades(Upgrade caller) 
+	{
+		switch(caller.getId())
+		{
+		case 0:
+			setDamage(getDamage() + 3);
+			caller.setCost(caller.getCost() + 25);
+			caller.incrementLevel();
+			break;
+		}
+		
 	}
 }
