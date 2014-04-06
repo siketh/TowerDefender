@@ -27,12 +27,13 @@ import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.ui.ImageButton;
 
 public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win, Lose, Playing
+		Win, Lose, Playing, Paused
 	}
 
 	private State state = State.Playing;
@@ -43,6 +44,7 @@ public class GameplayScreen extends BaseScreen
 	private SelectedTower selectedTower;
 	private String levelString;
 	private int autosaveNext;
+	private PauseGraphicActor pauseGraphic;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -60,7 +62,6 @@ public class GameplayScreen extends BaseScreen
 	{
 		if (state != State.Playing)
 			return;
-
 		super.act(delta);
 
 		if (isDefeated())
@@ -82,23 +83,28 @@ public class GameplayScreen extends BaseScreen
 
 		Actor startButton = new StartButtonActor();
 		Actor towerButton = new TowerButtonActor();
+		Actor pauseButton = new PauseButtonActor();
 		Actor goldDisplay = new GoldDisplayActor();
 		Actor healthDisplay = new HealthDisplayActor();
 		Actor saveButton = new SaveButtonActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
+		pauseGraphic = new PauseGraphicActor();
 
 		Stage stage = getStage();
 
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
+		stage.addActor(pauseButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
 		stage.addActor(saveButton);
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
+		stage.addActor(pauseGraphic);
+		pauseGraphic.setVisible(false);
 	}
 
 	/**
@@ -332,6 +338,48 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
+	private class PauseButtonActor extends ImageButton
+	{
+		int pausePressed;
+
+		public PauseButtonActor()
+		{
+			super("pause_b.png");
+			setBounds(1700.0f, 1020.0f, 64.0f, 64.0f);
+
+		}
+
+		protected void onPressed()
+		{
+			if (pausePressed == 0)
+			{
+				pausePressed = 1;
+				state = State.Paused;
+				pauseGraphic.setVisible(true);
+			}
+			else if (pausePressed == 1)
+			{
+				pausePressed = 0;
+				state = State.Playing;
+				pauseGraphic.setVisible(false);
+			}
+		}
+	}
+
+	private class PauseGraphicActor extends Image
+	{
+
+		public PauseGraphicActor()
+		{
+			super(ResourceManager.loadTexture("pause.png"));
+			setPosition(
+					(TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE * 2) / 2,
+					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
+							% TowerDefense.TILE_SIZE) / 2);
+		}
+
+	}
+
 	/**
 	 * Actor to display the player's current health.
 	 * 
@@ -454,7 +502,7 @@ public class GameplayScreen extends BaseScreen
 					{
 						if (towerSelection != null)
 							towerSelection.setHighlight(false);
-						
+
 						if (towerSelection != TowerSelection.this)
 						{
 							towerSelection = TowerSelection.this;
