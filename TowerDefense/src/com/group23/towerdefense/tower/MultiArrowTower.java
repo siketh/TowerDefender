@@ -9,6 +9,8 @@ public class MultiArrowTower extends CircularRangeTower
 		setRange(250.0f);
 		setMaxTargets(2);
 		setGoldCost(100);
+		setProjectileType("arrow.png");
+		setProjectileSpeed(500);
 		setTexture("tower01.png");
 	}
 }
