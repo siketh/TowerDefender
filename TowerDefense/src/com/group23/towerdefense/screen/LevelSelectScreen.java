@@ -32,7 +32,7 @@ public class LevelSelectScreen extends BaseScreen
 		{
 			String imageFilename = String.format("level%d_b.png", i+1);
 			Actor levelSelectButton = new LevelSelectButton(imageFilename, i);
-			levelSelectButton.setBounds(i * 256.0f, 0.0f, 256.0f, 256.0f);
+			levelSelectButton.setBounds(i * 256.0f, 100.0f, 200.0f, 60.0f);
 			
 			stage.addActor(levelSelectButton);
 		}
