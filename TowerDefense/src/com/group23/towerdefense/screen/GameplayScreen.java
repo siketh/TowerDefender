@@ -27,6 +27,7 @@ import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.ui.ImageButton;
 
 public class GameplayScreen extends BaseScreen
 {
@@ -336,44 +337,48 @@ public class GameplayScreen extends BaseScreen
 			onSaveButtonPressed();
 		}
 	}
-	
+
 	private class PauseButtonActor extends ImageButton
 	{
 		int pausePressed;
-		
+
 		public PauseButtonActor()
 		{
 			super("pause_b.png");
-			setBounds(1700.0f, 1020.0f,64.0f,64.0f);
-			
+			setBounds(1700.0f, 1020.0f, 64.0f, 64.0f);
+
 		}
-		
+
 		protected void onPressed()
 		{
-			if(pausePressed == 0){
+			if (pausePressed == 0)
+			{
 				pausePressed = 1;
 				state = State.Paused;
 				pauseGraphic.setVisible(true);
 			}
-			else if(pausePressed == 1){
+			else if (pausePressed == 1)
+			{
 				pausePressed = 0;
 				state = State.Playing;
 				pauseGraphic.setVisible(false);
+			}
 		}
 	}
-	}
-	
+
 	private class PauseGraphicActor extends Image
 	{
-		
+
 		public PauseGraphicActor()
 		{
 			super(ResourceManager.loadTexture("pause.png"));
-			setPosition((TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE*2)/2, (TowerDefense.SCREEN_HEIGHT -
-					TowerDefense.SCREEN_HEIGHT % TowerDefense.TILE_SIZE)/2);
+			setPosition(
+					(TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE * 2) / 2,
+					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
+							% TowerDefense.TILE_SIZE) / 2);
 		}
-		
-		}
+
+	}
 
 	/**
 	 * Actor to display the player's current health.
@@ -497,7 +502,7 @@ public class GameplayScreen extends BaseScreen
 					{
 						if (towerSelection != null)
 							towerSelection.setHighlight(false);
-						
+
 						if (towerSelection != TowerSelection.this)
 						{
 							towerSelection = TowerSelection.this;
