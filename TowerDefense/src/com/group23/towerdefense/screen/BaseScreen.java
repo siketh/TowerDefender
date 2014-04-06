@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
@@ -42,7 +42,7 @@ public abstract class BaseScreen implements Screen
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false, width, height);
 
-		Viewport viewport = new FillViewport(width, height, camera);
+		Viewport viewport = new FitViewport(width, height, camera);
 		stage = new Stage(viewport, spriteBatch);
 		
 		Gdx.input.setInputProcessor(stage);
