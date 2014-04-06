@@ -36,7 +36,7 @@ public class Projectile extends SpriteObject
 		setRotation(distance);
 		setTexturePosition(pos);
 		
-		if(pos.dst(target.getPosition()) <= 200)
+		if(pos.dst(target.getPosition()) <= 30)
 		{
 			return 0;
 		}

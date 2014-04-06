@@ -11,13 +11,13 @@ public class Troll extends Enemy
 	public Troll(Level map) 
 	{
 		super(map, 1.0);
-		setTexture("enemy01.png");
+		setTexture("troll.png");
 	}
 	
 	public Troll(Level map, double scale) 
 	{
 		super(map, scale);
-		setTexture("enemy01.png");
+		setTexture("troll.png");
 	}
 
 	protected void setBaseStats() 

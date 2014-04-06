@@ -38,6 +38,6 @@ public class SpriteObject extends TextureObject
 	
 	public void setRotation(Vector2 dir)
 	{
-		
+		 mSprite.setRotation((float) (Math.atan2(dir.y,dir.x)/Math.PI*180));
 	}
 }
