@@ -1,14 +1,19 @@
 package com.group23.towerdefense.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.group23.towerdefense.DefaultLevelGenerator;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TowerDefense;
+import com.badlogic.gdx.files.FileHandle;
+
 
 public class LevelSelectScreen extends BaseScreen
 {
 	private Level.Generator generator = new DefaultLevelGenerator();
+	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
+	public static int levelTrack;
 
 	@Override
 	public void show()
@@ -24,6 +29,9 @@ public class LevelSelectScreen extends BaseScreen
 			
 			stage.addActor(levelSelectButton);
 		}
+		
+		Actor loadButton = new LoadButton();
+		stage.addActor(loadButton);
 	}
 
 	private class LevelSelectButton extends ImageButton
@@ -39,8 +47,48 @@ public class LevelSelectScreen extends BaseScreen
 		@Override
 		protected void onPressed()
 		{
+			levelTrack = levelNum;
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
+		}
+		
+	}
+	
+	private class LoadButton extends ImageButton
+	{
+		private int levelNum;
+		
+		public LoadButton()
+		{
+			super("load_b.png");
+			setBounds(0.0f, 512.0f, 200.0f, 60.0f);
+		}
+		
+		protected void onPressed()
+		{
+			if(handle.readString().equals("1")){
+				Level level = generator.getLevel(1);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("2")){
+				Level level = generator.getLevel(2);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("3")){
+				Level level = generator.getLevel(3);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("4")){
+				Level level = generator.getLevel(4);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals("5")){
+				Level level = generator.getLevel(5);
+				TowerDefense.changeScreen(new GameplayScreen(level));
+			}
+			else if(handle.readString().equals(null)){
+				
+			}
 		}
 	}
 }

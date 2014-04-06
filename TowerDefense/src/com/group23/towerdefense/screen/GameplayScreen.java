@@ -1,5 +1,6 @@
 package com.group23.towerdefense.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.files.FileHandle;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
@@ -38,8 +40,11 @@ public class GameplayScreen extends BaseScreen
 	private Level curLevel;
 	private TowerGenerator towerGenerator;
 	private TowerSelector towerSelector;
+	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
-
+	private String levelString;
+	private int autosaveNext;
+	
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
 	 * 
@@ -61,8 +66,13 @@ public class GameplayScreen extends BaseScreen
 		
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
-		else if (hasWon())
+		else if (hasWon()){
+			autosaveSet();
+			levelString = Integer.toString(autosaveNext);
+			handle.writeString(levelString, false);
 			setEndState(State.Win, new WinImage());
+
+		}
 	}
 
 	@Override
@@ -74,6 +84,7 @@ public class GameplayScreen extends BaseScreen
 		Actor towerButton = new TowerButtonActor();
 		Actor goldDisplay = new GoldDisplayActor();
 		Actor healthDisplay = new HealthDisplayActor();
+		Actor saveButton = new SaveButtonActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
@@ -85,6 +96,7 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(towerButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
+		stage.addActor(saveButton);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
 	}
@@ -107,6 +119,22 @@ public class GameplayScreen extends BaseScreen
 	{
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
+	}
+	
+	/**
+	 * Called when the Save button on the top bar is pressed. Saves the users
+	 * current level progress.
+	 *
+	 */
+	private void onSaveButtonPressed()
+	{
+		levelString = Integer.toString(LevelSelectScreen.levelTrack);
+		handle.writeString(levelString, false);
+	}
+	
+	private void autosaveSet()
+	{
+		autosaveNext = LevelSelectScreen.levelTrack + 1;
 	}
 	
 	private void setEndState(State state, Actor actor)
@@ -278,6 +306,27 @@ public class GameplayScreen extends BaseScreen
 		protected void onPressed()
 		{
 			onTowerButtonPressed();
+		}
+	}
+
+	/**
+	 * Actor representing the Save button on the top bar. Pressing it will save
+	 * the users current level progress.
+	 * @author Jacob
+	 * @see GameplayScreen.onTowerButtonPressed
+	 */
+	
+	private class SaveButtonActor extends ImageButton
+	{
+		public SaveButtonActor()
+		{
+			super("save_b.png");
+			setBounds(400.0f, 1020.0f, 200.0f, 60.0f);
+		}
+		
+		protected void onPressed()
+		{
+			onSaveButtonPressed();
 		}
 	}
 
@@ -494,8 +543,9 @@ public class GameplayScreen extends BaseScreen
 		
 		public void setTower(Tower tower)
 		{
-			this.tower = tower;
-			boolean visible = tower != null;
+			boolean sameTower = this.tower != null && this.tower == tower;
+			this.tower = !sameTower ? tower : null;
+			boolean visible = this.tower != null;
 			setVisible(visible);
 			if (tower != null)
 			{
