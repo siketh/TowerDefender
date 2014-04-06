@@ -96,13 +96,14 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
 		stage.addActor(pauseButton);
-		stage.addActor(pauseGraphic);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
 		stage.addActor(saveButton);
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
+		stage.addActor(pauseGraphic);
+		pauseGraphic.setVisible(false);
 	}
 
 	/**
@@ -368,6 +369,8 @@ public class GameplayScreen extends BaseScreen
 		public PauseGraphicActor()
 		{
 			super(ResourceManager.loadTexture("pause.png"));
+			setPosition((TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE*2)/2, (TowerDefense.SCREEN_HEIGHT -
+					TowerDefense.SCREEN_HEIGHT % TowerDefense.TILE_SIZE)/2);
 		}
 		
 		}
