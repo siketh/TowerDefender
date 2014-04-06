@@ -8,9 +8,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 {
 	public SlowTower()
 	{
-		setCooldownTime(100L);
+		setCooldownTime(250L);
 		setRange(250.0f);
-		setDamage(3);
+		setDamage(4);
 		setGoldCost(150);
 		setProjectileType("arrow.png");
 		setProjectileSpeed(100);

@@ -1,21 +1,15 @@
 package com.group23.towerdefense.tower;
 
-import com.group23.towerdefense.enemy.Enemy;
-
-public class ArrowTower extends SingleTargetCircularRangeTower
+public class ArrowTower extends CircularRangeTower
 {
 	public ArrowTower()
 	{
-		setCooldownTime(100L);
+		setCooldownTime(300L);
+		setDamage(10);
 		setRange(250.0f);
-		setDamage(4);
+		setMaxTargets(1);
 		setGoldCost(100);
 		setProjectileType("arrow.png");
-		setProjectileSpeed(100);
-		maxTargets = 1;
-	}
-	
-	protected void causeEffect(Enemy e)
-	{
+		setProjectileSpeed(500);
 	}
 }

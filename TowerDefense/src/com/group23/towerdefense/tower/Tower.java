@@ -114,36 +114,6 @@ public abstract class Tower extends TextureObject
 				return texture;
 			}
 		},
-
-		new Generator()
-		{
-			private Texture texture = com.group23.towerdefense.ResourceManager
-					.loadTexture("tower01.png");
-
-			@Override
-			public String getName()
-			{
-				return "Multi-Arrow Tower";
-			}
-
-			@Override
-			public int getGoldCost()
-			{
-				return 100;
-			}
-
-			@Override
-			public Texture getTexture()
-			{
-				return texture;
-			}
-
-			@Override
-			protected Tower getTower()
-			{
-				return new MultiArrowTower();
-			}
-		}, 
 		
 		new Generator()
 		{
