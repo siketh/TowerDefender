@@ -1,12 +1,14 @@
 package com.group23.towerdefense.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,33 +20,31 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
-import com.group23.towerdefense.tower.ArrowTower;
-import com.group23.towerdefense.tower.MultiArrowTower;
 import com.group23.towerdefense.tower.Tower;
 
 public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win,
-		Lose,
-		Playing
+		Win, Lose, Playing
 	}
-	
+
 	private State state = State.Playing;
 	private Level curLevel;
-	private TowerGenerator towerGenerator;
+	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
 	private String levelString;
 	private int autosaveNext;
-	
+
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
 	 * 
@@ -61,12 +61,13 @@ public class GameplayScreen extends BaseScreen
 	{
 		if (state != State.Playing)
 			return;
-		
+
 		super.act(delta);
-		
+
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
-		else if (hasWon()){
+		else if (hasWon())
+		{
 			autosaveSet();
 			levelString = Integer.toString(autosaveNext);
 			handle.writeString(levelString, false);
@@ -100,7 +101,7 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
 	}
-	
+
 	/**
 	 * Called when the Start button on the top bar is pressed. Starts a new wave
 	 * if no wave is playing and the current level has not finished all of its
@@ -120,31 +121,31 @@ public class GameplayScreen extends BaseScreen
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
-	
+
 	/**
 	 * Called when the Save button on the top bar is pressed. Saves the users
 	 * current level progress.
-	 *
+	 * 
 	 */
 	private void onSaveButtonPressed()
 	{
 		levelString = Integer.toString(LevelSelectScreen.levelTrack);
 		handle.writeString(levelString, false);
 	}
-	
+
 	private void autosaveSet()
 	{
 		autosaveNext = LevelSelectScreen.levelTrack + 1;
 	}
-	
+
 	private void setEndState(State state, Actor actor)
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
 		{
 			@Override
-			public boolean touchDown(InputEvent event, float x,
-					float y, int pointer, int button)
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button)
 			{
 				TowerDefense.changeScreen(new LevelSelectScreen());
 				return true;
@@ -167,12 +168,13 @@ public class GameplayScreen extends BaseScreen
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
 
-		if (towerGenerator == null)
+		if (towerSelection == null)
 			selectedTower.setTower(curLevel.getTower(tileX, tileY));
 		else
 		{
-			Tower tower = towerGenerator.newTower();
-			towerGenerator = null;
+			Tower tower = towerSelection.getTowerGenerator().generate();
+			towerSelection.setHighlight(false);
+			towerSelection = null;
 			curLevel.placeTower(tower, tileX, tileY);
 		}
 	}
@@ -181,12 +183,12 @@ public class GameplayScreen extends BaseScreen
 	{
 		return curLevel;
 	}
-	
+
 	public boolean hasWon()
 	{
 		return curLevel.hasFinishedAllWaves();
 	}
-	
+
 	public boolean isDefeated()
 	{
 		return curLevel.getLives() <= 0;
@@ -312,10 +314,11 @@ public class GameplayScreen extends BaseScreen
 	/**
 	 * Actor representing the Save button on the top bar. Pressing it will save
 	 * the users current level progress.
+	 * 
 	 * @author Jacob
 	 * @see GameplayScreen.onTowerButtonPressed
 	 */
-	
+
 	private class SaveButtonActor extends ImageButton
 	{
 		public SaveButtonActor()
@@ -323,7 +326,7 @@ public class GameplayScreen extends BaseScreen
 			super("save_b.png");
 			setBounds(400.0f, 1020.0f, 200.0f, 60.0f);
 		}
-		
+
 		protected void onPressed()
 		{
 			onSaveButtonPressed();
@@ -401,17 +404,78 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
-	/**
-	 * Internal utility interface to generate a tower. The GameplayScreen holds
-	 * a reference to a TowerGenerator, which is used when the user has selected
-	 * a tower and places a tower on the level.
-	 * 
-	 * @author Robert
-	 * 
-	 */
-	private interface TowerGenerator
+	private static final Color DEFAULT_COLOR = Color.YELLOW;
+	private static final Color HIGHLIGHT_COLOR = Color.BLUE;
+	private static final Color AVAILABLE_COLOR = Color.GREEN;
+	private static final Color UNAVAILABLE_COLOR = Color.RED;
+
+	private class TowerSelection extends VerticalGroup
 	{
-		public abstract Tower newTower();
+		private Tower.Generator generator;
+
+		public TowerSelection(Tower.Generator gen)
+		{
+			generator = gen;
+
+			Image towerImage = new Image(gen.getTexture());
+			addActor(towerImage);
+
+			LabelStyle nameStyle = new LabelStyle();
+			nameStyle.font = ResourceManager.loadDefaultFont();
+			Label towerLabel = new Label(gen.getName(), nameStyle);
+			towerLabel.setFontScale(2.0f);
+			addActor(towerLabel);
+
+			final LabelStyle goldStyle = new LabelStyle();
+			goldStyle.font = ResourceManager.loadDefaultFont();
+			Label goldLabel = new Label(Integer.toString(gen.getGoldCost()), goldStyle);
+			goldLabel.setFontScale(1.75f);
+			addActor(goldLabel);
+
+			addAction(new Action()
+			{
+				@Override
+				public boolean act(float delta)
+				{
+					goldStyle.fontColor = canPurchase() ? AVAILABLE_COLOR
+							: UNAVAILABLE_COLOR;
+					return false;
+				}
+			});
+
+			addListener(new InputListener()
+			{
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button)
+				{
+					if (canPurchase())
+					{
+						towerSelection = TowerSelection.this;
+						setHighlight(true);
+					}
+					return true;
+				}
+			});
+
+			space(5.0f);
+			pack();
+		}
+
+		public void setHighlight(boolean highlight)
+		{
+			setColor(highlight ? HIGHLIGHT_COLOR : DEFAULT_COLOR);
+		}
+
+		public Tower.Generator getTowerGenerator()
+		{
+			return generator;
+		}
+
+		private boolean canPurchase()
+		{
+			return curLevel.getGold() >= generator.getGoldCost();
+		}
 	}
 
 	/**
@@ -433,24 +497,11 @@ public class GameplayScreen extends BaseScreen
 
 		public TowerSelector()
 		{
-			addActor(generateButton("towerbar00.png", new TowerGenerator()
-			{
-				@Override
-				public Tower newTower()
-				{
-					return new ArrowTower();
-				}
-			}));
+			Array<Tower.Generator> generators = Tower.getTowerGenerators();
+			for (Tower.Generator gen : generators)
+				addActor(new TowerSelection(gen));
 
-			addActor(generateButton("towerbar01.png", new TowerGenerator()
-			{
-				@Override
-				public Tower newTower()
-				{
-					return new MultiArrowTower();
-				}
-			}));
-
+			space(10.0f);
 			pack();
 			setPosition(TowerDefense.SCREEN_WIDTH / 2 - getWidth() / 2,
 					-getHeight());
@@ -500,29 +551,12 @@ public class GameplayScreen extends BaseScreen
 				}
 			})));
 		}
-
-		private Actor generateButton(String filename, final TowerGenerator gen)
-		{
-			Image tower = new Image(ResourceManager.loadTexture(filename));
-			tower.addListener(new InputListener()
-			{
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button)
-				{
-					towerGenerator = gen;
-					// towerSelector.setVisible(false);
-					return true;
-				}
-			});
-			return tower;
-		}
 	}
-	
+
 	private class SelectedTower extends Group
 	{
 		private Tower tower;
-		
+
 		public SelectedTower()
 		{
 			// Sell Button
@@ -535,12 +569,12 @@ public class GameplayScreen extends BaseScreen
 				}
 			};
 			sellButton.setPosition(-32.0f, -128.0f);
-			
+
 			addActor(sellButton);
-			
+
 			setTower(null);
 		}
-		
+
 		public void setTower(Tower tower)
 		{
 			boolean sameTower = this.tower != null && this.tower == tower;
@@ -558,23 +592,23 @@ public class GameplayScreen extends BaseScreen
 		public void draw(Batch batch, float parentAlpha)
 		{
 			super.draw(batch, parentAlpha);
-			
+
 			if (tower != null)
 			{
 				batch.end();
-	
+
 				ShapeRenderer shapeRenderer = TowerDefense.shapeRenderer;
 				shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 				shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-	
+
 				shapeRenderer.begin(ShapeType.Line);
 				tower.drawShapes(shapeRenderer);
 				shapeRenderer.end();
-	
+
 				batch.begin();
 			}
 		}
-		
+
 		private void onSellPressed()
 		{
 			curLevel.removeTower(tower);
@@ -582,30 +616,32 @@ public class GameplayScreen extends BaseScreen
 			setTower(null);
 		}
 	}
-	
+
 	private class WinImage extends Image
 	{
 		public WinImage()
 		{
 			super(ResourceManager.loadTexture("win.png"));
-			
+
 			int width = TowerDefense.SCREEN_WIDTH;
 			int height = TowerDefense.SCREEN_HEIGHT;
-			
-			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f - getHeight() / 2.0f);
+
+			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f
+					- getHeight() / 2.0f);
 		}
 	}
-	
+
 	private class LoseImage extends Image
 	{
 		public LoseImage()
 		{
 			super(ResourceManager.loadTexture("lose.png"));
-			
+
 			int width = TowerDefense.SCREEN_WIDTH;
 			int height = TowerDefense.SCREEN_HEIGHT;
-			
-			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f - getHeight() / 2.0f);
+
+			setPosition(width / 2.0f - getWidth() / 2.0f, height / 2.0f
+					- getHeight() / 2.0f);
 		}
 	}
 }

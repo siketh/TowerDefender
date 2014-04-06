@@ -14,6 +14,11 @@ public class TextureObject
 		mTexture = ResourceManager.loadTexture(filename);
 	}
 	
+	public void setTexture(Texture texture)
+	{
+		mTexture = texture;
+	}
+	
 	public Texture getTexture()
 	{
 		return mTexture;

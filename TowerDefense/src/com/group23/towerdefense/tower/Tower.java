@@ -2,6 +2,7 @@ package com.group23.towerdefense.tower;
 
 import java.util.Iterator;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -52,6 +53,93 @@ public abstract class Tower extends TextureObject
 	public static interface UpgradeEffect
 	{
 		public abstract void upgrade(Tower tower);
+	}
+	
+	public static abstract class Generator
+	{
+		public abstract String getName();
+		public abstract int getGoldCost();
+		public abstract Texture getTexture();
+		
+		protected abstract Tower getTower();
+		
+		public Tower generate()
+		{
+			Tower tower = getTower();
+			tower.setTexture(getTexture());
+			tower.setGoldCost(getGoldCost());
+			
+			return tower;
+		}
+	}
+	
+	private static Array<Generator> towerGenerators;
+	
+	public static Array<Tower.Generator> getTowerGenerators()
+	{
+		if (towerGenerators == null)
+		{
+			towerGenerators = new Array<Generator>();
+			towerGenerators.add(new Generator()
+			{
+				private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower00.png");
+				
+				@Override
+				public String getName()
+				{
+					return "Arrow Tower";
+				}
+
+				@Override
+				public int getGoldCost()
+				{
+					return 100;
+				}
+
+				@Override
+				protected Tower getTower()
+				{
+					return new ArrowTower();
+				}
+
+				@Override
+				public Texture getTexture()
+				{
+					return texture;
+				}
+			});
+			
+			towerGenerators.add(new Generator()
+			{
+				private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower01.png");
+				
+				@Override
+				public String getName()
+				{
+					return "Multi-Arrow Tower";
+				}
+
+				@Override
+				public int getGoldCost()
+				{
+					return 100;
+				}
+
+				@Override
+				public Texture getTexture()
+				{
+					return texture;
+				}
+
+				@Override
+				protected Tower getTower()
+				{
+					return new MultiArrowTower();
+				}	
+			});
+		}
+		
+		return towerGenerators;
 	}
 	
 	public static boolean DEBUG_DRAWRANGE = true;
