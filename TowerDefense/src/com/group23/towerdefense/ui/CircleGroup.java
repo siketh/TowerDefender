@@ -2,11 +2,21 @@ package com.group23.towerdefense.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.utils.SnapshotArray;
+import com.badlogic.gdx.utils.Array;
 
 public class CircleGroup extends Group
 {
-	private float radius;
+	private float radius = 1.0f;
+	
+	public CircleGroup()
+	{
+		
+	}
+	
+	public CircleGroup(float radius)
+	{
+		this.radius = radius;
+	}
 
 	public float getRadius()
 	{
@@ -18,16 +28,17 @@ public class CircleGroup extends Group
 		this.radius = radius;
 	}
 
-	protected void pack()
+	public void pack()
 	{
-		SnapshotArray<Actor> actors = getChildren();
-		int i = 0;
-		double increment = (2.0f * Math.PI) / actors.size;
-		for (Actor actor : actors)
+		Array<Actor> actors = getChildren();
+		double increment = 2.0 * Math.PI / (double) actors.size;
+		for (int i = 0; i < actors.size; i++)
 		{
-			double v = increment * i++;
-			double x = Math.cos(v * i) * radius;
-			double y = Math.sin(v * i) * radius;
+			double v = increment * i;
+			double x = Math.sin(v) * radius;
+			double y = -Math.cos(v) * radius;
+			
+			Actor actor = actors.get(i);
 			actor.setPosition((float) x, (float) y);
 		}
 	}
