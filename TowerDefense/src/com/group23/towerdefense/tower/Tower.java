@@ -73,72 +73,69 @@ public abstract class Tower extends TextureObject
 		}
 	}
 	
-	private static Array<Generator> towerGenerators;
-	
-	public static Array<Tower.Generator> getTowerGenerators()
+	private static Generator[] towerGenerators = new Generator[]
 	{
-		if (towerGenerators == null)
+		new Generator()
 		{
-			towerGenerators = new Array<Generator>();
-			towerGenerators.add(new Generator()
-			{
-				private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower00.png");
-				
-				@Override
-				public String getName()
-				{
-					return "Arrow Tower";
-				}
-
-				@Override
-				public int getGoldCost()
-				{
-					return 100;
-				}
-
-				@Override
-				protected Tower getTower()
-				{
-					return new ArrowTower();
-				}
-
-				@Override
-				public Texture getTexture()
-				{
-					return texture;
-				}
-			});
+			private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower00.png");
 			
-			towerGenerators.add(new Generator()
+			@Override
+			public String getName()
 			{
-				private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower01.png");
-				
-				@Override
-				public String getName()
-				{
-					return "Multi-Arrow Tower";
-				}
+				return "Arrow Tower";
+			}
 
-				@Override
-				public int getGoldCost()
-				{
-					return 100;
-				}
+			@Override
+			public int getGoldCost()
+			{
+				return 100;
+			}
 
-				@Override
-				public Texture getTexture()
-				{
-					return texture;
-				}
+			@Override
+			protected Tower getTower()
+			{
+				return new ArrowTower();
+			}
 
-				@Override
-				protected Tower getTower()
-				{
-					return new MultiArrowTower();
-				}	
-			});
-		}
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+		},
 		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower01.png");
+			
+			@Override
+			public String getName()
+			{
+				return "Multi-Arrow Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 100;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new MultiArrowTower();
+			}	
+		},
+	};
+	
+	public static Generator[] getTowerGenerators()
+	{
 		return towerGenerators;
 	}
 	

@@ -501,7 +501,7 @@ public class GameplayScreen extends BaseScreen
 
 		public TowerSelector()
 		{
-			Array<Tower.Generator> generators = Tower.getTowerGenerators();
+			Tower.Generator[] generators = Tower.getTowerGenerators();
 			for (Tower.Generator gen : generators)
 				addActor(new TowerSelection(gen));
 
