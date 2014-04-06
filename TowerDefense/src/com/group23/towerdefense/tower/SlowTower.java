@@ -12,6 +12,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 		setRange(250.0f);
 		setDamage(3);
 		setGoldCost(150);
+		setProjectileType("arrow.png");
+		setProjectileSpeed(100);
+		maxTargets = 1;
 	}
 	
 	protected void causeEffect(Enemy e)

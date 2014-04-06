@@ -1,0 +1,38 @@
+﻿Merge remote-tracking branch 'origin/master' into Cole
+
+Conflicts:
+	TowerDefense/src/com/group23/towerdefense/tower/ArrowTower.java
+	TowerDefense/src/com/group23/towerdefense/tower/MultiArrowTower.java
+	TowerDefense/src/com/group23/towerdefense/tower/Tower.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Cole
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   TowerDefense-android/assets/arrow.png
+#	modified:   TowerDefense-android/assets/level1_b.png
+#	modified:   TowerDefense-android/assets/level2_b.png
+#	modified:   TowerDefense-android/assets/level3_b.png
+#	modified:   TowerDefense-android/assets/level4_b.png
+#	modified:   TowerDefense-android/assets/level5_b.png
+#	new file:   TowerDefense-android/assets/levelmenu.png
+#	new file:   TowerDefense-android/assets/troll.png
+#	modified:   TowerDefense/src/com/group23/towerdefense/TextureObject.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/screen/GameplayScreen.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/screen/LevelSelectScreen.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/tower/ArrowTower.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/tower/MultiArrowTower.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/tower/SlowTower.java
+#	modified:   TowerDefense/src/com/group23/towerdefense/tower/Tower.java
+#
+

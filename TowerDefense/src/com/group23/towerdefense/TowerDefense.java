@@ -28,7 +28,7 @@ public class TowerDefense extends Game
 
 		// set debug variables
 		Tower.DEBUG_DRAWRANGE = true;
-		Tower.DEBUG_DRAWTARGET = true;
+		Tower.DEBUG_DRAWTARGET = false;
 
 		// initialize music and play
 		Music planning = ResourceManager.loadMusic("Planning.mp3");

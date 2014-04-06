@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
@@ -470,7 +469,8 @@ public class GameplayScreen extends BaseScreen
 
 			final LabelStyle goldStyle = new LabelStyle();
 			goldStyle.font = ResourceManager.loadDefaultFont();
-			Label goldLabel = new Label(Integer.toString(gen.getGoldCost()), goldStyle);
+			Label goldLabel = new Label(Integer.toString(gen.getGoldCost()),
+					goldStyle);
 			goldLabel.setFontScale(1.75f);
 			addActor(goldLabel);
 
@@ -495,8 +495,14 @@ public class GameplayScreen extends BaseScreen
 					{
 						if (towerSelection != null)
 							towerSelection.setHighlight(false);
-						towerSelection = TowerSelection.this;
-						setHighlight(true);
+						
+						if (towerSelection != TowerSelection.this)
+						{
+							towerSelection = TowerSelection.this;
+							setHighlight(true);
+						}
+						else
+							towerSelection = null;
 					}
 					return true;
 				}
@@ -542,7 +548,7 @@ public class GameplayScreen extends BaseScreen
 
 		public TowerSelector()
 		{
-			Array<Tower.Generator> generators = Tower.getTowerGenerators();
+			Tower.Generator[] generators = Tower.getTowerGenerators();
 			for (Tower.Generator gen : generators)
 				addActor(new TowerSelection(gen));
 

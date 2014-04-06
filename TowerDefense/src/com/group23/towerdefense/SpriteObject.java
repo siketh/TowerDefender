@@ -12,6 +12,7 @@ public class SpriteObject extends TextureObject
 	{
 		super.setTexture(filename);
 		mSprite = new Sprite(getTexture());
+		mSprite.setOriginCenter();
 	}
 	
 	public void setTexturePosition(float x, float y)
@@ -33,5 +34,10 @@ public class SpriteObject extends TextureObject
 	{
 		if (mSprite != null)
 			mSprite.draw(batch);
+	}
+	
+	public void setRotation(Vector2 dir)
+	{
+		 mSprite.setRotation((float) (Math.atan2(dir.y,dir.x)/Math.PI*180));
 	}
 }
