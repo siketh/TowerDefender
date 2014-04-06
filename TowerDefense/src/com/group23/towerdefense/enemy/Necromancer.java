@@ -85,6 +85,7 @@ public class Necromancer extends Enemy
 				summon();
 				timeSummoning = 0;
 				timeTillSummon = 3;
+				setTexture("necromancer_normal.png");
 				
 			}
 			return false;
@@ -93,6 +94,7 @@ public class Necromancer extends Enemy
 		{
 			timeTillSummon = 0;
 			summon = 0;
+			setTexture("necromancer_summoning.png");
 			return false;
 		}
 		else
