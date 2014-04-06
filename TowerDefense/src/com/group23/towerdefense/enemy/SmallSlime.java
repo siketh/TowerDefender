@@ -7,7 +7,7 @@ public class SmallSlime extends Enemy
 	public SmallSlime(Level map, int tile) 
 	{
 		super(map, 1.0);
-		setTexture("enemy04.png");
+		setTexture("smallslime.png");
 		
 		curTile = tile;
 		pos.x = (curTile % path.getWidth()) * 128 + 64;

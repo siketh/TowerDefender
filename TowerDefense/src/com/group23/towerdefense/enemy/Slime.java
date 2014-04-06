@@ -7,7 +7,7 @@ public class Slime extends Enemy
 	public Slime(Level map) 
 	{
 		super(map, 1.0);
-		setTexture("enemy03.png");
+		setTexture("slime.png");
 	}
 	
 	public Slime(Level map, double scale) 
