@@ -15,47 +15,6 @@ import com.group23.towerdefense.enemy.Enemy;
 
 public abstract class Tower extends TextureObject
 {
-	public static class Upgrade
-	{
-		private String name;
-		private int cost;
-		private UpgradeEffect effect;
-
-		public String getName()
-		{
-			return name;
-		}
-
-		public void setName(String name)
-		{
-			this.name = name;
-		}
-
-		public int getCost()
-		{
-			return cost;
-		}
-
-		public void setCost(int cost)
-		{
-			this.cost = cost;
-		}
-
-		public UpgradeEffect getEffect()
-		{
-			return effect;
-		}
-
-		public void setEffect(UpgradeEffect effect)
-		{
-			this.effect = effect;
-		}
-	}
-
-	public static interface UpgradeEffect
-	{
-		public abstract void upgrade(Tower tower);
-	}
 
 	public static abstract class Generator
 	{
@@ -114,36 +73,6 @@ public abstract class Tower extends TextureObject
 				return texture;
 			}
 		},
-
-		new Generator()
-		{
-			private Texture texture = com.group23.towerdefense.ResourceManager
-					.loadTexture("tower01.png");
-
-			@Override
-			public String getName()
-			{
-				return "Multi-Arrow Tower";
-			}
-
-			@Override
-			public int getGoldCost()
-			{
-				return 100;
-			}
-
-			@Override
-			public Texture getTexture()
-			{
-				return texture;
-			}
-
-			@Override
-			protected Tower getTower()
-			{
-				return new MultiArrowTower();
-			}
-		}, 
 		
 		new Generator()
 		{
@@ -199,7 +128,13 @@ public abstract class Tower extends TextureObject
 	private Level level;
 	private Array<Enemy> targets = new Array<Enemy>();
 	private Array<Upgrade> appliedUpgrades = new Array<Upgrade>();
+	protected ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
 	
+	public ArrayList<Upgrade> getUpgrades() 
+	{
+		return upgrades;
+	}
+
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private String projectileType;
 	private int projectileSpeed;
@@ -219,6 +154,8 @@ public abstract class Tower extends TextureObject
 	 */
 	abstract void findTargets(Array<Enemy> targets);
 
+	abstract void addUpgrades();
+	
 	public final void registerToLevel(Level level, int x, int y)
 	{
 		this.level = level;
@@ -299,6 +236,8 @@ public abstract class Tower extends TextureObject
 				shapeRenderer.line(pos, e.getPosition());
 			}
 	}
+	
+	abstract void performUpgrades(Upgrade caller);
 
 	public Level getMap()
 	{
@@ -350,13 +289,6 @@ public abstract class Tower extends TextureObject
 	public Vector2 getPosition()
 	{
 		return pos;
-	}
-
-	public void applyUpgrade(Upgrade upgrade)
-	{
-		UpgradeEffect effect = upgrade.getEffect();
-		effect.upgrade(this);
-		appliedUpgrades.add(upgrade);
 	}
 
 	public boolean hasAppliedUpgrade(Upgrade upgrade)
