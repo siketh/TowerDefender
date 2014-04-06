@@ -13,6 +13,7 @@ public class LevelSelectScreen extends BaseScreen
 {
 	private Level.Generator generator = new DefaultLevelGenerator();
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
+	public static int levelTrack;
 
 	@Override
 	public void show()
@@ -46,9 +47,11 @@ public class LevelSelectScreen extends BaseScreen
 		@Override
 		protected void onPressed()
 		{
+			levelTrack = levelNum;
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
+		
 	}
 	
 	private class LoadButton extends ImageButton

@@ -70,6 +70,7 @@ public class Level
 	// Player Statistics
 	int playerGold;
 	int playerLives;
+	int levelNum;
 
 	private Array<Tower> towers;
 

@@ -42,6 +42,9 @@ public class GameplayScreen extends BaseScreen
 	private TowerSelector towerSelector;
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
+	private String levelString;
+	private int autosaveNext;
+	
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
 	 * 
@@ -63,8 +66,13 @@ public class GameplayScreen extends BaseScreen
 		
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
-		else if (hasWon())
+		else if (hasWon()){
+			autosaveSet();
+			levelString = Integer.toString(autosaveNext);
+			handle.writeString(levelString, false);
 			setEndState(State.Win, new WinImage());
+
+		}
 	}
 
 	@Override
@@ -120,7 +128,13 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onSaveButtonPressed()
 	{
-		handle.writeString("1", false);
+		levelString = Integer.toString(LevelSelectScreen.levelTrack);
+		handle.writeString(levelString, false);
+	}
+	
+	private void autosaveSet()
+	{
+		autosaveNext = LevelSelectScreen.levelTrack + 1;
 	}
 	
 	private void setEndState(State state, Actor actor)
