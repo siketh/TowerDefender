@@ -364,9 +364,10 @@ public class GameplayScreen extends BaseScreen
 	
 	private class PauseGraphicActor extends Image
 	{
+		
 		public PauseGraphicActor()
 		{
-			super(null, "pause.png");
+			super(ResourceManager.loadTexture("pause.png"));
 			setPosition(TowerDefense.SCREEN_WIDTH/2, TowerDefense.SCREEN_HEIGHT/2);
 			pack();
 		}
