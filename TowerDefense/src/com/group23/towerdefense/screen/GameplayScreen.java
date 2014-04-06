@@ -33,7 +33,7 @@ public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win, Lose, Playing
+		Win, Lose, Playing, Paused
 	}
 
 	private State state = State.Playing;
@@ -44,6 +44,7 @@ public class GameplayScreen extends BaseScreen
 	private SelectedTower selectedTower;
 	private String levelString;
 	private int autosaveNext;
+	private PauseGraphicActor pauseGraphic;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -61,7 +62,6 @@ public class GameplayScreen extends BaseScreen
 	{
 		if (state != State.Playing)
 			return;
-
 		super.act(delta);
 
 		if (isDefeated())
@@ -83,17 +83,21 @@ public class GameplayScreen extends BaseScreen
 
 		Actor startButton = new StartButtonActor();
 		Actor towerButton = new TowerButtonActor();
+		Actor pauseButton = new PauseButtonActor();
 		Actor goldDisplay = new GoldDisplayActor();
 		Actor healthDisplay = new HealthDisplayActor();
 		Actor saveButton = new SaveButtonActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
+		pauseGraphic = new PauseGraphicActor();
 
 		Stage stage = getStage();
 
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
+		stage.addActor(pauseButton);
+		stage.addActor(pauseGraphic);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
 		stage.addActor(saveButton);
@@ -332,6 +336,43 @@ public class GameplayScreen extends BaseScreen
 			onSaveButtonPressed();
 		}
 	}
+	
+	private class PauseButtonActor extends ImageButton
+	{
+		int pausePressed;
+		
+		public PauseButtonActor()
+		{
+			super("pause_b.png");
+			setBounds(1700.0f, 1020.0f,64.0f,64.0f);
+			
+		}
+		
+		protected void onPressed()
+		{
+			if(pausePressed == 0){
+				pausePressed = 1;
+				state = State.Paused;
+				pauseGraphic.setVisible(true);
+			}
+			else if(pausePressed == 1){
+				pausePressed = 0;
+				state = State.Playing;
+				pauseGraphic.setVisible(false);
+		}
+	}
+	}
+	
+	private class PauseGraphicActor extends Image
+	{
+		public PauseGraphicActor()
+		{
+			super(null, "pause.png");
+			setPosition(TowerDefense.SCREEN_WIDTH/2, TowerDefense.SCREEN_HEIGHT/2);
+			pack();
+		}
+		
+		}
 
 	/**
 	 * Actor to display the player's current health.
