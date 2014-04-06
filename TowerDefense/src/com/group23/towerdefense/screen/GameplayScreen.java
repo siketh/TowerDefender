@@ -454,8 +454,14 @@ public class GameplayScreen extends BaseScreen
 					{
 						if (towerSelection != null)
 							towerSelection.setHighlight(false);
-						towerSelection = TowerSelection.this;
-						setHighlight(true);
+						
+						if (towerSelection != TowerSelection.this)
+						{
+							towerSelection = TowerSelection.this;
+							setHighlight(true);
+						}
+						else
+							towerSelection = null;
 					}
 					return true;
 				}
