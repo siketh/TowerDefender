@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
@@ -429,7 +428,8 @@ public class GameplayScreen extends BaseScreen
 
 			final LabelStyle goldStyle = new LabelStyle();
 			goldStyle.font = ResourceManager.loadDefaultFont();
-			Label goldLabel = new Label(Integer.toString(gen.getGoldCost()), goldStyle);
+			Label goldLabel = new Label(Integer.toString(gen.getGoldCost()),
+					goldStyle);
 			goldLabel.setFontScale(1.75f);
 			addActor(goldLabel);
 

@@ -49,36 +49,45 @@ public abstract class Tower extends TextureObject
 			this.effect = effect;
 		}
 	}
-	
+
 	public static interface UpgradeEffect
 	{
 		public abstract void upgrade(Tower tower);
 	}
-	
+
 	public static abstract class Generator
 	{
 		public abstract String getName();
+
 		public abstract int getGoldCost();
+
 		public abstract Texture getTexture();
-		
+
 		protected abstract Tower getTower();
-		
+
 		public Tower generate()
 		{
 			Tower tower = getTower();
 			tower.setTexture(getTexture());
 			tower.setGoldCost(getGoldCost());
-			
+
 			return tower;
 		}
 	}
-	
+
+	/**
+	 * The the defining array to generate towers. To add a a new tower to the
+	 * tower bar, create a new anonymous Generator class and implement its
+	 * methods. It will then be dynamically added, with the resulting created
+	 * tower using the same texture as <code>Tower.Generator.getTexture()</code>
+	 * .
+	 */
 	private static Generator[] towerGenerators = new Generator[]
-	{
-		new Generator()
+		{ new Generator()
 		{
-			private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower00.png");
-			
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower00.png");
+
 			@Override
 			public String getName()
 			{
@@ -103,11 +112,12 @@ public abstract class Tower extends TextureObject
 				return texture;
 			}
 		},
-		
+
 		new Generator()
 		{
-			private Texture texture = com.group23.towerdefense.ResourceManager.loadTexture("tower01.png");
-			
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
 			@Override
 			public String getName()
 			{
@@ -130,15 +140,14 @@ public abstract class Tower extends TextureObject
 			protected Tower getTower()
 			{
 				return new MultiArrowTower();
-			}	
-		},
-	};
-	
+			}
+		}, };
+
 	public static Generator[] getTowerGenerators()
 	{
 		return towerGenerators;
 	}
-	
+
 	public static boolean DEBUG_DRAWRANGE = true;
 	public static boolean DEBUG_DRAWTARGET = true;
 
@@ -211,13 +220,13 @@ public abstract class Tower extends TextureObject
 			}
 		}
 	}
-	
-	//A class that causes the effect to the enemy
+
+	// A class that causes the effect to the enemy
 	protected void causeEffect(Enemy e)
 	{
-		
+
 	}
-	
+
 	public void drawShapes(ShapeRenderer shapeRenderer)
 	{
 		// draw the line(s) to the target(s) (if applicable)
@@ -280,14 +289,14 @@ public abstract class Tower extends TextureObject
 	{
 		return pos;
 	}
-	
+
 	public void applyUpgrade(Upgrade upgrade)
 	{
 		UpgradeEffect effect = upgrade.getEffect();
 		effect.upgrade(this);
 		appliedUpgrades.add(upgrade);
 	}
-	
+
 	public boolean hasAppliedUpgrade(Upgrade upgrade)
 	{
 		for (Upgrade u : appliedUpgrades)
