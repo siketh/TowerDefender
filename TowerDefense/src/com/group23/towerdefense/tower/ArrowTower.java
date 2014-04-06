@@ -24,6 +24,22 @@ public class ArrowTower extends CircularRangeTower
 		damage.setLevels(5);
 		damage.setId(0);
 		upgrades.add(damage);
+		
+		Upgrade numTargets = new Upgrade(this);
+		damage.setName("Max Targets");
+		damage.setTexName("sell_button.png");
+		damage.setCost(150);
+		damage.setLevels(3);
+		damage.setId(1);
+		upgrades.add(numTargets);
+		
+		Upgrade rangeIncrease = new Upgrade(this);
+		damage.setName("Increased Range");
+		damage.setTexName("sell_button.png");
+		damage.setCost(50);
+		damage.setLevels(5);
+		damage.setId(2);
+		upgrades.add(rangeIncrease);
 	}
 
 	void performUpgrades(Upgrade caller) 
@@ -35,6 +51,14 @@ public class ArrowTower extends CircularRangeTower
 			caller.setCost(caller.getCost() + 25);
 			caller.incrementLevel();
 			break;
+		case 1:
+			setMaxTargets(getMaxTargets() + 1);
+			caller.setCost(caller.getCost() + 100);
+			caller.incrementLevel();
+			break;
+		case 2: 
+			setRange(getRange() + 25);
+			caller.incrementLevel();
 		}
 		
 	}
