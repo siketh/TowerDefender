@@ -7,7 +7,7 @@ public class Skeleton extends Enemy
 	public Skeleton(Level map, int tile) 
 	{
 		super(map, 1.0);
-		setTexture("enemy02.png");
+		setTexture("skeleton.png");
 		
 		curTile = tile;
 		pos.x = (curTile % path.getWidth()) * 128 + 64;
@@ -17,7 +17,7 @@ public class Skeleton extends Enemy
 	public Skeleton(Level map, int tile, double scale) 
 	{
 		super(map, scale);
-		setTexture("enemy02.png");
+		setTexture("skeleton.png");
 		
 		curTile = tile;
 		pos.x = (curTile % path.getWidth()) * 128 + 64;

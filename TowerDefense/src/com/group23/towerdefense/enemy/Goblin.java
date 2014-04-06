@@ -7,13 +7,13 @@ public class Goblin extends Enemy
 	public Goblin(Level map) 
 	{
 		super(map, 1.0);
-		setTexture("enemy01.png");
+		setTexture("goblin.png");
 	}
 	
 	public Goblin(Level map, double scale) 
 	{
 		super(map, scale);
-		setTexture("enemy01.png");
+		setTexture("goblin.png");
 	}
 
 	protected void setBaseStats() 
