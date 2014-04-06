@@ -143,7 +143,41 @@ public abstract class Tower extends TextureObject
 			{
 				return new MultiArrowTower();
 			}
-		}, };
+		}, 
+		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
+			@Override
+			public String getName()
+			{
+				return "Slow Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 150;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new SlowTower();
+			}
+		}, 
+		
+		
+		
+		};
 
 	public static Generator[] getTowerGenerators()
 	{
