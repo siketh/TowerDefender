@@ -12,7 +12,6 @@ public class ArrowTower extends SingleTargetCircularRangeTower
 		setRange(250.0f);
 		setDamage(0);
 		setGoldCost(100);
-		setTexture("tower00.png");
 		maxTargets = 1;
 	}
 	

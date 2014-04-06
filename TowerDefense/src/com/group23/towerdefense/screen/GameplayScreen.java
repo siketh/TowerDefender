@@ -92,12 +92,12 @@ public class GameplayScreen extends BaseScreen
 
 		Stage stage = getStage();
 
-		stage.addActor(levelActor);
 		stage.addActor(startButton);
 		stage.addActor(towerButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
 		stage.addActor(saveButton);
+		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
 	}
@@ -404,14 +404,15 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
-	private static final Color DEFAULT_COLOR = Color.YELLOW;
-	private static final Color HIGHLIGHT_COLOR = Color.BLUE;
+	private static final Color DEFAULT_COLOR = Color.WHITE;
+	private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
 	private static final Color AVAILABLE_COLOR = Color.GREEN;
 	private static final Color UNAVAILABLE_COLOR = Color.RED;
 
 	private class TowerSelection extends VerticalGroup
 	{
 		private Tower.Generator generator;
+		private LabelStyle nameStyle;
 
 		public TowerSelection(Tower.Generator gen)
 		{
@@ -420,7 +421,7 @@ public class GameplayScreen extends BaseScreen
 			Image towerImage = new Image(gen.getTexture());
 			addActor(towerImage);
 
-			LabelStyle nameStyle = new LabelStyle();
+			nameStyle = new LabelStyle();
 			nameStyle.font = ResourceManager.loadDefaultFont();
 			Label towerLabel = new Label(gen.getName(), nameStyle);
 			towerLabel.setFontScale(2.0f);
@@ -451,6 +452,8 @@ public class GameplayScreen extends BaseScreen
 				{
 					if (canPurchase())
 					{
+						if (towerSelection != null)
+							towerSelection.setHighlight(false);
 						towerSelection = TowerSelection.this;
 						setHighlight(true);
 					}
@@ -458,13 +461,14 @@ public class GameplayScreen extends BaseScreen
 				}
 			});
 
+			setHighlight(false);
 			space(5.0f);
 			pack();
 		}
 
 		public void setHighlight(boolean highlight)
 		{
-			setColor(highlight ? HIGHLIGHT_COLOR : DEFAULT_COLOR);
+			nameStyle.fontColor = highlight ? HIGHLIGHT_COLOR : DEFAULT_COLOR;
 		}
 
 		public Tower.Generator getTowerGenerator()
