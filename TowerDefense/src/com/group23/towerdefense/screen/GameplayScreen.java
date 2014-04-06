@@ -529,8 +529,9 @@ public class GameplayScreen extends BaseScreen
 		
 		public void setTower(Tower tower)
 		{
-			this.tower = tower;
-			boolean visible = tower != null;
+			boolean sameTower = this.tower != null && this.tower == tower;
+			this.tower = !sameTower ? tower : null;
+			boolean visible = this.tower != null;
 			setVisible(visible);
 			if (tower != null)
 			{
