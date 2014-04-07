@@ -38,7 +38,6 @@ public class GameplayScreen extends BaseScreen
 
 	private State state = State.Playing;
 	private Level curLevel;
-	private Tower.Generator generator;
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
@@ -173,9 +172,11 @@ public class GameplayScreen extends BaseScreen
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
-
-		if (towerSelection == null)
+		
+		
+		if (towerSelection == null){
 			selectedTower.setTower(curLevel.getTower(tileX, tileY));
+		}
 		else
 		{
 			Tower tower = towerSelection.getTowerGenerator().generate();
@@ -184,6 +185,7 @@ public class GameplayScreen extends BaseScreen
 			curLevel.placeTower(tower, tileX, tileY);
 		}
 	}
+
 
 	public Level getLevel()
 	{
@@ -459,7 +461,7 @@ public class GameplayScreen extends BaseScreen
 
 	private class TowerSelection extends VerticalGroup
 	{
-		//private Tower.Generator generator;
+		private Tower.Generator generator;
 		private LabelStyle nameStyle;
 
 		public TowerSelection(Tower.Generator gen)
@@ -615,30 +617,31 @@ public class GameplayScreen extends BaseScreen
 	private class SelectedTower extends Group
 	{
 		private Tower tower;
-		private int price;
-		
+				
 		public SelectedTower()
 		{
 
 			// Sell Button
+			
 			final LabelStyle sellStyle = new LabelStyle();
 			sellStyle.font = ResourceManager.loadDefaultFont();
 			sellStyle.fontColor = Color.WHITE;
-			price = (int) (generator.getGoldCost()-generator.getGoldCost()*0.2);
-			String sellprice = "$" + price;
 			
-			Label sellLabel = new Label(sellprice, sellStyle);
-			sellLabel.setFontScale(1.75f);
-
-			Container LabelContainer = new Container(sellLabel);
-			LabelContainer.setPosition(0.0f, -45.0f);			
-									
+			// Throws a NullPointerException
+			
+			//Label sellLabel = new Label(Integer.toString(tower.getGoldCost()), sellStyle);
+			//sellLabel.setFontScale(2.5f);
+			//Container LabelContainer = new Container(sellLabel);
+			//LabelContainer.setPosition(0.0f, -45.0f);
+			
+			//addActor(LabelContainer);			
+			
 			Actor sellButton = new ImageButton("sell_button.png")
 			{
 				@Override
 				protected void onPressed()
 				{
-					onSellPressed(price);
+					onSellPressed();
 				}
 			};
 			sellButton.setPosition(-32.0f, -128.0f);
@@ -673,7 +676,6 @@ public class GameplayScreen extends BaseScreen
 			};
 			damButton.setPosition(-128.0f, -32.0f);
 			
-			addActor(LabelContainer);
 			addActor(apButton);
 			addActor(damButton);
 			addActor(sellButton);
@@ -717,10 +719,10 @@ public class GameplayScreen extends BaseScreen
 			}
 		}
 
-		private void onSellPressed(int price)
+		private void onSellPressed()
 		{
 			curLevel.removeTower(tower);
-			curLevel.giveGold(price);
+			curLevel.giveGold(tower.getGoldCost());
 			setTower(null);
 		}
 	}
