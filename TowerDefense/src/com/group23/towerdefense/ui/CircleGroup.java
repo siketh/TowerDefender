@@ -6,6 +6,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class CircleGroup extends Group
 {
+	static double xOffset = -32;
+	static double yOffset = -32;
+	
 	private float radius = 1.0f;
 	
 	public CircleGroup()
@@ -35,8 +38,8 @@ public class CircleGroup extends Group
 		for (int i = 0; i < actors.size; i++)
 		{
 			double v = increment * i;
-			double x = Math.sin(v) * radius;
-			double y = -Math.cos(v) * radius;
+			double x = Math.sin(v) * radius + xOffset;
+			double y = -Math.cos(v) * radius + yOffset;
 			
 			Actor actor = actors.get(i);
 			actor.setPosition((float) x, (float) y);
