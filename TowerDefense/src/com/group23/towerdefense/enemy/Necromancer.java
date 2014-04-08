@@ -39,28 +39,28 @@ public class Necromancer extends Enemy
 		switch(direction)
 		{
 			case N:
-				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth()));
+				path.getEnemies().add(new Skeleton(path, curTile - path.getWidth()));
 				break;
 			case NE:
-				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth() + 1));
+				path.getEnemies().add(new Skeleton(path, curTile - path.getWidth() + 1));
 				break;
 			case E:
-				path.getEnemies().add(new SmallSlime(path, curTile + 1));
+				path.getEnemies().add(new Skeleton(path, curTile + 1));
 				break;
 			case SE:
-				path.getEnemies().add(new SmallSlime(path, curTile + path.getWidth() + 1));
+				path.getEnemies().add(new Skeleton(path, curTile + path.getWidth() + 1));
 				break;
 			case S:
-				path.getEnemies().add(new SmallSlime(path, curTile + path.getWidth()));
+				path.getEnemies().add(new Skeleton(path, curTile + path.getWidth()));
 				break;
 			case SW:
-				path.getEnemies().add(new SmallSlime(path, curTile + path.getWidth() - 1));
+				path.getEnemies().add(new Skeleton(path, curTile + path.getWidth() - 1));
 				break;
 			case W:
-				path.getEnemies().add(new SmallSlime(path, curTile - 1));
+				path.getEnemies().add(new Skeleton(path, curTile - 1));
 				break;
 			case NW:
-				path.getEnemies().add(new SmallSlime(path, curTile - path.getWidth() - 1));
+				path.getEnemies().add(new Skeleton(path, curTile - path.getWidth() - 1));
 				break;
 			default:
 				break;
