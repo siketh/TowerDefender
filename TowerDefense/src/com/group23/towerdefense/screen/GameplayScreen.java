@@ -661,6 +661,7 @@ public class GameplayScreen extends BaseScreen
 					protected void onPressed()
 					{
 						upgrades.get(this.getNumber()).press();
+						setTower(null);
 					}
 				};
 				group.addActor(upgradeButton);

@@ -76,7 +76,11 @@ public class Upgrade
 	
 	public void press()
 	{
-		parent.performUpgrades(this);
+		if(parent.getMap().getGold() >= getCost() && currentLevel < levels)
+		{
+			parent.getMap().subtractGold(getCost());
+			parent.performUpgrades(this);
+		}
 	}
 
 	public void incrementLevel() 

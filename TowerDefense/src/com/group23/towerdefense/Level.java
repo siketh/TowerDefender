@@ -513,6 +513,11 @@ public class Level
 	{
 		return playerGold;
 	}
+	
+	public void subtractGold(int gold)
+	{
+		playerGold -= gold;
+	}
 
 	/**
 	 * Returns the amount of lives the player has
