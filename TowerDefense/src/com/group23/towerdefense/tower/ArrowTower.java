@@ -19,26 +19,26 @@ public class ArrowTower extends CircularRangeTower
 	{
 		Upgrade damage = new Upgrade(this);
 		damage.setName("Damage");
-		damage.setTexName("sell_button.png");
+		damage.setTexName("damage_button.png");
 		damage.setCost(50);
 		damage.setLevels(5);
 		damage.setId(0);
 		upgrades.add(damage);
 		
 		Upgrade numTargets = new Upgrade(this);
-		damage.setName("Max Targets");
-		damage.setTexName("sell_button.png");
-		damage.setCost(150);
-		damage.setLevels(3);
-		damage.setId(1);
+		numTargets.setName("Max Targets");
+		numTargets.setTexName("tgts_button.png");
+		numTargets.setCost(150);
+		numTargets.setLevels(3);
+		numTargets.setId(1);
 		upgrades.add(numTargets);
 		
 		Upgrade rangeIncrease = new Upgrade(this);
-		damage.setName("Increased Range");
-		damage.setTexName("sell_button.png");
-		damage.setCost(50);
-		damage.setLevels(5);
-		damage.setId(2);
+		rangeIncrease.setName("Increased Range");
+		rangeIncrease.setTexName("damage_button.png");
+		rangeIncrease.setCost(50);
+		rangeIncrease.setLevels(5);
+		rangeIncrease.setId(2);
 		upgrades.add(rangeIncrease);
 	}
 

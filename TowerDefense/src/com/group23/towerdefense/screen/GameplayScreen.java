@@ -1,5 +1,7 @@
 package com.group23.towerdefense.screen;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -27,6 +29,7 @@ import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.tower.Upgrade;
 import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
 
@@ -618,25 +621,27 @@ public class GameplayScreen extends BaseScreen
 	private class SelectedTower extends Group
 	{
 		private Tower tower;
+		ArrayList<Upgrade> upgrades;
 				
 		public SelectedTower()
+		{		
+			setTower(null);
+		}
+		
+		public void createButtons()
 		{
-
-			// Sell Button
+			CircleGroup group = new CircleGroup();
 			
+			// Sell Button
 			final LabelStyle sellStyle = new LabelStyle();
 			sellStyle.font = ResourceManager.loadDefaultFont();
 			sellStyle.fontColor = Color.WHITE;
-			
 			// Throws a NullPointerException
-			
 			//Label sellLabel = new Label(Integer.toString(tower.getGoldCost()), sellStyle);
 			//sellLabel.setFontScale(2.5f);
 			//Container LabelContainer = new Container(sellLabel);
 			//LabelContainer.setPosition(0.0f, -45.0f);
-			
 			//addActor(LabelContainer);			
-			
 			Actor sellButton = new ImageButton("sell_button.png")
 			{
 				@Override
@@ -645,47 +650,25 @@ public class GameplayScreen extends BaseScreen
 					onSellPressed();
 				}
 			};
-			
-			Actor apButton = new ImageButton("ap_button.png")
-			{
-				@Override
-				protected void onPressed()
-				{
-					//onApPressed();
-				}
-			};
-			
-			Actor tgtsButton = new ImageButton("tgts_button.png")
-			{
-				@Override
-				protected void onPressed()
-				{
-					//onTgtsPressed();
-				}
-			};
-			
-			Actor damButton = new ImageButton("damage_button.png")
-			{
-				@Override
-				protected void onPressed()
-				{
-					//onDamPressed();
-				}
-			};
-			
-			CircleGroup group = new CircleGroup();
-
 			group.addActor(sellButton);
-			group.addActor(apButton);
-			group.addActor(damButton);
-			group.addActor(tgtsButton);
+			if(tower != null)
+				upgrades = tower.getUpgrades();
+			
+			for(int i = 0; i < upgrades.size(); i++)
+			{
+				Actor upgradeButton = new ImageButton(upgrades.get(i).getTexName(), i)
+				{
+					protected void onPressed()
+					{
+						upgrades.get(this.getNumber()).press();
+					}
+				};
+				group.addActor(upgradeButton);
+			}
+
 			addActor(group);
 			group.setRadius(100f);
 			group.pack();
-			
-			
-			setTower(null);
-			
 		}
 		
 		public void setTower(Tower tower)
@@ -696,6 +679,7 @@ public class GameplayScreen extends BaseScreen
 			setVisible(visible);
 			if (tower != null)
 			{
+				createButtons();
 				Vector2 pos = tower.getPosition();
 				setPosition(pos.x, pos.y);
 			}
