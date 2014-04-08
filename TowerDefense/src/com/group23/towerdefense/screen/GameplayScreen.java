@@ -27,6 +27,7 @@ import com.group23.towerdefense.ResourceManager;
 import com.group23.towerdefense.TowerDefense;
 import com.group23.towerdefense.enemy.Enemy;
 import com.group23.towerdefense.tower.Tower;
+import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
 
 public class GameplayScreen extends BaseScreen
@@ -644,7 +645,6 @@ public class GameplayScreen extends BaseScreen
 					onSellPressed();
 				}
 			};
-			sellButton.setPosition(-32.0f, -128.0f);
 			
 			Actor apButton = new ImageButton("ap_button.png")
 			{
@@ -654,7 +654,6 @@ public class GameplayScreen extends BaseScreen
 					//onApPressed();
 				}
 			};
-			apButton.setPosition(52.0f, -32.0f);
 			
 			Actor tgtsButton = new ImageButton("tgts_button.png")
 			{
@@ -664,7 +663,6 @@ public class GameplayScreen extends BaseScreen
 					//onTgtsPressed();
 				}
 			};
-			tgtsButton.setPosition(-32.0f, 58.0f);
 			
 			Actor damButton = new ImageButton("damage_button.png")
 			{
@@ -674,12 +672,17 @@ public class GameplayScreen extends BaseScreen
 					//onDamPressed();
 				}
 			};
-			damButton.setPosition(-128.0f, -32.0f);
 			
-			addActor(apButton);
-			addActor(damButton);
-			addActor(sellButton);
-			addActor(tgtsButton);
+			CircleGroup group = new CircleGroup();
+
+			group.addActor(sellButton);
+			group.addActor(apButton);
+			group.addActor(damButton);
+			group.addActor(tgtsButton);
+			addActor(group);
+			group.setRadius(100f);
+			group.pack();
+			
 			
 			setTower(null);
 			
