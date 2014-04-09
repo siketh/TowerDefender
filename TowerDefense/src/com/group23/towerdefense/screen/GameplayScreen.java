@@ -630,6 +630,7 @@ public class GameplayScreen extends BaseScreen
 		
 		public void createButtons()
 		{
+			clear();
 			CircleGroup group = new CircleGroup();
 			
 			// Sell Button
@@ -653,6 +654,8 @@ public class GameplayScreen extends BaseScreen
 			group.addActor(sellButton);
 			if(tower != null)
 				upgrades = tower.getUpgrades();
+			else
+				upgrades = new ArrayList<Upgrade>();
 			
 			for(int i = 0; i < upgrades.size(); i++)
 			{
