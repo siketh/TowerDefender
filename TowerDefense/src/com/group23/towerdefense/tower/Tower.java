@@ -141,6 +141,7 @@ public abstract class Tower extends TextureObject
 
 	private int damage = 0;
 	private long cooldownTime = 0L;
+	private int armorPen = 0;
 	private int goldCost = 0;
 	private long lastMS;
 
@@ -197,7 +198,7 @@ public abstract class Tower extends TextureObject
 			int i = projectiles.get(t).act(((float)(ms - lastMS) / (float)1000));
 			if(i == 0)
 			{
-				projectiles.get(t).getTarget().dealDamage(getDamage());
+				projectiles.get(t).getTarget().dealDamage(getDamage(), getArmorPen());
 				causeEffect(projectiles.get(t).getTarget());
 				if (!projectiles.get(t).getTarget().isAlive())
 				{
@@ -320,5 +321,13 @@ public abstract class Tower extends TextureObject
 			p.draw(batch);
 		}
 		
+	}
+
+	public int getArmorPen() {
+		return armorPen;
+	}
+
+	public void setArmorPen(int armorPen) {
+		this.armorPen = armorPen;
 	}
 }

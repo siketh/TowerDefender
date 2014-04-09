@@ -273,6 +273,17 @@ public abstract class Enemy extends TextureObject
 	{
 		return hp -= (damage - armor);
 	}
+	
+	public int dealDamage(int damage, int armorPen)
+	{
+		if(armorPen > armor)
+			return hp -= damage;
+		else
+		{
+			hp = hp - damage + armorPen;
+			return hp;
+		}
+	}
 
 	public Vector2 getPosition()
 	{

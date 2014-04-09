@@ -11,35 +11,44 @@ public class ArrowTower extends CircularRangeTower
 		setGoldCost(100);
 		setProjectileType("arrow.png");
 		setProjectileSpeed(500);
+		setArmorPen(0);
 		addUpgrades();
 	}
 
 	
 	void addUpgrades() 
 	{
-		Upgrade damage = new Upgrade(this);
-		damage.setName("Damage");
-		damage.setTexName("damage_button.png");
-		damage.setCost(50);
-		damage.setLevels(5);
-		damage.setId(0);
-		upgrades.add(damage);
+		Upgrade up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(0);
+		upgrades.add(up);
 		
-		Upgrade numTargets = new Upgrade(this);
-		numTargets.setName("Max Targets");
-		numTargets.setTexName("tgts_button.png");
-		numTargets.setCost(150);
-		numTargets.setLevels(3);
-		numTargets.setId(1);
-		upgrades.add(numTargets);
+		up = new Upgrade(this);
+		up.setName("Max Targets");
+		up.setTexName("tgts_button.png");
+		up.setCost(150);
+		up.setLevels(3);
+		up.setId(1);
+		upgrades.add(up);
 		
-		Upgrade rangeIncrease = new Upgrade(this);
-		rangeIncrease.setName("Increased Range");
-		rangeIncrease.setTexName("damage_button.png");
-		rangeIncrease.setCost(50);
-		rangeIncrease.setLevels(5);
-		rangeIncrease.setId(2);
-		upgrades.add(rangeIncrease);
+		up = new Upgrade(this);
+		up.setName("Increased Range");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(2);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Armor Penetration");
+		up.setTexName("ap_button.png");
+		up.setCost(50);
+		up.setLevels(3);
+		up.setId(3);
+		upgrades.add(up);
 	}
 
 	void performUpgrades(Upgrade caller) 
@@ -47,7 +56,7 @@ public class ArrowTower extends CircularRangeTower
 		switch(caller.getId())
 		{
 		case 0:
-			setDamage(getDamage() + 3);
+			setDamage(getDamage() + 2);
 			caller.setCost(caller.getCost() + 25);
 			caller.incrementLevel();
 			break;
@@ -59,6 +68,11 @@ public class ArrowTower extends CircularRangeTower
 		case 2: 
 			setRange(getRange() + 25);
 			caller.incrementLevel();
+		case 3: 
+			setArmorPen(getArmorPen() + 3);
+			caller.setCost(caller.getCost() + 50);
+			
+			
 		}
 		
 	}
