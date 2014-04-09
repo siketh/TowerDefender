@@ -4,7 +4,7 @@ public class ArrowTower extends CircularRangeTower
 {
 	public ArrowTower()
 	{
-		setCooldownTime(300L);
+		setCooldownTime(400L);
 		setDamage(10);
 		setRange(250.0f);
 		setMaxTargets(1);

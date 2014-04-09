@@ -21,6 +21,7 @@ public class Goblin extends Enemy
 		hp = maxHP = 100;
 		armor = 0;
 		moveSpeed = 128;
+		healthRegen = 1;
 		texWidth = 64;
 		texHeight = 64;
 		goldValue = 20;

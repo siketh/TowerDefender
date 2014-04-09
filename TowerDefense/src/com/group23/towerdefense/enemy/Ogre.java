@@ -21,7 +21,7 @@ public class Ogre extends Enemy
 	protected void setBaseStats()
 	{
 		hp = maxHP = 200;
-		armor = 2;
+		armor = 4;
 		moveSpeed = 64;
 		texWidth = 64;
 		texHeight = 64;

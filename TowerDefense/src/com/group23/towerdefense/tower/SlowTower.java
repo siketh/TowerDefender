@@ -8,9 +8,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 {
 	public SlowTower()
 	{
-		setCooldownTime(250L);
-		setRange(250.0f);
-		setDamage(4);
+		setCooldownTime(350L);
+		setRange(200.0f);
+		setDamage(6);
 		setGoldCost(150);
 		setProjectileType("arrow.png");
 		setProjectileSpeed(100);
@@ -20,7 +20,7 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 	
 	protected void causeEffect(Enemy e)
 	{
-		e.addDebuff(new Debuff(0.8f, 1, DebuffType.Slow));
+		e.addDebuff(new Debuff(0.65f, 1, DebuffType.Slow));
 	}
 
 	void addUpgrades() 

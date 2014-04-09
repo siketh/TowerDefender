@@ -27,7 +27,7 @@ public class Skeleton extends Enemy
 	protected void setBaseStats() 
 	{
 		hp = maxHP = 60;
-		armor = 0;
+		armor = 1;
 		moveSpeed = 150;
 		texWidth = 64;
 		texHeight = 64;

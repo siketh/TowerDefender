@@ -27,7 +27,8 @@ public class SmallSlime extends Enemy
 	protected void setBaseStats() 
 	{
 		hp = maxHP = 75;
-		armor = 0;
+		armor = 1;
+		healthRegen = 1;
 		moveSpeed = 120;
 		texWidth = 64;
 		texHeight = 64;

@@ -19,7 +19,8 @@ public class Slime extends Enemy
 	protected void setBaseStats() 
 	{
 		hp = maxHP = 150;
-		armor = 0;
+		armor = 2;
+		healthRegen = 1;
 		moveSpeed = 90;
 		texWidth = 64;
 		texHeight = 64;
