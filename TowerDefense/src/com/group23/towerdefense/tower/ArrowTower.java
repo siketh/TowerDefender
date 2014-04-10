@@ -35,7 +35,7 @@ public class ArrowTower extends CircularRangeTower
 		upgrades.add(up);
 		
 		up = new Upgrade(this);
-		up.setName("Increased Range");
+		up.setName("Range");
 		up.setTexName("damage_button.png");
 		up.setCost(50);
 		up.setLevels(5);
@@ -43,7 +43,7 @@ public class ArrowTower extends CircularRangeTower
 		upgrades.add(up);
 		
 		up = new Upgrade(this);
-		up.setName("Armor Penetration");
+		up.setName("Armor \nPenetration");
 		up.setTexName("ap_button.png");
 		up.setCost(50);
 		up.setLevels(3);

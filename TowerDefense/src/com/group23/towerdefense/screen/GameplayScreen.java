@@ -633,16 +633,6 @@ public class GameplayScreen extends BaseScreen
 			clear();
 			CircleGroup group = new CircleGroup();
 			
-			// Sell Button
-			final LabelStyle sellStyle = new LabelStyle();
-			sellStyle.font = ResourceManager.loadDefaultFont();
-			sellStyle.fontColor = Color.WHITE;
-			// Throws a NullPointerException
-			//Label sellLabel = new Label(Integer.toString(tower.getGoldCost()), sellStyle);
-			//sellLabel.setFontScale(2.5f);
-			//Container LabelContainer = new Container(sellLabel);
-			//LabelContainer.setPosition(0.0f, -45.0f);
-			//addActor(LabelContainer);			
 			Actor sellButton = new ImageButton("sell_button.png")
 			{
 				@Override
@@ -652,6 +642,7 @@ public class GameplayScreen extends BaseScreen
 				}
 			};
 			group.addActor(sellButton);
+			group.addString("Sell");
 			if(tower != null)
 				upgrades = tower.getUpgrades();
 			else
@@ -667,11 +658,12 @@ public class GameplayScreen extends BaseScreen
 						setTower(null);
 					}
 				};
+				group.addString(upgrades.get(i).getName());
 				group.addActor(upgradeButton);
 			}
 
 			addActor(group);
-			group.setRadius(115f);
+			group.setRadius(110f);
 			group.pack();
 		}
 		
