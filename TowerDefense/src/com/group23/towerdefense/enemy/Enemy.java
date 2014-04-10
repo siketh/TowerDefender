@@ -126,6 +126,12 @@ public abstract class Enemy extends TextureObject
 			 }
 		}
 		
+		for(int i = debuffs.size() - 1; i >= 0; i--)
+		{
+			if(debuffs.get(i).getDuration() <= 0)
+				debuffs.remove(i);
+		}
+		
 		moveSpeed = (int)(baseMoveSpeed * speedModifier);
 	}
 	

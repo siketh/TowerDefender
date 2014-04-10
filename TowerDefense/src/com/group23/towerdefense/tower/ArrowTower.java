@@ -58,16 +58,13 @@ public class ArrowTower extends CircularRangeTower
 		case 0:
 			setDamage(getDamage() + 2);
 			caller.setCost(caller.getCost() + 25);
-			caller.incrementLevel();
 			break;
 		case 1:
 			setMaxTargets(getMaxTargets() + 1);
 			caller.setCost(caller.getCost() + 100);
-			caller.incrementLevel();
 			break;
 		case 2: 
 			setRange(getRange() + 25);
-			caller.incrementLevel();
 		case 3: 
 			setArmorPen(getArmorPen() + 3);
 			caller.setCost(caller.getCost() + 50);

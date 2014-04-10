@@ -80,6 +80,7 @@ public class Upgrade
 		{
 			parent.getMap().subtractGold(getCost());
 			parent.performUpgrades(this);
+			incrementLevel();
 		}
 	}
 

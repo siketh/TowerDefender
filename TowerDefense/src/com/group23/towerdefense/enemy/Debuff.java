@@ -80,6 +80,7 @@ public class Debuff
 	//Returns true if the tick happens
 	public boolean tick(float duration)
 	{
+		this.duration -= duration;
 		timeToTick -= duration;
 		if(timeToTick <= 0)
 		{

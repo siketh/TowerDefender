@@ -671,7 +671,7 @@ public class GameplayScreen extends BaseScreen
 			}
 
 			addActor(group);
-			group.setRadius(100f);
+			group.setRadius(115f);
 			group.pack();
 		}
 		
