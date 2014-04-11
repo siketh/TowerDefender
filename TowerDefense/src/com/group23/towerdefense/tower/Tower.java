@@ -132,6 +132,66 @@ public abstract class Tower extends TextureObject
 			{
 				return new MagicTower();
 			}
+		},
+		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
+			@Override
+			public String getName()
+			{
+				return "Melee Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 100;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new MeleeTower();
+			}
+		}, 
+		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
+			@Override
+			public String getName()
+			{
+				return "AOE Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 150;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new AoeTower();
+			}
 		}, 
 		
 		};
