@@ -132,6 +132,66 @@ public abstract class Tower extends TextureObject
 			{
 				return new MagicTower();
 			}
+		},
+		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
+			@Override
+			public String getName()
+			{
+				return "Melee Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 100;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new MeleeTower();
+			}
+		}, 
+		
+		new Generator()
+		{
+			private Texture texture = com.group23.towerdefense.ResourceManager
+					.loadTexture("tower01.png");
+
+			@Override
+			public String getName()
+			{
+				return "AOE Tower";
+			}
+
+			@Override
+			public int getGoldCost()
+			{
+				return 150;
+			}
+
+			@Override
+			public Texture getTexture()
+			{
+				return texture;
+			}
+
+			@Override
+			protected Tower getTower()
+			{
+				return new AoeTower();
+			}
 		}, 
 		
 		};
@@ -153,8 +213,12 @@ public abstract class Tower extends TextureObject
 	// Time in between shots
 	private long lastShotFired = TimeUtils.millis();
 
-	private Level level;
+	protected Level level;
 	private Array<Enemy> targets = new Array<Enemy>();
+	public Array<Enemy> getTargets() {
+		return targets;
+	}
+
 	private Array<Upgrade> appliedUpgrades = new Array<Upgrade>();
 	protected ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
 	
@@ -163,7 +227,7 @@ public abstract class Tower extends TextureObject
 		return upgrades;
 	}
 
-	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private String projectileType;
 	private int projectileSpeed;
 
@@ -171,7 +235,7 @@ public abstract class Tower extends TextureObject
 	private long cooldownTime = 0L;
 	private int armorPen = 0;
 	private int goldCost = 0;
-	private long lastMS;
+	protected long lastMS;
 
 	/**
 	 * Finds targets to attack and adds them to the input <code>Array</code>.
@@ -221,6 +285,12 @@ public abstract class Tower extends TextureObject
 		}
 		
 		
+		damage(ms);
+		lastMS = ms;
+	}
+
+	protected void damage(long ms)
+	{
 		for(int t = projectiles.size() - 1; t >= 0; t--)
 		{
 			int i = projectiles.get(t).act(((float)(ms - lastMS) / (float)1000));
@@ -246,9 +316,8 @@ public abstract class Tower extends TextureObject
 				projectiles.remove(t);
 			}
 		}
-		lastMS = ms;
 	}
-
+	
 	// A class that causes the effect to the enemy
 	protected void causeEffect(Enemy e)
 	{
