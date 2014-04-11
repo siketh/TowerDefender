@@ -107,7 +107,7 @@ public abstract class Tower extends TextureObject
 		new Generator()
 		{
 			private Texture texture = com.group23.towerdefense.ResourceManager
-					.loadTexture("tower01.png");
+					.loadTexture("tower02.png");
 
 			@Override
 			public String getName()
@@ -137,7 +137,7 @@ public abstract class Tower extends TextureObject
 		new Generator()
 		{
 			private Texture texture = com.group23.towerdefense.ResourceManager
-					.loadTexture("tower01.png");
+					.loadTexture("tower03.png");
 
 			@Override
 			public String getName()
@@ -167,7 +167,7 @@ public abstract class Tower extends TextureObject
 		new Generator()
 		{
 			private Texture texture = com.group23.towerdefense.ResourceManager
-					.loadTexture("tower01.png");
+					.loadTexture("tower04.png");
 
 			@Override
 			public String getName()
