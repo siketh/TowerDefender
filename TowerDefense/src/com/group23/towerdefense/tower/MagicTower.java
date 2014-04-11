@@ -9,7 +9,7 @@ public class MagicTower extends CircularRangeTower
 		setRange(300.0f);
 		setMaxTargets(1);
 		setGoldCost(150);
-		setProjectileType("arrow.png");
+		setProjectileType("magic.png");
 		setProjectileSpeed(500);
 		setArmorPen(5);
 		addUpgrades();
