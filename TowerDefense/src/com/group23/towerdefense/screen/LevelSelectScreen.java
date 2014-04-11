@@ -18,6 +18,7 @@ public class LevelSelectScreen extends BaseScreen
 	private Level.Generator generator = new DefaultLevelGenerator();
 	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	public static int levelTrack;
+	private Actor[] LevelButtons = new Actor[5];
 
 	@Override
 	public void show()
@@ -36,15 +37,42 @@ public class LevelSelectScreen extends BaseScreen
 			levelSelectButton.setBounds(800.0f, (5 - i) * 100.0f + 50.0f, 200.0f, 60.0f);
 			
 			stage.addActor(levelSelectButton);
+			LevelButtons[i] = levelSelectButton;
 		}
 		Actor loadButton = new LoadButton();
 		stage.addActor(loadButton);
-	}
-
-	private class LevelSelectButton extends ImageButton
-	{
-		private int levelNum;
 		
+		Actor startButton = new StartButton();
+		stage.addActor(startButton);
+		startButton.setVisible(false);
+		
+		if(handle.readString().equals("0")){
+			for(int i = 0; i <5; i++)
+				LevelButtons[i].setVisible(false);
+			loadButton.setVisible(false);
+			startButton.setVisible(true);
+		}
+		else if(handle.readString().equals("1")){
+			for(int i = 1; i < 5; i++)
+				LevelButtons[i].setVisible(false);
+		}
+		else if(handle.readString().equals("2")){
+			for(int i = 2; i < 5; i++)
+				LevelButtons[i].setVisible(false);
+		}
+		else if(handle.readString().equals("3")){
+			for(int i = 3; i < 5; i++)
+				LevelButtons[i].setVisible(false);
+		}
+		else if(handle.readString().equals("4")){
+			LevelButtons[4].setVisible(false);
+		}
+		
+	};
+	private class LevelSelectButton extends ImageButton
+		{
+			private int levelNum;
+	
 		public LevelSelectButton(String imageFilename, int level)
 		{
 			super(imageFilename);
@@ -90,7 +118,7 @@ public class LevelSelectScreen extends BaseScreen
 		public LoadButton()
 		{
 			super("load_b.png");
-			setBounds(670.0f, 720.0f, 512.0f, 128.0f);
+			setBounds(650.0f, 720.0f, 512.0f, 128.0f);
 		}
 		
 		protected void onPressed()
@@ -118,6 +146,22 @@ public class LevelSelectScreen extends BaseScreen
 			else if(handle.readString().equals(null)){
 				
 			}
+		}
+	}
+	
+	private class StartButton extends ImageButton
+	{
+		
+		public StartButton()
+		{
+			super("begin_b.png");
+			setBounds(650.0f, 720.0f, 512.0f, 256.0f);
+		}
+		
+		protected void onPressed()
+		{
+			Level level = generator.getLevel(1);
+			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
 	}
 }
