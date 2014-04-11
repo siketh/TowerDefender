@@ -9,7 +9,7 @@ public class MeleeTower extends CircularRangeTower
 		setRange(160.0f);
 		setMaxTargets(1);
 		setGoldCost(100);
-		setProjectileType("arrow.png");
+		setProjectileType("sword.png");
 		setProjectileSpeed(1000);
 		setArmorPen(1);
 		addUpgrades();
