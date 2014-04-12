@@ -148,7 +148,7 @@ public class Level
 			// to north and make it our new pathfinding index.
 			// Repeat similar process for all directions.
 			if (topEdge == false
-					&& (tiles[i - 15] == 1 || tiles[i - 15] == 2 || tiles[i - 15] == 3)
+					&& (tiles[i - 15] != 0)
 					&& directions[i - 15] == Dir.I)
 			{
 				directions[i] = Dir.N;
@@ -156,7 +156,7 @@ public class Level
 			}
 			// East is 1 tile forward
 			else if (rightEdge == false
-					&& (tiles[i + 1] == 1 || tiles[i + 1] == 2 || tiles[i + 1] == 3)
+					&& (tiles[i + 1] != 0)
 					&& directions[i + 1] == Dir.I)
 			{
 				directions[i] = Dir.E;
@@ -164,7 +164,7 @@ public class Level
 			}
 			// South is 15 tiles forward
 			else if (bottomEdge == false
-					&& (tiles[i + 15] == 1 || tiles[i + 15] == 2 || tiles[i + 15] == 3)
+					&& (tiles[i + 15] != 0)
 					&& directions[i + 15] == Dir.I)
 			{
 				directions[i] = Dir.S;
@@ -172,7 +172,7 @@ public class Level
 			}
 			// West is 1 tile backwards
 			else if (leftEdge == false
-					&& (tiles[i - 1] == 1 || tiles[i - 1] == 2 || tiles[i - 1] == 3)
+					&& (tiles[i - 1] != 0)
 					&& directions[i - 1] == Dir.I)
 			{
 				directions[i] = Dir.W;
@@ -181,7 +181,7 @@ public class Level
 			// NE is 14 tiles backwards
 			else if (topEdge == false
 					&& rightEdge == false
-					&& (tiles[i - 14] == 1 || tiles[i - 14] == 2 || tiles[i - 14] == 3)
+					&& (tiles[i - 14] != 0)
 					&& directions[i - 14] == Dir.I)
 			{
 				directions[i] = Dir.NE;
@@ -190,7 +190,7 @@ public class Level
 			// SE is 16 tiles forwards
 			else if (bottomEdge == false
 					&& rightEdge == false
-					&& (tiles[i + 16] == 1 || tiles[i + 16] == 2 || tiles[i + 16] == 3)
+					&& (tiles[i + 16] != 0)
 					&& directions[i + 16] == Dir.I)
 			{
 				directions[i] = Dir.SE;
@@ -199,7 +199,7 @@ public class Level
 			// SW is 14 tiles forwards
 			else if (bottomEdge == false
 					&& leftEdge == false
-					&& (tiles[i + 14] == 1 || tiles[i + 14] == 2 || tiles[i + 14] == 3)
+					&& (tiles[i + 14] != 0)
 					&& directions[i + 14] == Dir.I)
 			{
 				directions[i] = Dir.SW;
@@ -208,7 +208,7 @@ public class Level
 			// NW is 16 tiles backwards
 			else if (topEdge == false
 					&& leftEdge == false
-					&& (tiles[i - 16] == 1 || tiles[i - 16] == 2 || tiles[i - 16] == 3)
+					&& (tiles[i - 16] != 0)
 					&& directions[i - 16] == Dir.I)
 			{
 				directions[i] = Dir.NW;

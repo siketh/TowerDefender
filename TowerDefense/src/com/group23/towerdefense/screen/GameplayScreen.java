@@ -118,7 +118,7 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onStartButtonPressed()
 	{
-		if (!(curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
+		//if ((!curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
 			curLevel.startNextWave();
 	}
 
@@ -225,7 +225,7 @@ public class GameplayScreen extends BaseScreen
 			int tsize = TowerDefense.TILE_SIZE;
 
 			background = ResourceManager.loadTexture("background.png");
-			textures = new Texture[8];
+			textures = new Texture[9];
 			textures[0] = ResourceManager.loadTexture("tile00.png");
 			textures[1] = ResourceManager.loadTexture("tile01.png");
 			textures[2] = ResourceManager.loadTexture("tile02.png");
@@ -234,6 +234,7 @@ public class GameplayScreen extends BaseScreen
 			textures[5] = ResourceManager.loadTexture("tile05.png");
 			textures[6] = ResourceManager.loadTexture("tile06.png");
 			textures[7] = ResourceManager.loadTexture("tile07.png");
+			textures[8] = ResourceManager.loadTexture("tile08.png");
 
 			setPosition(0.0f, 0.0f);
 			setWidth(width);
