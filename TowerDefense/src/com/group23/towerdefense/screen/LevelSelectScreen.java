@@ -124,23 +124,23 @@ public class LevelSelectScreen extends BaseScreen
 		protected void onPressed()
 		{
 			if(handle.readString().equals("1")){
-				Level level = generator.getLevel(1);
+				Level level = generator.getLevel(0);
 				TowerDefense.changeScreen(new GameplayScreen(level));
 			}
 			else if(handle.readString().equals("2")){
-				Level level = generator.getLevel(2);
+				Level level = generator.getLevel(1);
 				TowerDefense.changeScreen(new GameplayScreen(level));
 			}
 			else if(handle.readString().equals("3")){
-				Level level = generator.getLevel(3);
+				Level level = generator.getLevel(2);
 				TowerDefense.changeScreen(new GameplayScreen(level));
 			}
 			else if(handle.readString().equals("4")){
-				Level level = generator.getLevel(4);
+				Level level = generator.getLevel(3);
 				TowerDefense.changeScreen(new GameplayScreen(level));
 			}
 			else if(handle.readString().equals("5")){
-				Level level = generator.getLevel(5);
+				Level level = generator.getLevel(4);
 				TowerDefense.changeScreen(new GameplayScreen(level));
 			}
 			else if(handle.readString().equals(null)){
@@ -160,8 +160,8 @@ public class LevelSelectScreen extends BaseScreen
 		
 		protected void onPressed()
 		{
-			levelTrack = 1;
-			Level level = generator.getLevel(1);
+			levelTrack = 0;
+			Level level = generator.getLevel(0);
 			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
 	}
