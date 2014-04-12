@@ -138,13 +138,13 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onSaveButtonPressed()
 	{
-		levelString = Integer.toString(LevelSelectScreen.levelTrack);
+		levelString = Integer.toString(LevelSelectScreen.levelTrack + 1);
 		handle.writeString(levelString, false);
 	}
 
 	private void autosaveSet()
 	{
-		autosaveNext = LevelSelectScreen.levelTrack + 1;
+		autosaveNext = LevelSelectScreen.levelTrack + 2;
 	}
 
 	private void setEndState(State state, Actor actor)
