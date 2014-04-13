@@ -19,7 +19,7 @@ public class AoeTower extends CircularRangeTower
 		setRange(300.0f);
 		setMaxTargets(1);
 		setGoldCost(150);
-		setProjectileType("arrow.png");
+		setProjectileType("bomb.png");
 		setProjectileSpeed(400);
 		setArmorPen(0);
 		addUpgrades();
