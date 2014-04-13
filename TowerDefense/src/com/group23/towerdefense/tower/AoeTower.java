@@ -125,12 +125,13 @@ public class AoeTower extends CircularRangeTower
 						if (!level.getEnemies().get(e).isAlive())
 						{
 							level.getEnemies().get(e).rewardGold();
-							level.removeEnemy(level.getEnemies().get(e));
 							for(int j = getTargets().size - 1; j >= 0; j++)
 							{
 								if(getTargets().get(j) == level.getEnemies().get(e))
 									getTargets().removeIndex(j);
 							}
+							level.removeEnemy(level.getEnemies().get(e));
+							
 							
 						}
 					}
