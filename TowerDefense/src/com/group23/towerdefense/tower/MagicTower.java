@@ -102,6 +102,7 @@ public class MagicTower extends CircularRangeTower
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
 		isFlame = true;
+		setProjectileType("flamethrower.png");
 		setCooldownTime(50L);
 		setRange(275f);
 		setDamage(1);
