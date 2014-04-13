@@ -279,6 +279,8 @@ public abstract class Enemy extends TextureObject
 	 */
 	public int dealDamage(int damage)
 	{
+		if(armor > damage)
+			return hp -= 1;
 		return hp -= (damage - armor);
 	}
 	
@@ -286,6 +288,8 @@ public abstract class Enemy extends TextureObject
 	{
 		if(armorPen > armor)
 			return hp -= damage;
+		else if(armor > damage)
+			return hp -= 1;
 		else
 		{
 			hp = hp - damage + armorPen;
@@ -385,7 +389,7 @@ public abstract class Enemy extends TextureObject
 					}
 					if(debuffs.get(i).getDuration() < d.getDuration())
 					{
-						debuffs.get(i).setStrength(d.getDuration());
+						debuffs.get(i).setDuration(d.getDuration());
 					}
 					break;
 				case Poison:
@@ -396,7 +400,7 @@ public abstract class Enemy extends TextureObject
 					}
 					if(debuffs.get(i).getDuration() < d.getDuration())
 					{
-						debuffs.get(i).setStrength(d.getDuration());
+						debuffs.get(i).setDuration(d.getDuration());
 					}
 					break;
 				case Slow:
