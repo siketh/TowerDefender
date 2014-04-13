@@ -2,8 +2,6 @@ package com.group23.towerdefense.screen;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -38,19 +36,23 @@ public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win, Lose, Playing, Paused
+		Win, Lose, Playing
 	}
 
+	private boolean paused = false;
 	private State state = State.Playing;
 	private Level curLevel;
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
-	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
+<<<<<<< HEAD
 	private String levelString;
 	private int autosaveNext;
 	private PauseMuteButton pauseMute;
 	private PauseExitButton pauseExit;
+=======
+	private PauseGraphicActor pauseGraphic;
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -73,13 +75,7 @@ public class GameplayScreen extends BaseScreen
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
 		else if (hasWon())
-		{
-			autosaveSet();
-			levelString = Integer.toString(autosaveNext);
-			handle.writeString(levelString, false);
 			setEndState(State.Win, new WinImage());
-
-		}
 	}
 
 	@Override
@@ -121,8 +117,8 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onStartButtonPressed()
 	{
-		//if ((!curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
-			curLevel.startNextWave();
+		// if ((!curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
+		curLevel.startNextWave();
 	}
 
 	/**
@@ -134,6 +130,7 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
+<<<<<<< HEAD
 
 	private void autosaveSet()
 	{
@@ -141,6 +138,9 @@ public class GameplayScreen extends BaseScreen
 	}
 
 	private void setEndState(State state, Actor actor)
+=======
+	private void setEndState(final State state, Actor actor)
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
@@ -149,6 +149,15 @@ public class GameplayScreen extends BaseScreen
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button)
 			{
+				if (state == State.Win)
+				{
+					// Set the max level to TowerDefense.curLevel <=
+					// TowerDefense.maxLevel <= 5
+					TowerDefense.maxLevel = Math.min(
+							Math.max(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
+							5);
+				}
+				
 				TowerDefense.changeScreen(new LevelSelectScreen());
 				return true;
 			}
@@ -169,9 +178,9 @@ public class GameplayScreen extends BaseScreen
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
-		
-		
-		if (towerSelection == null){
+
+		if (towerSelection == null)
+		{
 			selectedTower.setTower(curLevel.getTower(tileX, tileY));
 		}
 		else
@@ -182,7 +191,6 @@ public class GameplayScreen extends BaseScreen
 			curLevel.placeTower(tower, tileX, tileY);
 		}
 	}
-
 
 	public Level getLevel()
 	{
@@ -238,7 +246,8 @@ public class GameplayScreen extends BaseScreen
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button)
 				{
-					onLevelPressed(x, y);
+					if (!paused)
+						onLevelPressed(x, y);
 					return true;
 				}
 			});
@@ -247,7 +256,8 @@ public class GameplayScreen extends BaseScreen
 		@Override
 		public void act(float delta)
 		{
-			curLevel.act(delta);
+			if (!paused)
+				curLevel.act(delta);
 		}
 
 		@Override
@@ -317,11 +327,12 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	private class PauseButtonActor extends ImageButton
 	{
-		int pausePressed;
-
 		public PauseButtonActor()
 		{
 			super("pause_b.png");
@@ -331,6 +342,7 @@ public class GameplayScreen extends BaseScreen
 
 		protected void onPressed()
 		{
+<<<<<<< HEAD
 			if (pausePressed == 0)
 			{
 				pausePressed = 1;
@@ -345,12 +357,20 @@ public class GameplayScreen extends BaseScreen
 				pauseMute.setVisible(false);
 				pauseExit.setVisible(false);
 			}
+=======
+			paused = !paused;
+			pauseGraphic.setVisible(paused);
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 		}
 	}
 
 	private class PauseMuteButton extends ImageButton
 	{
+<<<<<<< HEAD
 		public PauseMuteButton()
+=======
+		public PauseGraphicActor()
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 		{
 			super("mute_b.png");
 			setBounds(750.0f, 700.0f, 512.0f, 128.0f);
@@ -612,17 +632,17 @@ public class GameplayScreen extends BaseScreen
 	{
 		private Tower tower;
 		ArrayList<Upgrade> upgrades;
-				
+
 		public SelectedTower()
-		{		
+		{
 			setTower(null);
 		}
-		
+
 		public void createButtons()
 		{
 			clear();
 			CircleGroup group = new CircleGroup();
-			
+
 			Actor sellButton = new ImageButton("sell_button.png")
 			{
 				@Override
@@ -633,14 +653,15 @@ public class GameplayScreen extends BaseScreen
 			};
 			group.addActor(sellButton);
 			group.addString("Sell");
-			if(tower != null)
+			if (tower != null)
 				upgrades = tower.getUpgrades();
 			else
 				upgrades = new ArrayList<Upgrade>();
-			
-			for(int i = 0; i < upgrades.size(); i++)
+
+			for (int i = 0; i < upgrades.size(); i++)
 			{
-				Actor upgradeButton = new ImageButton(upgrades.get(i).getTexName(), i)
+				Actor upgradeButton = new ImageButton(upgrades.get(i)
+						.getTexName(), i)
 				{
 					protected void onPressed()
 					{
@@ -656,7 +677,7 @@ public class GameplayScreen extends BaseScreen
 			group.setRadius(110f);
 			group.pack();
 		}
-		
+
 		public void setTower(Tower tower)
 		{
 			boolean sameTower = this.tower != null && this.tower == tower;

@@ -80,7 +80,9 @@ public abstract class Enemy extends TextureObject
 		{
 			if(e.get(i).isBurning == false && getPosition().dst(e.get(i).getPosition()) <= d.getRange())
 			{
+				System.out.println(i);
 				e.get(i).addDebuff(new Debuff(d.getStrength(), d.getBaseDuration() * .66f, d.getType(), d.getCooldown(), d.getRange()));
+				e.get(i).isBurning = true;
 				return;
 			}
 		}
@@ -371,7 +373,8 @@ public abstract class Enemy extends TextureObject
 					}
 					if(debuffs.get(i).getDuration() < d.getDuration())
 					{
-						debuffs.get(i).setStrength(d.getDuration());
+						debuffs.get(i).setDuration(d.getDuration());
+						debuffs.get(i).setBaseDuration(d.getDuration());
 					}
 					break;
 				case HealRed:

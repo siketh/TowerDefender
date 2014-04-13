@@ -103,6 +103,11 @@ public class Debuff
 	{
 		return cooldown;
 	}
+
+	public void setBaseDuration(float duration) 
+	{
+		this.baseDuration = duration;
+	}
 	
 	
 }
