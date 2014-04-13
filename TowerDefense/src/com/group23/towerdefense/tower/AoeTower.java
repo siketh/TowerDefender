@@ -131,8 +131,6 @@ public class AoeTower extends CircularRangeTower
 									getTargets().removeIndex(j);
 							}
 							level.removeEnemy(level.getEnemies().get(e));
-							
-							
 						}
 					}
 				}

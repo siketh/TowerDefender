@@ -1,20 +1,16 @@
 package com.group23.towerdefense.ui;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.ResourceManager;
 
 public class CircleGroup extends Group
 {
-	static double xOffset = -32;
-	static double yOffset = -32;
-	private ArrayList<String>  strings = new ArrayList<String>();
+	//static double xOffset = -42;
+	static double yOffset = -72;
 	
 	private float radius = 1.0f;
 	private LabelStyle sellStyle;
@@ -40,11 +36,6 @@ public class CircleGroup extends Group
 	{
 		this.radius = radius;
 	}
-	
-	public void addString(String name)
-	{
-		strings.add(name);
-	}
 
 
 	/*// Sell Button
@@ -63,19 +54,19 @@ public class CircleGroup extends Group
 		int n = actors.size;
 		for (int i = 0; i < n; i++)
 		{
+			Actor actor = actors.get(i);
 			double v = increment * i;
-			double x = Math.sin(v) * radius + xOffset;
+			double x = Math.sin(v) * radius - ((float)actor.getWidth() / 2f);
 			double y = -Math.cos(v) * radius + yOffset;
 			
-			Actor actor = actors.get(i);
 			actor.setPosition((float) x, (float) y);
-			if(strings.get(i) != null)
+			/*if(strings.get(i) != null)
 			{
 				Label name = new Label(strings.get(i), sellStyle);
 				name.setFontScale(1.5f);
 				name.setPosition((float) x , (float) y +80);
 				addActor(name);
-			}
+			}*/
 		}
 	}
 }

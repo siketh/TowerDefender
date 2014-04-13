@@ -610,6 +610,12 @@ public class GameplayScreen extends BaseScreen
 
 		public void createButtons()
 		{
+			if(tower == null)
+				return;
+			LabelStyle sellStyle = new LabelStyle();
+			sellStyle.font = ResourceManager.loadDefaultFont();
+			sellStyle.fontColor = Color.WHITE;
+			
 			clear();
 			CircleGroup group = new CircleGroup();
 
@@ -621,8 +627,21 @@ public class GameplayScreen extends BaseScreen
 					onSellPressed();
 				}
 			};
-			group.addActor(sellButton);
-			group.addString("Sell");
+			
+			VerticalGroup theButton = new VerticalGroup();
+			
+			Label name = new Label("Sell", sellStyle);
+			name.setFontScale(2f);
+			theButton.addActor(name);
+			
+			theButton.addActor(sellButton);
+			
+			Label value = new Label(new Integer(tower.getGoldCost()).toString(), sellStyle);
+			value.setFontScale(2f);
+			theButton.addActor(value);
+			
+			theButton.pack();
+			group.addActor(theButton);
 			if (tower != null)
 				upgrades = tower.getUpgrades();
 			else
@@ -630,6 +649,7 @@ public class GameplayScreen extends BaseScreen
 
 			for (int i = 0; i < upgrades.size(); i++)
 			{
+				VerticalGroup upgradeButtonGroup = new VerticalGroup();
 				Actor upgradeButton = new ImageButton(upgrades.get(i)
 						.getTexName(), i)
 				{
@@ -639,12 +659,26 @@ public class GameplayScreen extends BaseScreen
 						setTower(null);
 					}
 				};
-				group.addString(upgrades.get(i).getName());
-				group.addActor(upgradeButton);
+				Label upgradeName;
+				if(upgrades.get(i).getLevels() <= 1)
+					upgradeName = new Label(upgrades.get(i).getName(), sellStyle);
+				else
+					upgradeName = new Label(upgrades.get(i).getName() + "(" + upgrades.get(i).getCurrentLevel() + "/" + upgrades.get(i).getLevels() + ")", sellStyle);
+				upgradeName.setFontScale(2f);
+				
+				Label upgradeCost = new Label(new Integer(upgrades.get(i).getCost()).toString(), sellStyle);
+				upgradeCost.setFontScale(2f);
+				
+				
+				upgradeButtonGroup.addActor(upgradeName);
+				upgradeButtonGroup.addActor(upgradeButton);
+				upgradeButtonGroup.addActor(upgradeCost);
+				upgradeButtonGroup.pack();
+				group.addActor(upgradeButtonGroup);
 			}
 
 			addActor(group);
-			group.setRadius(110f);
+			group.setRadius(160f);
 			group.pack();
 		}
 
