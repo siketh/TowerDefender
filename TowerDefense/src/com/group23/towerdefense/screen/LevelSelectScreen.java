@@ -60,7 +60,7 @@ public class LevelSelectScreen extends BaseScreen
 		@Override
 		protected void onPressed()
 		{
-			
+			TowerDefense.curLevel = levelNum;
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
