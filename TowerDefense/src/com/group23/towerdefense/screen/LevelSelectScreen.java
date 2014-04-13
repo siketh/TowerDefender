@@ -73,5 +73,16 @@ public class LevelSelectScreen extends BaseScreen
 			super("begin_b.png", 0);
 			setBounds(650.0f, 720.0f, 512.0f, 256.0f);
 		}
+<<<<<<< HEAD
+		
+		protected void onPressed()
+		{
+			handle.writeString("1", false);
+			levelTrack = 0;
+			Level level = generator.getLevel(0);
+			TowerDefense.changeScreen(new GameplayScreen(level));
+		}
+=======
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	}
 }

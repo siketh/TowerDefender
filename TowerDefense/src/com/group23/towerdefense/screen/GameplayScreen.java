@@ -30,6 +30,7 @@ import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.Upgrade;
 import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
+import com.badlogic.gdx.audio.Music;
 
 public class GameplayScreen extends BaseScreen
 {
@@ -44,7 +45,14 @@ public class GameplayScreen extends BaseScreen
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
 	private SelectedTower selectedTower;
+<<<<<<< HEAD
+	private String levelString;
+	private int autosaveNext;
+	private PauseMuteButton pauseMute;
+	private PauseExitButton pauseExit;
+=======
 	private PauseGraphicActor pauseGraphic;
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -83,7 +91,8 @@ public class GameplayScreen extends BaseScreen
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
-		pauseGraphic = new PauseGraphicActor();
+		pauseMute = new PauseMuteButton();
+		pauseExit = new PauseExitButton();
 
 		Stage stage = getStage();
 
@@ -95,8 +104,10 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
-		stage.addActor(pauseGraphic);
-		pauseGraphic.setVisible(false);
+		stage.addActor(pauseMute);
+		stage.addActor(pauseExit);
+		pauseMute.setVisible(false);
+		pauseExit.setVisible(false);
 	}
 
 	/**
@@ -119,7 +130,17 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
+<<<<<<< HEAD
+
+	private void autosaveSet()
+	{
+		autosaveNext = LevelSelectScreen.levelTrack + 2;
+	}
+
+	private void setEndState(State state, Actor actor)
+=======
 	private void setEndState(final State state, Actor actor)
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
@@ -306,6 +327,10 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
+<<<<<<< HEAD
+	
+=======
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	private class PauseButtonActor extends ImageButton
 	{
 		public PauseButtonActor()
@@ -317,20 +342,58 @@ public class GameplayScreen extends BaseScreen
 
 		protected void onPressed()
 		{
+<<<<<<< HEAD
+			if (pausePressed == 0)
+			{
+				pausePressed = 1;
+				state = State.Paused;
+				pauseMute.setVisible(true);
+				pauseExit.setVisible(true);
+			}
+			else if (pausePressed == 1)
+			{
+				pausePressed = 0;
+				state = State.Playing;
+				pauseMute.setVisible(false);
+				pauseExit.setVisible(false);
+			}
+=======
 			paused = !paused;
 			pauseGraphic.setVisible(paused);
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 		}
 	}
 
-	private class PauseGraphicActor extends Image
+	private class PauseMuteButton extends ImageButton
 	{
+<<<<<<< HEAD
+		public PauseMuteButton()
+=======
 		public PauseGraphicActor()
+>>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 		{
-			super(ResourceManager.loadTexture("pause.png"));
-			setPosition(
-					(TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE * 2) / 2,
-					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
-							% TowerDefense.TILE_SIZE) / 2);
+			super("mute_b.png");
+			setBounds(750.0f, 700.0f, 512.0f, 128.0f);
+		}
+		
+		protected void onPressed()
+		{
+			
+			
+		}
+	}
+	
+	private class PauseExitButton extends ImageButton
+	{
+		public PauseExitButton()
+		{
+			super("exit_b.png");
+			setBounds(750.0f, 500.0f, 512.0f, 128.0f);
+		}
+		
+		protected void onPressed()
+		{
+			TowerDefense.changeScreen(new LevelSelectScreen());
 		}
 	}
 
