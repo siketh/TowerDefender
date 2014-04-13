@@ -1,5 +1,6 @@
 package com.group23.towerdefense.tower;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.group23.towerdefense.enemy.Debuff;
 import com.group23.towerdefense.enemy.DebuffType;
 import com.group23.towerdefense.enemy.Enemy;
@@ -86,6 +87,7 @@ public class MagicTower extends CircularRangeTower
 		setDamage(25);
 		setCooldownTime(1000L);
 		setArmorPen(6);
+		setTexture("arcanemagictower.png");
 	}
 
 	private void makeLightningTower() 
@@ -96,6 +98,7 @@ public class MagicTower extends CircularRangeTower
 		setNumBounces(2);
 		setDamage(7);
 		setCooldownTime(1000L);
+		setTexture("lightningmagictower.png");
 		
 	}
 
@@ -108,5 +111,6 @@ public class MagicTower extends CircularRangeTower
 		setCooldownTime(50L);
 		setRange(275f);
 		setDamage(1);
+		setTexture("firemagictower.png");
 	}
 }
