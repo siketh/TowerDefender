@@ -33,7 +33,7 @@ public class TowerDefense extends Game
 	public static SpriteBatch spriteBatch;
 	
 	public static int curLevel;
-	public static int maxLevel = 1;
+	public static int maxLevel = 0;
 
 	private static TowerDefense game;
 

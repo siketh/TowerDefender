@@ -66,14 +66,7 @@ public class GameplayScreen extends BaseScreen
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
 		else if (hasWon())
-		{
-			// Set the max level to TowerDefense.curLevel <=
-			// TowerDefense.maxLevel <= 5
-			TowerDefense.maxLevel = Math.min(
-					Math.min(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
-					5);
 			setEndState(State.Win, new WinImage());
-		}
 	}
 
 	@Override
@@ -125,7 +118,7 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
-	private void setEndState(State state, Actor actor)
+	private void setEndState(final State state, Actor actor)
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
@@ -134,6 +127,15 @@ public class GameplayScreen extends BaseScreen
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button)
 			{
+				if (state == State.Win)
+				{
+					// Set the max level to TowerDefense.curLevel <=
+					// TowerDefense.maxLevel <= 5
+					TowerDefense.maxLevel = Math.min(
+							Math.max(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
+							5);
+				}
+				
 				TowerDefense.changeScreen(new LevelSelectScreen());
 				return true;
 			}
