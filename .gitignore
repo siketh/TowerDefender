@@ -213,5 +213,10 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#############
+## Custom
+#############
 TowerDefense-android/gen/com/group23/TowerDefense/BuildConfig.java
 TowerDefense-desktop/save.dat
+TowerDefense-desktop/data/user-progress.xml
