@@ -46,19 +46,19 @@ public class MeleeTower extends CircularRangeTower
 		upgrades.add(up);
 		
 		up = new Upgrade(this);
-		up.setName("Armor Piercing");
-		up.setTexName("damage_button.png");
-		up.setCost(50);
-		up.setLevels(3);
-		up.setId(2);
-		upgrades.add(up);
-		
-		up = new Upgrade(this);
 		up.setName("Stun");
 		up.setTexName("ap_button.png");
 		up.setCost(150);
 		up.setLevels(1);
 		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Armor Piercing");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(3);
+		up.setId(2);
 		upgrades.add(up);
 		
 	}

@@ -332,6 +332,7 @@ public class GameplayScreen extends BaseScreen
 
 	private class PauseMuteButton extends ImageButton
 	{
+		boolean musicz = true;
 		public PauseMuteButton()
 		{
 			super("mute_b.png");
@@ -340,7 +341,14 @@ public class GameplayScreen extends BaseScreen
 		
 		protected void onPressed()
 		{
-			
+			if(musicz){
+				TowerDefense.pauseMusic();
+				musicz = false;
+			}
+			else if(!musicz){
+				TowerDefense.playMusic();
+				musicz = true;
+			}
 			
 		}
 	}

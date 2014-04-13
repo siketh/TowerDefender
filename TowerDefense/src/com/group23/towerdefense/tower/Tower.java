@@ -232,6 +232,7 @@ public abstract class Tower extends TextureObject
 	private int projectileSpeed;
 
 	private int damage = 0;
+	private int numBounces = 0;
 	private long cooldownTime = 0L;
 	private int armorPen = 0;
 	private int goldCost = 0;
@@ -280,7 +281,7 @@ public abstract class Tower extends TextureObject
 			while (iter.hasNext())
 			{
 				Enemy e = iter.next();
-				projectiles.add(new Projectile(pos.x, pos.y, e, projectileType, projectileSpeed));
+				projectiles.add(new Projectile(pos.x, pos.y, e, projectileType, projectileSpeed, numBounces));
 			}
 		}
 		
@@ -298,6 +299,18 @@ public abstract class Tower extends TextureObject
 			{
 				projectiles.get(t).getTarget().dealDamage(getDamage(), getArmorPen());
 				causeEffect(projectiles.get(t).getTarget());
+				if(projectiles.get(t).getNumBounces() > 0)
+				{
+					Projectile p = projectiles.get(t);
+					for(Enemy x: level.getEnemies())
+					{
+						if(x.getPosition().dst(p.getTarget().getPosition()) <= 100 && x != p.getTarget())
+						{
+							projectiles.add(new Projectile(p.getTarget().getPosition().x, p.getTarget().getPosition().y, x, projectileType, projectileSpeed, p.getNumBounces() - 1));
+							break;
+						}
+					}
+				}
 				if (!projectiles.get(t).getTarget().isAlive())
 				{
 					projectiles.get(t).getTarget().rewardGold();
@@ -426,5 +439,13 @@ public abstract class Tower extends TextureObject
 
 	public void setArmorPen(int armorPen) {
 		this.armorPen = armorPen;
+	}
+
+	public int getNumBounces() {
+		return numBounces;
+	}
+
+	public void setNumBounces(int numBounces) {
+		this.numBounces = numBounces;
 	}
 }
