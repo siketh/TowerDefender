@@ -1,10 +1,16 @@
 package com.group23.towerdefense.tower;
 
 import com.badlogic.gdx.math.Vector2;
+import com.group23.towerdefense.enemy.Debuff;
+import com.group23.towerdefense.enemy.DebuffType;
+import com.group23.towerdefense.enemy.Enemy;
 
 public class AoeTower extends CircularRangeTower 
 {
 	private float aoeSize;
+	private boolean isFlame;
+	private float debuffDuration;
+	private float debuffDamage;
 	
 	public AoeTower()
 	{
@@ -17,7 +23,16 @@ public class AoeTower extends CircularRangeTower
 		setProjectileSpeed(400);
 		setArmorPen(0);
 		addUpgrades();
-		aoeSize = 100;
+		aoeSize = 1;
+		isFlame = true;
+		debuffDuration = 4;
+		debuffDamage = 2;
+	}
+	
+	protected void causeEffect(Enemy e)
+	{
+		if(isFlame == true)
+			e.addDebuff(new Debuff(debuffDamage, debuffDuration, DebuffType.Burn, 0.25f, 100));
 	}
 
 	void addUpgrades() 
