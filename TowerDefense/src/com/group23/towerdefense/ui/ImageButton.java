@@ -7,8 +7,6 @@ import com.group23.towerdefense.ResourceManager;
 
 public abstract class ImageButton extends Image
 {
-	int number;
-	
 	public ImageButton(String imageFilename)
 	{
 		super(ResourceManager.loadTexture(imageFilename));
@@ -22,27 +20,6 @@ public abstract class ImageButton extends Image
 				return true;
 			}
 		});
-	}
-	
-	public ImageButton(String imageFilename, int number)
-	{
-		super(ResourceManager.loadTexture(imageFilename));
-		addListener(new InputListener()
-		{
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button)
-			{
-				onPressed();
-				return true;
-			}
-		});
-		this.number = number;
-	}
-	
-	public int getNumber()
-	{
-		return number;
 	}
 	
 	protected abstract void onPressed();
