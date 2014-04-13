@@ -25,7 +25,7 @@ public class LevelSelectScreen extends BaseScreen
 				ResourceManager.loadTexture("levelmenu.png"));
 		stage.addActor(background);
 
-		if (TowerDefense.maxLevel != 1)
+		if (TowerDefense.maxLevel != 0)
 		{
 			for (int i = 0; i < 5; i++)
 			{
@@ -34,7 +34,7 @@ public class LevelSelectScreen extends BaseScreen
 						i);
 				levelSelectButton.setBounds(800.0f, (5 - i) * 100.0f + 50.0f,
 						200.0f, 60.0f);
-				levelSelectButton.setVisible(i < TowerDefense.maxLevel);
+				levelSelectButton.setVisible(i <= TowerDefense.maxLevel);
 
 				stage.addActor(levelSelectButton);
 				LevelButtons[i] = levelSelectButton;
@@ -60,7 +60,7 @@ public class LevelSelectScreen extends BaseScreen
 		@Override
 		protected void onPressed()
 		{
-			TowerDefense.curLevel = levelNum;
+			
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
@@ -72,6 +72,12 @@ public class LevelSelectScreen extends BaseScreen
 		{
 			super("begin_b.png", 0);
 			setBounds(650.0f, 720.0f, 512.0f, 256.0f);
+		}		
+		protected void onPressed()
+		{
+			
+			Level level = generator.getLevel(0);
+			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
 	}
 }

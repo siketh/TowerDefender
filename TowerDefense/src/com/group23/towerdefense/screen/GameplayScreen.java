@@ -30,20 +30,23 @@ import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.Upgrade;
 import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
+import com.badlogic.gdx.audio.Music;
 
 public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win, Lose, Playing, Paused
+		Win, Lose, Playing
 	}
 
+	private boolean paused = false;
 	private State state = State.Playing;
 	private Level curLevel;
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
 	private SelectedTower selectedTower;
-	private PauseGraphicActor pauseGraphic;
+	private PauseMuteButton pauseMute;
+	private PauseExitButton pauseExit;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -66,14 +69,7 @@ public class GameplayScreen extends BaseScreen
 		if (isDefeated())
 			setEndState(State.Lose, new LoseImage());
 		else if (hasWon())
-		{
-			// Set the max level to TowerDefense.curLevel <=
-			// TowerDefense.maxLevel <= 5
-			TowerDefense.maxLevel = Math.min(
-					Math.min(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
-					5);
 			setEndState(State.Win, new WinImage());
-		}
 	}
 
 	@Override
@@ -89,7 +85,8 @@ public class GameplayScreen extends BaseScreen
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
-		pauseGraphic = new PauseGraphicActor();
+		pauseMute = new PauseMuteButton();
+		pauseExit = new PauseExitButton();
 
 		Stage stage = getStage();
 
@@ -101,8 +98,10 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
-		stage.addActor(pauseGraphic);
-		pauseGraphic.setVisible(false);
+		stage.addActor(pauseMute);
+		stage.addActor(pauseExit);
+		pauseMute.setVisible(false);
+		pauseExit.setVisible(false);
 	}
 
 	/**
@@ -125,7 +124,8 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
-	private void setEndState(State state, Actor actor)
+
+	private void setEndState(final State state, Actor actor)
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
@@ -134,6 +134,15 @@ public class GameplayScreen extends BaseScreen
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button)
 			{
+				if (state == State.Win)
+				{
+					// Set the max level to TowerDefense.curLevel <=
+					// TowerDefense.maxLevel <= 5
+					TowerDefense.maxLevel = Math.min(
+							Math.max(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
+							5);
+				}
+				
 				TowerDefense.changeScreen(new LevelSelectScreen());
 				return true;
 			}
@@ -222,7 +231,8 @@ public class GameplayScreen extends BaseScreen
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button)
 				{
-					onLevelPressed(x, y);
+					if (!paused)
+						onLevelPressed(x, y);
 					return true;
 				}
 			});
@@ -231,7 +241,8 @@ public class GameplayScreen extends BaseScreen
 		@Override
 		public void act(float delta)
 		{
-			curLevel.act(delta);
+			if (!paused)
+				curLevel.act(delta);
 		}
 
 		@Override
@@ -303,8 +314,6 @@ public class GameplayScreen extends BaseScreen
 
 	private class PauseButtonActor extends ImageButton
 	{
-		int pausePressed;
-
 		public PauseButtonActor()
 		{
 			super("pause_b.png");
@@ -314,33 +323,48 @@ public class GameplayScreen extends BaseScreen
 
 		protected void onPressed()
 		{
-			if (pausePressed == 0)
-			{
-				pausePressed = 1;
-				state = State.Paused;
-				pauseGraphic.setVisible(true);
-			}
-			else if (pausePressed == 1)
-			{
-				pausePressed = 0;
-				state = State.Playing;
-				pauseGraphic.setVisible(false);
-			}
+			paused = !paused;
+			pauseMute.setVisible(paused);
+			pauseExit.setVisible(paused);
+
 		}
 	}
 
-	private class PauseGraphicActor extends Image
+	private class PauseMuteButton extends ImageButton
 	{
-
-		public PauseGraphicActor()
+		boolean musicz = true;
+		public PauseMuteButton()
 		{
-			super(ResourceManager.loadTexture("pause.png"));
-			setPosition(
-					(TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE * 2) / 2,
-					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
-							% TowerDefense.TILE_SIZE) / 2);
+			super("mute_b.png");
+			setBounds(750.0f, 700.0f, 512.0f, 128.0f);
 		}
-
+		
+		protected void onPressed()
+		{
+			if(musicz){
+				TowerDefense.pauseMusic();
+				musicz = false;
+			}
+			else if(!musicz){
+				TowerDefense.playMusic();
+				musicz = true;
+			}
+			
+		}
+	}
+	
+	private class PauseExitButton extends ImageButton
+	{
+		public PauseExitButton()
+		{
+			super("exit_b.png");
+			setBounds(750.0f, 500.0f, 512.0f, 128.0f);
+		}
+		
+		protected void onPressed()
+		{
+			TowerDefense.changeScreen(new LevelSelectScreen());
+		}
 	}
 
 	/**

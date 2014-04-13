@@ -24,6 +24,7 @@ public class TowerDefense extends Game
 {
 	private static final String TAG = "TowerDefense";
 	private static final String SAVE_FILENAME = "save.dat";
+	static Music planning;
 
 	public final static int SCREEN_WIDTH = 1920;
 	public final static int SCREEN_HEIGHT = 1080;
@@ -33,7 +34,7 @@ public class TowerDefense extends Game
 	public static SpriteBatch spriteBatch;
 	
 	public static int curLevel;
-	public static int maxLevel = 1;
+	public static int maxLevel = 0;
 
 	private static TowerDefense game;
 
@@ -48,7 +49,7 @@ public class TowerDefense extends Game
 		Tower.DEBUG_DRAWTARGET = false;
 
 		// initialize music and play
-		Music planning = ResourceManager.loadMusic("Planning.mp3");
+		planning = ResourceManager.loadMusic("Planning.mp3");
 		planning.setLooping(true);
 		planning.play();
 
@@ -85,6 +86,16 @@ public class TowerDefense extends Game
 	static public void changeScreen(Screen screen)
 	{
 		game.setScreen(screen);
+	}
+	
+	public static void pauseMusic()
+	{
+		planning.pause();
+	}
+	
+	public static void playMusic()
+	{
+		planning.play();
 	}
 
 	static public void load()
