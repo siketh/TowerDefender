@@ -2,8 +2,6 @@ package com.group23.towerdefense.screen;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -44,10 +42,7 @@ public class GameplayScreen extends BaseScreen
 	private Level curLevel;
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
-	private FileHandle handle = Gdx.files.local("data/user-progress.xml");
 	private SelectedTower selectedTower;
-	private String levelString;
-	private int autosaveNext;
 	private PauseGraphicActor pauseGraphic;
 
 	/**
@@ -72,11 +67,12 @@ public class GameplayScreen extends BaseScreen
 			setEndState(State.Lose, new LoseImage());
 		else if (hasWon())
 		{
-			autosaveSet();
-			levelString = Integer.toString(autosaveNext);
-			handle.writeString(levelString, false);
+			// Set the max level to TowerDefense.curLevel <=
+			// TowerDefense.maxLevel <= 5
+			TowerDefense.maxLevel = Math.min(
+					Math.min(TowerDefense.curLevel + 1, TowerDefense.maxLevel),
+					5);
 			setEndState(State.Win, new WinImage());
-
 		}
 	}
 
@@ -90,7 +86,6 @@ public class GameplayScreen extends BaseScreen
 		Actor pauseButton = new PauseButtonActor();
 		Actor goldDisplay = new GoldDisplayActor();
 		Actor healthDisplay = new HealthDisplayActor();
-		Actor saveButton = new SaveButtonActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
@@ -103,7 +98,6 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(pauseButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
-		stage.addActor(saveButton);
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
@@ -118,8 +112,8 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onStartButtonPressed()
 	{
-		//if ((!curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
-			curLevel.startNextWave();
+		// if ((!curLevel.isWavePlaying() || curLevel.hasFinishedAllWaves()))
+		curLevel.startNextWave();
 	}
 
 	/**
@@ -129,22 +123,6 @@ public class GameplayScreen extends BaseScreen
 	{
 		if (!towerSelector.isMoving())
 			towerSelector.setVisible(!towerSelector.isVisible());
-	}
-
-	/**
-	 * Called when the Save button on the top bar is pressed. Saves the users
-	 * current level progress.
-	 * 
-	 */
-	private void onSaveButtonPressed()
-	{
-		levelString = Integer.toString(LevelSelectScreen.levelTrack + 1);
-		handle.writeString(levelString, false);
-	}
-
-	private void autosaveSet()
-	{
-		autosaveNext = LevelSelectScreen.levelTrack + 2;
 	}
 
 	private void setEndState(State state, Actor actor)
@@ -176,9 +154,9 @@ public class GameplayScreen extends BaseScreen
 		int tsize = TowerDefense.TILE_SIZE;
 		int tileX = (int) (x / tsize);
 		int tileY = (int) (y / tsize);
-		
-		
-		if (towerSelection == null){
+
+		if (towerSelection == null)
+		{
 			selectedTower.setTower(curLevel.getTower(tileX, tileY));
 		}
 		else
@@ -189,7 +167,6 @@ public class GameplayScreen extends BaseScreen
 			curLevel.placeTower(tower, tileX, tileY);
 		}
 	}
-
 
 	public Level getLevel()
 	{
@@ -321,28 +298,6 @@ public class GameplayScreen extends BaseScreen
 		protected void onPressed()
 		{
 			onTowerButtonPressed();
-		}
-	}
-
-	/**
-	 * Actor representing the Save button on the top bar. Pressing it will save
-	 * the users current level progress.
-	 * 
-	 * @author Jacob
-	 * @see GameplayScreen.onTowerButtonPressed
-	 */
-
-	private class SaveButtonActor extends ImageButton
-	{
-		public SaveButtonActor()
-		{
-			super("save_b.png");
-			setBounds(400.0f, 1020.0f, 200.0f, 60.0f);
-		}
-
-		protected void onPressed()
-		{
-			onSaveButtonPressed();
 		}
 	}
 
@@ -623,17 +578,17 @@ public class GameplayScreen extends BaseScreen
 	{
 		private Tower tower;
 		ArrayList<Upgrade> upgrades;
-				
+
 		public SelectedTower()
-		{		
+		{
 			setTower(null);
 		}
-		
+
 		public void createButtons()
 		{
 			clear();
 			CircleGroup group = new CircleGroup();
-			
+
 			Actor sellButton = new ImageButton("sell_button.png")
 			{
 				@Override
@@ -644,14 +599,15 @@ public class GameplayScreen extends BaseScreen
 			};
 			group.addActor(sellButton);
 			group.addString("Sell");
-			if(tower != null)
+			if (tower != null)
 				upgrades = tower.getUpgrades();
 			else
 				upgrades = new ArrayList<Upgrade>();
-			
-			for(int i = 0; i < upgrades.size(); i++)
+
+			for (int i = 0; i < upgrades.size(); i++)
 			{
-				Actor upgradeButton = new ImageButton(upgrades.get(i).getTexName(), i)
+				Actor upgradeButton = new ImageButton(upgrades.get(i)
+						.getTexName(), i)
 				{
 					protected void onPressed()
 					{
@@ -667,7 +623,7 @@ public class GameplayScreen extends BaseScreen
 			group.setRadius(110f);
 			group.pack();
 		}
-		
+
 		public void setTower(Tower tower)
 		{
 			boolean sameTower = this.tower != null && this.tower == tower;
