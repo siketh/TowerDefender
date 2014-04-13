@@ -32,6 +32,7 @@ import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.Upgrade;
 import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
+import com.badlogic.gdx.audio.Music;
 
 public class GameplayScreen extends BaseScreen
 {
@@ -48,7 +49,8 @@ public class GameplayScreen extends BaseScreen
 	private SelectedTower selectedTower;
 	private String levelString;
 	private int autosaveNext;
-	private PauseGraphicActor pauseGraphic;
+	private PauseMuteButton pauseMute;
+	private PauseExitButton pauseExit;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -90,11 +92,11 @@ public class GameplayScreen extends BaseScreen
 		Actor pauseButton = new PauseButtonActor();
 		Actor goldDisplay = new GoldDisplayActor();
 		Actor healthDisplay = new HealthDisplayActor();
-		Actor saveButton = new SaveButtonActor();
 		Actor levelActor = new LevelActor();
 		towerSelector = new TowerSelector();
 		selectedTower = new SelectedTower();
-		pauseGraphic = new PauseGraphicActor();
+		pauseMute = new PauseMuteButton();
+		pauseExit = new PauseExitButton();
 
 		Stage stage = getStage();
 
@@ -103,12 +105,13 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(pauseButton);
 		stage.addActor(goldDisplay);
 		stage.addActor(healthDisplay);
-		stage.addActor(saveButton);
 		stage.addActor(levelActor);
 		stage.addActor(towerSelector);
 		stage.addActor(selectedTower);
-		stage.addActor(pauseGraphic);
-		pauseGraphic.setVisible(false);
+		stage.addActor(pauseMute);
+		stage.addActor(pauseExit);
+		pauseMute.setVisible(false);
+		pauseExit.setVisible(false);
 	}
 
 	/**
@@ -131,16 +134,6 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
-	/**
-	 * Called when the Save button on the top bar is pressed. Saves the users
-	 * current level progress.
-	 * 
-	 */
-	private void onSaveButtonPressed()
-	{
-		levelString = Integer.toString(LevelSelectScreen.levelTrack + 1);
-		handle.writeString(levelString, false);
-	}
 
 	private void autosaveSet()
 	{
@@ -324,28 +317,7 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
-	/**
-	 * Actor representing the Save button on the top bar. Pressing it will save
-	 * the users current level progress.
-	 * 
-	 * @author Jacob
-	 * @see GameplayScreen.onTowerButtonPressed
-	 */
-
-	private class SaveButtonActor extends ImageButton
-	{
-		public SaveButtonActor()
-		{
-			super("save_b.png");
-			setBounds(400.0f, 1020.0f, 200.0f, 60.0f);
-		}
-
-		protected void onPressed()
-		{
-			onSaveButtonPressed();
-		}
-	}
-
+	
 	private class PauseButtonActor extends ImageButton
 	{
 		int pausePressed;
@@ -363,29 +335,46 @@ public class GameplayScreen extends BaseScreen
 			{
 				pausePressed = 1;
 				state = State.Paused;
-				pauseGraphic.setVisible(true);
+				pauseMute.setVisible(true);
+				pauseExit.setVisible(true);
 			}
 			else if (pausePressed == 1)
 			{
 				pausePressed = 0;
 				state = State.Playing;
-				pauseGraphic.setVisible(false);
+				pauseMute.setVisible(false);
+				pauseExit.setVisible(false);
 			}
 		}
 	}
 
-	private class PauseGraphicActor extends Image
+	private class PauseMuteButton extends ImageButton
 	{
-
-		public PauseGraphicActor()
+		public PauseMuteButton()
 		{
-			super(ResourceManager.loadTexture("pause.png"));
-			setPosition(
-					(TowerDefense.SCREEN_WIDTH - TowerDefense.TILE_SIZE * 2) / 2,
-					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
-							% TowerDefense.TILE_SIZE) / 2);
+			super("mute_b.png");
+			setBounds(750.0f, 700.0f, 512.0f, 128.0f);
 		}
-
+		
+		protected void onPressed()
+		{
+			
+			
+		}
+	}
+	
+	private class PauseExitButton extends ImageButton
+	{
+		public PauseExitButton()
+		{
+			super("exit_b.png");
+			setBounds(750.0f, 500.0f, 512.0f, 128.0f);
+		}
+		
+		protected void onPressed()
+		{
+			TowerDefense.changeScreen(new LevelSelectScreen());
+		}
 	}
 
 	/**

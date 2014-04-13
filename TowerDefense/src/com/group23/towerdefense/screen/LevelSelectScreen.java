@@ -160,6 +160,7 @@ public class LevelSelectScreen extends BaseScreen
 		
 		protected void onPressed()
 		{
+			handle.writeString("1", false);
 			levelTrack = 0;
 			Level level = generator.getLevel(0);
 			TowerDefense.changeScreen(new GameplayScreen(level));
