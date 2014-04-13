@@ -14,11 +14,32 @@ public class MagicTower extends CircularRangeTower
 		setArmorPen(5);
 		addUpgrades();
 	}
-
 	
 	void addUpgrades() 
 	{
+		Upgrade up = new Upgrade(this);
+		up.setName("Fire Tower");
+		up.setTexName("damage_button.png");
+		up.setCost(100);
+		up.setLevels(1);
+		up.setId(0);
+		upgrades.add(up);
 		
+		up = new Upgrade(this);
+		up.setName("Ligtning Tower");
+		up.setTexName("tgts_button.png");
+		up.setCost(100);
+		up.setLevels(1);
+		up.setId(1);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Arcane Tower");
+		up.setTexName("damage_button.png");
+		up.setCost(100);
+		up.setLevels(1);
+		up.setId(2);
+		upgrades.add(up);
 	}
 
 	void performUpgrades(Upgrade caller) 
