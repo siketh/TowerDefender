@@ -23,7 +23,7 @@ public class MeleeTower extends CircularRangeTower
 	
 	protected void causeEffect(Enemy e)
 	{
-		if(isStun = true)
+		if(isStun == true)
 			e.addDebuff(new Debuff(0, 0.05f, DebuffType.Slow));
 	}
 	
