@@ -45,14 +45,8 @@ public class GameplayScreen extends BaseScreen
 	private TowerSelection towerSelection;
 	private TowerSelector towerSelector;
 	private SelectedTower selectedTower;
-<<<<<<< HEAD
-	private String levelString;
-	private int autosaveNext;
 	private PauseMuteButton pauseMute;
 	private PauseExitButton pauseExit;
-=======
-	private PauseGraphicActor pauseGraphic;
->>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -130,17 +124,8 @@ public class GameplayScreen extends BaseScreen
 			towerSelector.setVisible(!towerSelector.isVisible());
 	}
 
-<<<<<<< HEAD
 
-	private void autosaveSet()
-	{
-		autosaveNext = LevelSelectScreen.levelTrack + 2;
-	}
-
-	private void setEndState(State state, Actor actor)
-=======
 	private void setEndState(final State state, Actor actor)
->>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	{
 		getStage().addActor(actor);
 		getStage().addListener(new InputListener()
@@ -327,10 +312,6 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 	private class PauseButtonActor extends ImageButton
 	{
 		public PauseButtonActor()
@@ -342,35 +323,16 @@ public class GameplayScreen extends BaseScreen
 
 		protected void onPressed()
 		{
-<<<<<<< HEAD
-			if (pausePressed == 0)
-			{
-				pausePressed = 1;
-				state = State.Paused;
-				pauseMute.setVisible(true);
-				pauseExit.setVisible(true);
-			}
-			else if (pausePressed == 1)
-			{
-				pausePressed = 0;
-				state = State.Playing;
-				pauseMute.setVisible(false);
-				pauseExit.setVisible(false);
-			}
-=======
 			paused = !paused;
-			pauseGraphic.setVisible(paused);
->>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
+			pauseMute.setVisible(paused);
+			pauseExit.setVisible(paused);
+
 		}
 	}
 
 	private class PauseMuteButton extends ImageButton
 	{
-<<<<<<< HEAD
 		public PauseMuteButton()
-=======
-		public PauseGraphicActor()
->>>>>>> 1a35050144be9e8df8f72716efac22d3735c8d18
 		{
 			super("mute_b.png");
 			setBounds(750.0f, 700.0f, 512.0f, 128.0f);
