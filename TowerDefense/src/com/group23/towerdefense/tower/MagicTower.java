@@ -81,6 +81,7 @@ public class MagicTower extends CircularRangeTower
 	{
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
+		setProjectileType("arcane.png");
 		setRange(400f);
 		setDamage(25);
 		setCooldownTime(1000L);
@@ -91,6 +92,7 @@ public class MagicTower extends CircularRangeTower
 	{
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
+		setProjectileType("lightning.png");
 		setNumBounces(2);
 		setDamage(7);
 		setCooldownTime(1000L);
