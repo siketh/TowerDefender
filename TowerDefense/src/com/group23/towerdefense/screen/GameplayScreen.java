@@ -30,7 +30,6 @@ import com.group23.towerdefense.tower.Tower;
 import com.group23.towerdefense.tower.Upgrade;
 import com.group23.towerdefense.ui.CircleGroup;
 import com.group23.towerdefense.ui.ImageButton;
-import com.badlogic.gdx.audio.Music;
 
 public class GameplayScreen extends BaseScreen
 {
@@ -332,7 +331,6 @@ public class GameplayScreen extends BaseScreen
 
 	private class PauseMuteButton extends ImageButton
 	{
-		boolean musicz = true;
 		public PauseMuteButton()
 		{
 			super("mute_b.png");
@@ -341,14 +339,7 @@ public class GameplayScreen extends BaseScreen
 		
 		protected void onPressed()
 		{
-			if(musicz){
-				TowerDefense.pauseMusic();
-				musicz = false;
-			}
-			else if(!musicz){
-				TowerDefense.playMusic();
-				musicz = true;
-			}
+			
 			
 		}
 	}
@@ -650,12 +641,13 @@ public class GameplayScreen extends BaseScreen
 			for (int i = 0; i < upgrades.size(); i++)
 			{
 				VerticalGroup upgradeButtonGroup = new VerticalGroup();
+				final int number = i;
 				Actor upgradeButton = new ImageButton(upgrades.get(i)
-						.getTexName(), i)
+						.getTexName())
 				{
 					protected void onPressed()
 					{
-						upgrades.get(this.getNumber()).press();
+						upgrades.get(number).press();
 						setTower(null);
 					}
 				};

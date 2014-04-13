@@ -305,6 +305,7 @@ public abstract class Tower extends TextureObject
 					for(Enemy x: level.getEnemies())
 					{
 						if(x.getPosition().dst(p.getTarget().getPosition()) <= 130 &&  !p.checkTarget(x))
+
 						{
 							projectiles.add(new Projectile(p.getTarget().getPosition().x, p.getTarget().getPosition().y, x, projectileType, projectileSpeed, p.getNumBounces() - 1, p.getPastTargets()));
 							break;
