@@ -666,13 +666,27 @@ public class GameplayScreen extends BaseScreen
 					upgradeName = new Label(upgrades.get(i).getName() + "(" + upgrades.get(i).getCurrentLevel() + "/" + upgrades.get(i).getLevels() + ")", sellStyle);
 				upgradeName.setFontScale(2f);
 				
-				Label upgradeCost = new Label(new Integer(upgrades.get(i).getCost()).toString(), sellStyle);
+				final LabelStyle goldStyle = new LabelStyle();
+				goldStyle.font = ResourceManager.loadDefaultFont();
+				goldStyle.fontColor = (curLevel.getGold() > upgrades.get(i).getCost()) ? AVAILABLE_COLOR: UNAVAILABLE_COLOR;
+				Label upgradeCost = new Label(new Integer(upgrades.get(i).getCost()).toString(), goldStyle);
 				upgradeCost.setFontScale(2f);
 				
+				final int finUpgradeCost = upgrades.get(i).getCost();
 				
 				upgradeButtonGroup.addActor(upgradeName);
 				upgradeButtonGroup.addActor(upgradeButton);
 				upgradeButtonGroup.addActor(upgradeCost);
+				upgradeButtonGroup.addAction(new Action()
+				{
+					@Override
+					public boolean act(float delta)
+					{
+						goldStyle.fontColor = (curLevel.getGold() > finUpgradeCost) ? AVAILABLE_COLOR
+								: UNAVAILABLE_COLOR;
+						return false;
+					}
+				});
 				upgradeButtonGroup.pack();
 				group.addActor(upgradeButtonGroup);
 			}
