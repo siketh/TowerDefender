@@ -35,9 +35,10 @@ public class GameplayScreen extends BaseScreen
 {
 	private enum State
 	{
-		Win, Lose, Playing, Paused
+		Win, Lose, Playing
 	}
 
+	private boolean paused = false;
 	private State state = State.Playing;
 	private Level curLevel;
 	private TowerSelection towerSelection;
@@ -224,7 +225,8 @@ public class GameplayScreen extends BaseScreen
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button)
 				{
-					onLevelPressed(x, y);
+					if (!paused)
+						onLevelPressed(x, y);
 					return true;
 				}
 			});
@@ -233,7 +235,8 @@ public class GameplayScreen extends BaseScreen
 		@Override
 		public void act(float delta)
 		{
-			curLevel.act(delta);
+			if (!paused)
+				curLevel.act(delta);
 		}
 
 		@Override
@@ -305,8 +308,6 @@ public class GameplayScreen extends BaseScreen
 
 	private class PauseButtonActor extends ImageButton
 	{
-		int pausePressed;
-
 		public PauseButtonActor()
 		{
 			super("pause_b.png");
@@ -316,24 +317,13 @@ public class GameplayScreen extends BaseScreen
 
 		protected void onPressed()
 		{
-			if (pausePressed == 0)
-			{
-				pausePressed = 1;
-				state = State.Paused;
-				pauseGraphic.setVisible(true);
-			}
-			else if (pausePressed == 1)
-			{
-				pausePressed = 0;
-				state = State.Playing;
-				pauseGraphic.setVisible(false);
-			}
+			paused = !paused;
+			pauseGraphic.setVisible(paused);
 		}
 	}
 
 	private class PauseGraphicActor extends Image
 	{
-
 		public PauseGraphicActor()
 		{
 			super(ResourceManager.loadTexture("pause.png"));
@@ -342,7 +332,6 @@ public class GameplayScreen extends BaseScreen
 					(TowerDefense.SCREEN_HEIGHT - TowerDefense.SCREEN_HEIGHT
 							% TowerDefense.TILE_SIZE) / 2);
 		}
-
 	}
 
 	/**
