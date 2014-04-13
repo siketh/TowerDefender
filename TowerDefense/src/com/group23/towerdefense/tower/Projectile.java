@@ -8,6 +8,7 @@ public class Projectile extends SpriteObject
 {
 	private Vector2 pos = new Vector2();
 	private int speed;
+	private int numBounces;
 	private Enemy target;
 	
 	public Projectile(float x, float y, Enemy target, String name, int speed)
@@ -17,6 +18,16 @@ public class Projectile extends SpriteObject
 		this.target = target;
 		setTexture(name);
 		this.speed = speed;
+	}
+	
+	public Projectile(float x, float y, Enemy target, String name, int speed, int numBounces)
+	{
+		pos.x = x;
+		pos.y = y;
+		this.target = target;
+		setTexture(name);
+		this.speed = speed;
+		this.setNumBounces(numBounces);
 	}
 
 	//Update function
@@ -48,5 +59,17 @@ public class Projectile extends SpriteObject
 	public Enemy getTarget()
 	{
 		return target;
+	}
+
+	public int getNumBounces() {
+		return numBounces;
+	}
+	
+	public Vector2 getPosition(){
+		return pos;
+	}
+
+	public void setNumBounces(int numBounces) {
+		this.numBounces = numBounces;
 	}
 }

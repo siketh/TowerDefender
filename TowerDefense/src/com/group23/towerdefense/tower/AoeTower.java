@@ -27,7 +27,7 @@ public class AoeTower extends CircularRangeTower
 		isFlame = false;
 		debuffDuration = 4;
 		debuffDamage = 2;
-	}
+	}	
 	
 	protected void causeEffect(Enemy e)
 	{
@@ -126,7 +126,7 @@ public class AoeTower extends CircularRangeTower
 						{
 							level.getEnemies().get(e).rewardGold();
 							level.removeEnemy(level.getEnemies().get(e));
-							for(int j = 0; j < getTargets().size; j++)
+							for(int j = getTargets().size - 1; j >= 0; j++)
 							{
 								if(getTargets().get(j) == level.getEnemies().get(e))
 									getTargets().removeIndex(j);
