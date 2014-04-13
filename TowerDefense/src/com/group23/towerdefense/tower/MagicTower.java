@@ -30,7 +30,7 @@ public class MagicTower extends CircularRangeTower
 	{
 		if(isFlame == true)
 		{
-			e.addDebuff(new Debuff(0.5f, duration, DebuffType.HealRed));
+			e.addDebuff(new Debuff(0f, duration, DebuffType.HealRed));
 		}
 	}
 	
