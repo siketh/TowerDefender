@@ -71,7 +71,7 @@ public class LevelSelectScreen extends BaseScreen
 		public NewGameButton()
 		{
 			super("begin_b.png", 0);
-			setBounds(650.0f, 720.0f, 512.0f, 256.0f);
+			setBounds(700.0f, 720.0f, 512.0f, 256.0f);
 		}		
 		protected void onPressed()
 		{

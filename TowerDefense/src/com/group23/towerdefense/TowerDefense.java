@@ -17,7 +17,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group23.towerdefense.enemy.Enemy;
-import com.group23.towerdefense.screen.LevelSelectScreen;
+import com.group23.towerdefense.screen.SplashScreen;
 import com.group23.towerdefense.tower.Tower;
 
 public class TowerDefense extends Game
@@ -64,7 +64,7 @@ public class TowerDefense extends Game
 		load();
 
 		// set the screen to its initial state
-		setScreen(new LevelSelectScreen());
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override
