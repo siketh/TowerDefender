@@ -18,7 +18,7 @@ public class LevelSelectScreen extends BaseScreen
 	public void show()
 	{
 		super.show();
-
+		
 		Stage stage = getStage();
 
 		Image background = new Image(

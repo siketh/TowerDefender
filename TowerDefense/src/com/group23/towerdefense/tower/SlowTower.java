@@ -21,7 +21,7 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 		setRange(200.0f);
 		setDamage(7);
 		setGoldCost(150);
-		setProjectileType("poison.png");
+		setProjectileType("slow.png");
 		setProjectileSpeed(100);
 		maxTargets = 1;
 		addUpgrades();
@@ -124,6 +124,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 	
 	void makeFrostTower()
 	{
+		setTexture("frostslowtower.png");
+		setProjectileType("frostslow.png");
+		
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
 		slowAmount -= .15;
@@ -156,6 +159,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 	
 	void makePoisonTower()
 	{
+		setTexture("poisonslowtower.png");
+		setProjectileType("poisonslow.png");
+		
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
 		upgradeType = 1;
@@ -190,6 +196,9 @@ public class SlowTower extends  SingleTargetCircularRangeTower
 	
 	void makeIceTower()
 	{
+		setTexture("iceslowtower.png");
+		setProjectileType("iceslow.png");
+		
 		for(int i = 0; i < 3; i++)
 			upgrades.remove(0);
 		slowAmount = 0f;
