@@ -1,6 +1,5 @@
 package com.group23.towerdefense.tower;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.group23.towerdefense.enemy.Debuff;
 import com.group23.towerdefense.enemy.DebuffType;
 import com.group23.towerdefense.enemy.Enemy;
@@ -9,7 +8,6 @@ public class MagicTower extends CircularRangeTower
 {
 	private boolean isFlame;
 	private float duration;
-	private boolean isLightning;
 	
 	public MagicTower()
 	{
@@ -24,7 +22,6 @@ public class MagicTower extends CircularRangeTower
 		addUpgrades();
 		isFlame = false;
 		duration = 3;
-		isLightning = false;
 	}
 	
 	protected void causeEffect(Enemy e)
