@@ -9,7 +9,7 @@ public class MeleeTower extends CircularRangeTower
 	private boolean isStun;
 	public MeleeTower()
 	{
-		setCooldownTime(250L);
+		setCooldownTime(300L);
 		setDamage(9);
 		setRange(160.0f);
 		setMaxTargets(1);
@@ -24,7 +24,7 @@ public class MeleeTower extends CircularRangeTower
 	protected void causeEffect(Enemy e)
 	{
 		if(isStun == true)
-			e.addDebuff(new Debuff(0, 0.05f, DebuffType.Slow));
+			e.addDebuff(new Debuff(0, 0.04f, DebuffType.Slow));
 	}
 	
 	void addUpgrades() 
