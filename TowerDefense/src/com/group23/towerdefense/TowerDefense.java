@@ -30,6 +30,8 @@ public class TowerDefense extends Game
 	public final static int SCREEN_HEIGHT = 1080;
 	public final static int TILE_SIZE = 128; // width and height of a tile
 
+	public static int difficulty = 2;	//1 easy, 2 medium, 3 hard
+	
 	public static ShapeRenderer shapeRenderer;
 	public static SpriteBatch spriteBatch;
 	

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.group23.towerdefense.Dir;
 import com.group23.towerdefense.Level;
 import com.group23.towerdefense.TextureObject;
+import com.group23.towerdefense.TowerDefense;
 
 public abstract class Enemy extends TextureObject
 {
@@ -47,6 +48,17 @@ public abstract class Enemy extends TextureObject
 		healthRegen = 0;
 		timeToRegen = 1;
 		setBaseStats();
+		if(TowerDefense.difficulty == 0)
+		{
+			hp *= .75;
+			maxHP *= .75;
+		}
+		else if(TowerDefense.difficulty == 2)
+		{
+			hp *= 1.25;
+			maxHP *= 1.25;
+		}
+		
 		baseMoveSpeed = moveSpeed;
 		scaling = scale;
 		maxHP *= scale;

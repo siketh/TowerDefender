@@ -13,6 +13,8 @@ public class LevelSelectScreen extends BaseScreen
 {
 	private Level.Generator generator = new DefaultLevelGenerator();
 	private Actor[] LevelButtons = new Actor[5];
+	private Actor[] diffButtons = new Actor[3];
+	
 
 	@Override
 	public void show()
@@ -45,6 +47,18 @@ public class LevelSelectScreen extends BaseScreen
 			Actor startButton = new NewGameButton();
 			stage.addActor(startButton);
 		}
+
+		
+		for(int i = 0; i <= 2; i++)
+		{
+			String imageFilename = String.format("level%d_b.png", i + 1);
+			Actor difficultySelectButton = new difficultySelectButton(imageFilename, i);
+			difficultySelectButton.setBounds(550.0f + 250f * i,  50.0f,
+					200.0f, 60.0f);
+			stage.addActor(difficultySelectButton);
+			difficultySelectButton.setVisible(true);
+			diffButtons[i] = difficultySelectButton;
+		}
 	};
 
 	private class LevelSelectButton extends ImageButton
@@ -64,6 +78,23 @@ public class LevelSelectScreen extends BaseScreen
 			Level level = generator.getLevel(levelNum);
 			TowerDefense.changeScreen(new GameplayScreen(level));
 		}
+	}
+	
+	private class difficultySelectButton extends ImageButton
+	{
+		private int difficulty;
+		
+		public difficultySelectButton(String imageFilename, int difficulty) 
+		{
+			super(imageFilename);
+			this.difficulty = difficulty;
+		}
+
+		protected void onPressed() 
+		{
+			TowerDefense.difficulty = difficulty;
+		}
+		
 	}
 
 	private class NewGameButton extends LevelSelectButton
