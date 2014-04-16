@@ -110,7 +110,7 @@ public class GameplayScreen extends BaseScreen
 	 */
 	private void onStartButtonPressed()
 	{
-		if (curLevel.hasFinishedAllWaves())
+		if (!curLevel.hasFinishedAllWaves())
 			curLevel.startNextWave();
 	}
 
