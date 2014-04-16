@@ -72,6 +72,33 @@ public class MagicTower extends CircularRangeTower
 		case 2:
 			makeArcaneTower();
 			break;
+		case 3:
+			caller.setCost(caller.getCost() + 25);
+			setDamage(getDamage() + 5);
+			break;
+		case 4: 
+			caller.setCost(caller.getCost() + 25);
+			setCooldownTime((long)(getCooldownTime() * .9));
+			break;
+		case 5:
+			setRange(getRange() + 50);
+			break;
+		case 6: 
+			caller.setCost(caller.getCost() + 25);
+			setNumBounces(getNumBounces() + 1);
+			break;
+		case 7: 
+			caller.setCost(caller.getCost() + 25);
+			setDamage(getDamage() + 3);
+			break;
+		case 8:
+			caller.setCost(caller.getCost() + 25);
+			duration++;
+			break;
+		case 9:
+			caller.setCost(caller.getCost() + 50);
+			setDamage(getDamage() + 1);
+			break;
 		}
 	}
 
@@ -85,6 +112,30 @@ public class MagicTower extends CircularRangeTower
 		setCooldownTime(1000L);
 		setArmorPen(6);
 		setTexture("arcanemagictower.png");
+
+		Upgrade up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Attack Speed");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(4);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Range");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(5);
+		upgrades.add(up);
 	}
 
 	private void makeLightningTower() 
@@ -97,6 +148,29 @@ public class MagicTower extends CircularRangeTower
 		setCooldownTime(1000L);
 		setTexture("lightningmagictower.png");
 		
+		Upgrade up = new Upgrade(this);
+		up.setName("Bounces");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(6);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(7);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Range");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(5);
+		upgrades.add(up);
 	}
 
 	private void makeFlameTower() 
@@ -105,9 +179,33 @@ public class MagicTower extends CircularRangeTower
 			upgrades.remove(0);
 		isFlame = true;
 		setProjectileType("flamethrower.png");
-		setCooldownTime(50L);
+		setCooldownTime(80L);
 		setRange(275f);
-		setDamage(1);
+		setDamage(2);
 		setTexture("firemagictower.png");
+		
+		Upgrade up = new Upgrade(this);
+		up.setName("Duration");
+		up.setTexName("damage_button.png");
+		up.setCost(25);
+		up.setLevels(3);
+		up.setId(8);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Attack Speed");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(4);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(100);
+		up.setLevels(3);
+		up.setId(9);
+		upgrades.add(up);
 	}
 }

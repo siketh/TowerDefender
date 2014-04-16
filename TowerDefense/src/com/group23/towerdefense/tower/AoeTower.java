@@ -75,6 +75,34 @@ public class AoeTower extends CircularRangeTower
 		case 2:
 			makeFlameTower();
 			break;
+		case 3:
+			caller.setCost(caller.getCost() + 25);
+			setDamage(getDamage() + 1);
+			break;
+		case 4:
+			caller.setCost(caller.getCost() + 25);
+			setRange(getRange() + 20);
+			break;
+		case 5:
+			caller.setCost(caller.getCost() + 25);
+			setCooldownTime((long)(getCooldownTime() * .9));
+			break;
+		case 6:
+			aoeSize += 10;
+			caller.setCost(caller.getCost() + 25);
+			break;
+		case 7: 
+			caller.setCost(caller.getCost() + 25);
+			setDamage(getDamage() + 2);
+			break;
+		case 8:
+			caller.setCost(caller.getCost() + 25);
+			debuffDamage += 1;
+			break;
+		case 9:
+			caller.setCost(caller.getCost() + 25);
+			debuffDuration += 1;
+			break;
 		}
 	}
 	
@@ -87,6 +115,30 @@ public class AoeTower extends CircularRangeTower
 		aoeSize = 0;
 		setMaxTargets(99);
 		setDamage(4);
+		
+		Upgrade up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Range");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(4);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Attack Speed");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(5);
+		upgrades.add(up);
 	}
 	
 	private void makeBombTower()
@@ -97,6 +149,30 @@ public class AoeTower extends CircularRangeTower
 		setDamage(8);
 		aoeSize = 50;
 		setCooldownTime(600L);
+		
+		Upgrade up = new Upgrade(this);
+		up.setName("Attack Speed");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Bomb Radius");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(6);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(5);
+		up.setId(7);
+		upgrades.add(up);
 	}
 	
 	private void makeFlameTower()
@@ -106,6 +182,30 @@ public class AoeTower extends CircularRangeTower
 		aoeSize = 0;
 		setCooldownTime(350L);
 		isFlame = true;
+		
+		Upgrade up = new Upgrade(this);
+		up.setName("Burn Damage");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Burn Duration");
+		up.setTexName("damage_button.png");
+		up.setCost(50);
+		up.setLevels(3);
+		up.setId(3);
+		upgrades.add(up);
+		
+		up = new Upgrade(this);
+		up.setName("Attack Speed");
+		up.setTexName("damage_button.png");
+		up.setCost(75);
+		up.setLevels(3);
+		up.setId(5);
+		upgrades.add(up);
 	}
 	
 	protected void damage(long ms)
