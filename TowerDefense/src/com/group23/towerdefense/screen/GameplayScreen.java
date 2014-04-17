@@ -46,6 +46,10 @@ public class GameplayScreen extends BaseScreen
 	private SelectedTower selectedTower;
 	private PauseMuteButton pauseMute;
 	private PauseExitButton pauseExit;
+	private HalpButton halpMe;
+	private Tutorial1Button tut1;
+	private Tutorial2Button tut2;
+	private Tutorial3Button tut3;
 
 	/**
 	 * Uses an inputed Level.Generator, starting at the specified level.
@@ -86,6 +90,10 @@ public class GameplayScreen extends BaseScreen
 		selectedTower = new SelectedTower();
 		pauseMute = new PauseMuteButton();
 		pauseExit = new PauseExitButton();
+		halpMe = new HalpButton();
+		tut1 = new Tutorial1Button();
+		tut2 = new Tutorial2Button();
+		tut3 = new Tutorial3Button();
 
 		Stage stage = getStage();
 
@@ -99,8 +107,16 @@ public class GameplayScreen extends BaseScreen
 		stage.addActor(selectedTower);
 		stage.addActor(pauseMute);
 		stage.addActor(pauseExit);
+		stage.addActor(halpMe);
+		stage.addActor(tut1);
+		stage.addActor(tut2);
+		stage.addActor(tut3);
 		pauseMute.setVisible(false);
 		pauseExit.setVisible(false);
+		halpMe.setVisible(false);
+		tut1.setVisible(false);
+		tut2.setVisible(false);
+		tut3.setVisible(false);
 	}
 
 	/**
@@ -325,6 +341,7 @@ public class GameplayScreen extends BaseScreen
 			paused = !paused;
 			pauseMute.setVisible(paused);
 			pauseExit.setVisible(paused);
+			halpMe.setVisible(paused);
 
 		}
 	}
@@ -363,6 +380,64 @@ public class GameplayScreen extends BaseScreen
 		protected void onPressed()
 		{
 			TowerDefense.changeScreen(new LevelSelectScreen());
+		}
+	}
+	
+	private class HalpButton extends ImageButton
+	{
+		public HalpButton()
+		{
+			super("halp_b.png");
+			setBounds(1700.0f, 100.0f, 128.0f, 128.0f);
+		}
+		
+		protected void onPressed()
+		{
+			tut1.setVisible(true);
+		}
+	}
+	
+	private class Tutorial1Button extends ImageButton
+	{
+		public Tutorial1Button()
+		{
+			super("tutorial_1.png");
+			setBounds(0.0f, 0.0f, TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT);
+		}
+		
+		protected void onPressed()
+		{
+			tut1.setVisible(false);
+			tut2.setVisible(true);
+		}
+	}
+	
+	private class Tutorial2Button extends ImageButton
+	{
+		public Tutorial2Button()
+		{
+			super("tutorial_2.png");
+			setBounds(0.0f, 0.0f, TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT);
+		}
+		
+		protected void onPressed()
+		{
+			tut2.setVisible(false);
+			tut3.setVisible(true);
+		}
+	}
+	
+	private class Tutorial3Button extends ImageButton
+	{
+		public Tutorial3Button()
+		{
+			super("tutorial_3.png");
+			setBounds(0.0f, 0.0f, TowerDefense.SCREEN_WIDTH, TowerDefense.SCREEN_HEIGHT);
+		}
+		
+		protected void onPressed()
+		{
+			tut3.setVisible(false);
 		}
 	}
 
