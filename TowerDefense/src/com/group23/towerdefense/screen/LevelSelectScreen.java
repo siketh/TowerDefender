@@ -51,7 +51,19 @@ public class LevelSelectScreen extends BaseScreen
 		
 		for(int i = 0; i <= 2; i++)
 		{
-			String imageFilename = String.format("level%d_b.png", i + 1);
+			String imageFilename = "";
+			switch(i)
+			{
+				case 0: 
+					imageFilename = "easy.png";
+					break;
+				case 1:
+					imageFilename = "medium.png";
+					break;
+				case 2: 
+					imageFilename = "hard.png";
+					break;
+			}
 			Actor difficultySelectButton = new difficultySelectButton(imageFilename, i);
 			difficultySelectButton.setBounds(550.0f + 250f * i,  50.0f,
 					200.0f, 60.0f);
