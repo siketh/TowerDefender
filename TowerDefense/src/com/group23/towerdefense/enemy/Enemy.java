@@ -62,7 +62,7 @@ public abstract class Enemy extends TextureObject
 		baseMoveSpeed = moveSpeed;
 		scaling = scale;
 		maxHP *= scale;
-		hp *= scale;
+		
 		isBurning = false;
 		distTraveled = 0;
 		path = map;
@@ -79,6 +79,9 @@ public abstract class Enemy extends TextureObject
 
 		pos.x = (curTile % path.getWidth()) * 128 + 64;
 		pos.y = (curTile / path.getWidth()) * 128 + 64;
+		
+
+		hp = maxHP;
 	}
 
 	// Put base stats of the monster here
@@ -268,8 +271,8 @@ public abstract class Enemy extends TextureObject
 		super.draw(batch);
 
 		// draw health
-		float percent = (float) Math.floor((float) hp / maxHP * 100.0f);
-		if(percent > 100f)
+		float percent = (float) Math.floor((float) (float)hp / maxHP * 100.0f);
+		if(percent > 98f)
 			percent = 100f;
 		font.setScale(2.0f);
 		font.setColor(transitionColor(Color.GREEN, Color.RED, (float) hp
