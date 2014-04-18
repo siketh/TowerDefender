@@ -66,8 +66,7 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Necromancer.class)
-						.addSpawn(700,  Necromancer.class);
+					wave.addSpawn(100,  Necromancer.class);
 				}
 			})
 			.build();

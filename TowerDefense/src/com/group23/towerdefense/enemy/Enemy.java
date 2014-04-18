@@ -371,7 +371,7 @@ public abstract class Enemy extends TextureObject
 	{
 		scaling = (float)modifier;
 		hp *= scaling;
-		maxHP += scaling;
+		maxHP *= scaling;
 		
 	}
 	
