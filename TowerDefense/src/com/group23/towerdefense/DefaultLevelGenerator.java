@@ -42,16 +42,21 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(600, Goblin.class)
-						.addSpawn(1200,  Ogre.class);
+						.addSpawn(400, Goblin.class)
+						.addSpawn(700,  Goblin.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1500, Ogre.class);
 				}
 			})
 			.addWave(new Wave.Generator() 
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Slime.class)
-						.addSpawn(700,  Slime.class);
+					wave.addSpawn(50,  Slime.class)
+						.addSpawn(1000,  Goblin.class)
+						.addSpawn(1400, Goblin.class)
+						.addSpawn(1800, Goblin.class)
+						.addSpawn(2300, Slime.class);
 				}
 			})
 			.addWave(new Wave.Generator()
@@ -59,14 +64,25 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Troll.class)
-						.addSpawn(700,  Troll.class);
+						.addSpawn(500,  Troll.class)
+						.addSpawn(1000, Ogre.class)
+						.addSpawn(1300, Ogre.class)
+						.addSpawn(1600, Ogre.class)
+						.addSpawn(2000, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Necromancer.class);
+					wave.addSpawn(100,  Necromancer.class)
+						.addSpawn(500, Troll.class, 1.2f)
+						.addSpawn(700, Troll.class, 1.2f)
+						.addSpawn(1000, Ogre.class, 1.5f)
+						.addSpawn(1500, Goblin.class, 1.5f)
+						.addSpawn(1750, Goblin.class, 1.5f)
+						.addSpawn(2000, Goblin.class, 1.5f)
+						.addSpawn(2200, Necromancer.class, 2f);
 				}
 			})
 			.build();
@@ -90,59 +106,61 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class, .8f)
-						.addSpawn(550, Goblin.class, .8f)
-						.addSpawn(1100, Goblin.class, .8f)
-						.addSpawn(1500, Ogre.class, .8f)
-						.addSpawn(2000, Necromancer.class, .8f)
-						.addSpawn(2500, Troll.class, .8f);
+					wave.addSpawn(100,  Goblin.class)
+						.addSpawn(400, Goblin.class)
+						.addSpawn(700,  Goblin.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1500, Ogre.class);
+				}	
+			})
+			.addWave(new Wave.Generator()
+			{
+				public void generate(Wave wave) 
+				{
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1200, Goblin.class)
+						.addSpawn(1400, Goblin.class)
+						.addSpawn(1500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Slime.class, .7f)
-						.addSpawn(750, Slime.class, .7f)
-						.addSpawn(1300, Ogre.class, .7f)
-						.addSpawn(2500, Goblin.class, .7f)
-						.addSpawn(3200, Goblin.class, .7f)
-						.addSpawn(3800, Goblin.class, .7f)
-						.addSpawn(4500, Necromancer.class, .7f);
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(750, Slime.class)
+						.addSpawn(1300, Ogre.class)
+						.addSpawn(2500, Goblin.class)
+						.addSpawn(3200, Goblin.class)
+						.addSpawn(3800, Goblin.class)
+						.addSpawn(4500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Ogre.class, 300f)
-						.addSpawn(500, Ogre.class, 300f)
-						.addSpawn(900, Ogre.class, 300f)
-						.addSpawn(1300, Ogre.class, 300f)
-						.addSpawn(1700, Ogre.class, 300f)
-						.addSpawn(2100, Ogre.class, 300f)
-						.addSpawn(2500, Ogre.class, 300f);
+					wave.addSpawn(100, Goblin.class, 2f)
+						.addSpawn(350, Goblin.class, 2f)
+						.addSpawn(600, Goblin.class, 2f)
+						.addSpawn(1000, Troll.class, 1.5f)
+						.addSpawn(1200, Ogre.class, 1.5f)
+						.addSpawn(1400, Ogre.class, 1.5f)
+						.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class)
-						.addSpawn(130, Ogre.class)
-						.addSpawn(160, Ogre.class)
-						.addSpawn(190, Ogre.class)
-						.addSpawn(220, Ogre.class)
-						.addSpawn(250, Ogre.class)
-						.addSpawn(280, Ogre.class)
-						.addSpawn(300, Ogre.class);
-				}
-			})
-			.addWave(new Wave.Generator()
-			{
-				public void generate(Wave wave) 
-				{
-					wave.addSpawn(100, Goblin.class);
+					wave.addSpawn(100, Ogre.class, 1.75f)
+					.addSpawn(350, Ogre.class, 1.75f)
+					.addSpawn(600, Ogre.class, 1.75f)
+					.addSpawn(1000, Troll.class, 1.75f)
+					.addSpawn(1200, Slime.class, 1.75f)
+					.addSpawn(1400, Slime.class, 1.75f)
+					.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.build();
@@ -166,60 +184,61 @@ public class DefaultLevelGenerator extends Level.Generator
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(0,  Goblin.class)
-						.addSpawn(800,  Goblin.class)
-						.addSpawn(1700, Ogre.class)
-						.addSpawn(3500, Goblin.class)
-						.addSpawn(5000, Goblin.class)
-						.addSpawn(6000, Ogre.class);
-				}
-			})
-			.addWave(new Wave.Generator()
-			{
-				public void generate(Wave wave) 
-				{
 					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(300,  Goblin.class)
-						.addSpawn(500,  Goblin.class)
+						.addSpawn(400, Goblin.class)
 						.addSpawn(700,  Goblin.class)
-						.addSpawn(900,  Goblin.class)
-						.addSpawn(1100, Goblin.class)
-						.addSpawn(1300, Goblin.class);
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1500, Ogre.class);
+				}	
+			})
+			.addWave(new Wave.Generator()
+			{
+				public void generate(Wave wave) 
+				{
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1200, Goblin.class)
+						.addSpawn(1400, Goblin.class)
+						.addSpawn(1500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Goblin.class)
-						.addSpawn(300, Goblin.class)
-						.addSpawn(340, Goblin.class)
-						.addSpawn(420, Goblin.class)
-						.addSpawn(500, Goblin.class)
-						.addSpawn(550, Goblin.class)
-						.addSpawn(650, Ogre.class);
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(750, Slime.class)
+						.addSpawn(1300, Ogre.class)
+						.addSpawn(2500, Goblin.class)
+						.addSpawn(3200, Goblin.class)
+						.addSpawn(3800, Goblin.class)
+						.addSpawn(4500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class)
-						.addSpawn(130, Ogre.class)
-						.addSpawn(160, Ogre.class)
-						.addSpawn(190, Ogre.class)
-						.addSpawn(220, Ogre.class)
-						.addSpawn(250, Ogre.class)
-						.addSpawn(280, Ogre.class)
-						.addSpawn(300, Ogre.class);
+					wave.addSpawn(100, Goblin.class, 2f)
+						.addSpawn(350, Goblin.class, 2f)
+						.addSpawn(600, Goblin.class, 2f)
+						.addSpawn(1000, Troll.class, 1.5f)
+						.addSpawn(1200, Ogre.class, 1.5f)
+						.addSpawn(1400, Ogre.class, 1.5f)
+						.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
-				public void generate(Wave wave)
+				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class);
+					wave.addSpawn(100, Ogre.class, 1.75f)
+					.addSpawn(350, Ogre.class, 1.75f)
+					.addSpawn(600, Ogre.class, 1.75f)
+					.addSpawn(1000, Troll.class, 1.75f)
+					.addSpawn(1200, Slime.class, 1.75f)
+					.addSpawn(1400, Slime.class, 1.75f)
+					.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.build();
@@ -244,63 +263,60 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(400,  Goblin.class)
+						.addSpawn(400, Goblin.class)
 						.addSpawn(700,  Goblin.class)
-						.addSpawn(1000,  Ogre.class)
-						.addSpawn(1300, Goblin.class)
-						.addSpawn(1700,  Goblin.class)
-						.addSpawn(2000,  Goblin.class)
-						.addSpawn(3500, Goblin.class)
-						.addSpawn(5000, Goblin.class)
-						.addSpawn(6000, Ogre.class);
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1500, Ogre.class);
+				}	
+			})
+			.addWave(new Wave.Generator()
+			{
+				public void generate(Wave wave) 
+				{
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1200, Goblin.class)
+						.addSpawn(1400, Goblin.class)
+						.addSpawn(1500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(300,  Goblin.class)
-						.addSpawn(500,  Goblin.class)
-						.addSpawn(700,  Goblin.class)
-						.addSpawn(900,  Goblin.class)
-						.addSpawn(1100, Goblin.class)
-						.addSpawn(1300, Goblin.class);
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(750, Slime.class)
+						.addSpawn(1300, Ogre.class)
+						.addSpawn(2500, Goblin.class)
+						.addSpawn(3200, Goblin.class)
+						.addSpawn(3800, Goblin.class)
+						.addSpawn(4500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Goblin.class)
-						.addSpawn(300, Goblin.class)
-						.addSpawn(340, Goblin.class)
-						.addSpawn(420, Goblin.class)
-						.addSpawn(500, Goblin.class)
-						.addSpawn(550, Goblin.class)
-						.addSpawn(650, Ogre.class);
+					wave.addSpawn(100, Goblin.class, 2f)
+						.addSpawn(350, Goblin.class, 2f)
+						.addSpawn(600, Goblin.class, 2f)
+						.addSpawn(1000, Troll.class, 1.5f)
+						.addSpawn(1200, Ogre.class, 1.5f)
+						.addSpawn(1400, Ogre.class, 1.5f)
+						.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class)
-						.addSpawn(130, Ogre.class)
-						.addSpawn(160, Ogre.class)
-						.addSpawn(190, Ogre.class)
-						.addSpawn(220, Ogre.class)
-						.addSpawn(250, Ogre.class)
-						.addSpawn(280, Ogre.class)
-						.addSpawn(300, Ogre.class);
-				}
-			})
-			.addWave(new Wave.Generator()
-			{
-				public void generate(Wave wave) 
-				{
-					wave.addSpawn(100, Goblin.class);
+					wave.addSpawn(100, Ogre.class, 1.75f)
+					.addSpawn(350, Ogre.class, 1.75f)
+					.addSpawn(600, Ogre.class, 1.75f)
+					.addSpawn(1000, Troll.class, 1.75f)
+					.addSpawn(1200, Slime.class, 1.75f)
+					.addSpawn(1400, Slime.class, 1.75f)
+					.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.build();
@@ -325,59 +341,60 @@ public class DefaultLevelGenerator extends Level.Generator
 				public void generate(Wave wave) 
 				{
 					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(800,  Goblin.class)
-						.addSpawn(1700, Ogre.class)
-						.addSpawn(3500, Goblin.class)
-						.addSpawn(5000, Goblin.class)
-						.addSpawn(6000, Ogre.class);
-				}
-			})
-			.addWave(new Wave.Generator()
-			{
-				public void generate(Wave wave) 
-				{
-					wave.addSpawn(100,  Goblin.class)
-						.addSpawn(300,  Goblin.class)
-						.addSpawn(500,  Goblin.class)
+						.addSpawn(400, Goblin.class)
 						.addSpawn(700,  Goblin.class)
-						.addSpawn(900,  Goblin.class)
-						.addSpawn(1100, Goblin.class)
-						.addSpawn(1300, Goblin.class);
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1500, Ogre.class);
+				}	
+			})
+			.addWave(new Wave.Generator()
+			{
+				public void generate(Wave wave) 
+				{
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(1000, Goblin.class)
+						.addSpawn(1200, Goblin.class)
+						.addSpawn(1400, Goblin.class)
+						.addSpawn(1500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Ogre.class)
-						.addSpawn(200, Goblin.class)
-						.addSpawn(300, Goblin.class)
-						.addSpawn(340, Goblin.class)
-						.addSpawn(420, Goblin.class)
-						.addSpawn(500, Goblin.class)
-						.addSpawn(550, Goblin.class)
-						.addSpawn(650, Ogre.class);
+					wave.addSpawn(100, Slime.class)
+						.addSpawn(750, Slime.class)
+						.addSpawn(1300, Ogre.class)
+						.addSpawn(2500, Goblin.class)
+						.addSpawn(3200, Goblin.class)
+						.addSpawn(3800, Goblin.class)
+						.addSpawn(4500, Necromancer.class);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class)
-						.addSpawn(130, Ogre.class)
-						.addSpawn(160, Ogre.class)
-						.addSpawn(190, Ogre.class)
-						.addSpawn(220, Ogre.class)
-						.addSpawn(250, Ogre.class)
-						.addSpawn(280, Ogre.class)
-						.addSpawn(300, Ogre.class);
+					wave.addSpawn(100, Goblin.class, 2f)
+						.addSpawn(350, Goblin.class, 2f)
+						.addSpawn(600, Goblin.class, 2f)
+						.addSpawn(1000, Troll.class, 1.5f)
+						.addSpawn(1200, Ogre.class, 1.5f)
+						.addSpawn(1400, Ogre.class, 1.5f)
+						.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.addWave(new Wave.Generator()
 			{
 				public void generate(Wave wave) 
 				{
-					wave.addSpawn(100, Goblin.class);
+					wave.addSpawn(100, Ogre.class, 1.75f)
+					.addSpawn(350, Ogre.class, 1.75f)
+					.addSpawn(600, Ogre.class, 1.75f)
+					.addSpawn(1000, Troll.class, 1.75f)
+					.addSpawn(1200, Slime.class, 1.75f)
+					.addSpawn(1400, Slime.class, 1.75f)
+					.addSpawn(1500, Necromancer.class, 2f);
 				}
 			})
 			.build();
