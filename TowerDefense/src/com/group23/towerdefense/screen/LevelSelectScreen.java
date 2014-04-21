@@ -72,6 +72,14 @@ public class LevelSelectScreen extends BaseScreen
 			diffButtons[i] = difficultySelectButton;
 		}
 	};
+	
+	/**
+	 * Actor representing the level select buttons on the level select screen.
+	 * When pressed, they will load the appropriate level for the user.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 
 	private class LevelSelectButton extends ImageButton
 	{
@@ -92,6 +100,15 @@ public class LevelSelectScreen extends BaseScreen
 		}
 	}
 	
+	/**
+	 * Actor representing the difficulty select buttons on the level select
+	 * screen. When pressed, they will set the gameplay difficulty to the
+	 * respective level.
+	 * 
+	 * @author Cole
+	 *
+	 */
+	
 	private class difficultySelectButton extends ImageButton
 	{
 		private int difficulty;
@@ -108,6 +125,14 @@ public class LevelSelectScreen extends BaseScreen
 		}
 		
 	}
+	
+	/**
+	 * Actor representing the Begin button on the level select screen whenever
+	 * the user has no save files on record. When pressed, it will load level 1.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 
 	private class NewGameButton extends LevelSelectButton
 	{

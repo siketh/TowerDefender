@@ -326,6 +326,14 @@ public class GameplayScreen extends BaseScreen
 			onTowerButtonPressed();
 		}
 	}
+	
+	/**
+	 * Actor representing the pause button on the top bar. Pressing it will pause
+	 * gameplay and display a number of options for the user to choose from.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 
 	private class PauseButtonActor extends ImageButton
 	{
@@ -345,6 +353,14 @@ public class GameplayScreen extends BaseScreen
 
 		}
 	}
+	
+	/**
+	 * Actor representing the mute sound button when the user presses the pause
+	 * button on the top bar. Pressing it will toggle music on/off.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 
 	private class PauseMuteButton extends ImageButton
 	{
@@ -369,6 +385,15 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 	
+	/**
+	 * Actor representing the Exit to Level Select button when the user presses
+	 * the pause button. Pressing it will exit the current level and take the 
+	 * user back to the level select screen.
+	 * 
+	 * @author Jacob
+	 *
+	 */
+	
 	private class PauseExitButton extends ImageButton
 	{
 		public PauseExitButton()
@@ -383,6 +408,14 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 	
+	/**
+	 * Actor representing the Help button when the user presses the pause button.
+	 * Pressing it will display the tutorial of the game.
+	 * 
+	 * @author Jacob
+	 *
+	 */
+	
 	private class HalpButton extends ImageButton
 	{
 		public HalpButton()
@@ -396,6 +429,14 @@ public class GameplayScreen extends BaseScreen
 			tut1.setVisible(true);
 		}
 	}
+	
+	/**
+	 * Actor representing the first tutorial screen. Clicking/pressing anywhere
+	 * on the screen will advance the user to the next tutorial screen.
+	 *  
+	 * @author Jacob
+	 *
+	 */
 	
 	private class Tutorial1Button extends ImageButton
 	{
@@ -412,6 +453,13 @@ public class GameplayScreen extends BaseScreen
 		}
 	}
 	
+	/**
+	 * Actor representing the second tutorial screen. Clicking/pressing anywhere
+	 * on the screen will advance the user to the next tutorial screen.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 	private class Tutorial2Button extends ImageButton
 	{
 		public Tutorial2Button()
@@ -426,6 +474,14 @@ public class GameplayScreen extends BaseScreen
 			tut3.setVisible(true);
 		}
 	}
+	
+	/**
+	 * Actor representing the third tutorial screen. Clicking/pressing anywhere
+	 * on the screen will return the user to the pause screen.
+	 * 
+	 * @author Jacob
+	 *
+	 */
 	
 	private class Tutorial3Button extends ImageButton
 	{
